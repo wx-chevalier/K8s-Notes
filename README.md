@@ -65,7 +65,7 @@ K8s [koo-ber-nay'-tice] 是 Google 基于 Borg 开源的容器编排调度引擎
 - MicroK8S：由 Canonical 开发，也就是开发 Ubuntu 的公司。它可以在几个发行版中使用，并可用于生产环境，特别是边缘计算和物联网（物联网）。
 - k3s：由 Rancher Labs 开发，它是 MicroK8s 的直接竞争对手，甚至可以运行在 Raspberry Pi 上。
 
-# Nav | 导读
+# Nav | 关联导航
 
 # About | 关于
 
