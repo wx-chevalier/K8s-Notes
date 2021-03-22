@@ -10,7 +10,7 @@ ConfigMap 供容器使用的典型用法如下：
 - 设置容器启动命令的启动参数（需设置为环境变量）；
 - 以 Volume 的形式挂载为容器内部的文件或目录。
 
-# TBD
+# Links
 
 - https://learning.oreilly.com/library/view/kubernetes-for-developers/9781788834759/961e9251-74a4-4e47-8a48-9c02f3500bbb.xhtml
 - https://blog.csdn.net/liukuan73/article/details/79492374

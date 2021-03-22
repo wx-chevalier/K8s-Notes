@@ -850,6 +850,6 @@ spec:
 
 ## 外部域名
 
-# TBD
+# Links
 
 - https://appscode.com/products/voyager/10.0.0/guides/ingress/http/external-svc/

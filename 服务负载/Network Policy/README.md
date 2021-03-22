@@ -1,5 +1,5 @@
 # Network Policy
 
-# TBD
+# Links
 
 - https://jimmysong.io/kubernetes-handbook/concepts/network-policy.html

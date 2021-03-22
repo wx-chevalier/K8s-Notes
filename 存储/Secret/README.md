@@ -191,6 +191,6 @@ HOME=/root
 
 看到了吗？现在我们可以把这个 key 在容器里面作为一个环境变量，如果容器里面的任何一个应用需要连接到数据库，比如说使用用户名和密码，只要用这个信息创建一个 secret，并在 Pod 中引用，然后在 Pod 里面作为一个环境变量或者一个文本文件创建卷来消耗就可以了。
 
-# TBD
+# Links
 
 - https://kubernetes.io/zh/docs/concepts/configuration/secret/
