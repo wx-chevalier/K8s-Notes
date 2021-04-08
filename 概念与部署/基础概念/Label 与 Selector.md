@@ -92,7 +92,7 @@ affinity:
 
 应用可以在 Kubernetes 集群中安装一次或多次。在某些情况下，可以安装在同一命名空间中。例如，可以不止一次地为不同的站点安装不同的 WordPress。应用的名称和实例的名称是分别记录的。例如，某 WordPress 实例的 app.kubernetes.io/name 为 wordpress，而其实例名称表现为 app.kubernetes.io/instance 的属性值 wordpress-abcxzy。这使应用程序和应用程序的实例成为可能是可识别的。应用程序的每个实例都必须具有唯一的名称。
 
-## 案例：简单的无状态服务
+## 案例-简单的无状态服务
 
 考虑使用 Deployment 和 Service 对象部署的简单无状态服务的情况。以下两个代码段表示如何以最简单的形式使用标签。下面的 Deployment 用于监督运行应用本身的 pods。
 
@@ -116,7 +116,7 @@ metadata:
     app.kubernetes.io/instance: myservice-abcxzy
 ```
 
-## 案例：带有一个数据库的 Web 应用程序
+## 案例-带有一个数据库的 Web 应用程序
 
 考虑一个稍微复杂的应用：一个使用 Helm 安装的 Web 应用（WordPress），其中 使用了数据库（MySQL）。以下代码片段说明用于部署此应用程序的对象的开始。以下 Deployment 的开头用于 WordPress：
 
