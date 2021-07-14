@@ -69,6 +69,8 @@
     - [4.1 Ingress](/服务负载/Ingress/README.md)
       - [4.1.1 Nginx](/服务负载/Ingress/Nginx/README.md)
         - [4.1.1.1 CertManager](/服务负载/Ingress/Nginx/CertManager.md)
+        - [4.1.1.2 Nginx Ingress 关联外部服务](/服务负载/Ingress/Nginx/Nginx%20Ingress%20关联外部服务.md)
+        - [4.1.1.3 Nginx Ingress 配置](/服务负载/Ingress/Nginx/Nginx%20Ingress%20配置.md)
       - [4.1.2 Porter](/服务负载/Ingress/Porter/README.md)
         
       - [4.1.3 Traefik](/服务负载/Ingress/Traefik/README.md)
