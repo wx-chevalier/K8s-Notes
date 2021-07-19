@@ -370,7 +370,7 @@ error: couldn't find port via --port flag or introspection
 See 'kubectl expose -h' for help and examples
 ```
 
-发生错误的原因是 k8s 不知道哪个是应该暴露的容器的目的端口（在这种情况下，80 / TCP）。要配置它，让我们首先删除我们的旧 pod 。
+发生错误的原因是 K8s 不知道哪个是应该暴露的容器的目的端口（在这种情况下，80 / TCP）。要配置它，让我们首先删除我们的旧 pod 。
 
 ```sh
 $ kubectl delete -f meu-primeiro.yaml
@@ -411,7 +411,7 @@ kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   8d
 nginx        ClusterIP   10.105.41.192   <none>        80/TCP    2m30s
 ```
 
-正如你所看到的，在我们的集群中，有两个服务：第一个是给 k8s 本身使用的，而第二个是我们刚刚创建的。通过在 CLUSTER-IP 栏中显示的 IP 地址，Nginx 的主界面应该呈现在我们面前。
+正如你所看到的，在我们的集群中，有两个服务：第一个是给 K8s 本身使用的，而第二个是我们刚刚创建的。通过在 CLUSTER-IP 栏中显示的 IP 地址，Nginx 的主界面应该呈现在我们面前。
 
 ```sh
 curl 10.105.41.192

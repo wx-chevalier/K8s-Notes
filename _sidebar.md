@@ -80,7 +80,7 @@
     - [4.3 Service](/服务负载/Service/README.md)
       - [4.3.1 服务定义](/服务负载/Service/服务定义/README.md)
         - [4.3.1.1 ClusterIP](/服务负载/Service/服务定义/ClusterIP.md)
-      - [4.3.2 案例：应用访问](/服务负载/Service/案例：应用访问.md)
+      - [4.3.2 案例：访问应用服务](/服务负载/Service/案例：访问应用服务.md)
     - 4.4 kube proxy
       - [4.4.1 kube proxy](/服务负载/kube-proxy/kube-proxy.md)
       - [4.4.2 代理与负载均衡](/服务负载/kube-proxy/代理与负载均衡.md)

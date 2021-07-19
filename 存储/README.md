@@ -6,7 +6,7 @@ Docker Volume 是针对容器层面的存储抽象，其 Volume 的生命周期�
 
 - 本地存储：emptydir/hostpath 等，主要使用 Pod 运行的 node 上的本地存储
 
-- 网络存储：in-tree(内置): awsElasticBlockStore/gcePersistentDisk/nfs 等，存储插件的实现代码是放在 k8s 代码仓库中的；out-of-tree(外置): flexvolume/CSI 等网络存储 inline volume plugins，存储插件单独实现，特别是 CSI 是 Volume 扩展机制的核心发展方向。
+- 网络存储：in-tree(内置): awsElasticBlockStore/gcePersistentDisk/nfs 等，存储插件的实现代码是放在 K8s 代码仓库中的；out-of-tree(外置): flexvolume/CSI 等网络存储 inline volume plugins，存储插件单独实现，特别是 CSI 是 Volume 扩展机制的核心发展方向。
 
 - Projected Volume: Secret/ConfigMap/downwardAPI/serviceAccountToken，将 K8s 集群中的一些配置信息以 volume 的方式挂载到 Pod 的容器中，也即应用可以通过 POSIX 接口来访问这些对象中的数据。
 

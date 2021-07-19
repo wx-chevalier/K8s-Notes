@@ -8,7 +8,7 @@ Kubernetes Service 定义了这样一种抽象：一个 Pod 的逻辑分组及�
 
 # CNI 与服务的网络映射
 
-为了给容器提供网络，k8s 使用了 CNI 规范，Container Network Interface。CNI 是一个规范，它汇集了一些用于开发插件的库，用于配置和管理容器的网络。它为 k8s 的各种网络解决方案提供了一个通用接口。你可以找到几个针对 AWS、GCP、Cloud Foundry 等的插件。虽然 CNI 定义了 Pod 网络，但它不能帮助你在不同节点的 Pod 之间进行通信。K8s 网络的基本特征是：
+为了给容器提供网络，k8s 使用了 CNI 规范，Container Network Interface。CNI 是一个规范，它汇集了一些用于开发插件的库，用于配置和管理容器的网络。它为 K8s 的各种网络解决方案提供了一个通用接口。你可以找到几个针对 AWS、GCP、Cloud Foundry 等的插件。虽然 CNI 定义了 Pod 网络，但它不能帮助你在不同节点的 Pod 之间进行通信。K8s 网络的基本特征是：
 
 - 所有的 Pod 都能在不同的节点上相互通信。
 - 所有节点都能与所有的 Pod 进行通信。
