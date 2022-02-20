@@ -1,6 +1,6 @@
 # ClusterIP
 
-我们将使用以下命令从一个 pod 模板创建一个 pod。
+我们将使用以下命令从一个 Pod 模板创建一个 Pod。
 
 ```sh
 $ kubectl run nginx --image nginx --dry-run=client -o yaml > pod-template.yaml
@@ -19,7 +19,7 @@ kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP   25m
 nginx        ClusterIP   10.104.209.243   <none>        80/TCP    7m15s
 ```
 
-运行以下命令查看 nginx 服务的详细信息。
+运行以下命令查看 Nginx 服务的详细信息。
 
 ```sh
 $ kubectl describe service nginx
