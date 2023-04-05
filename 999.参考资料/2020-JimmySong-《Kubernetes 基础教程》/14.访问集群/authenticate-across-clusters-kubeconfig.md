@@ -1,7 +1,7 @@
 ---
 weight: 93
 title: 使用 kubeconfig 文件配置跨集群认证
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -30,40 +30,40 @@ Kubernetes 的认证方式对于不同的人来说可能有所不同。
 current-context: federal-context
 apiVersion: v1
 clusters:
-- cluster:
-    api-version: v1
-    server: http://cow.org:8080
-  name: cow-cluster
-- cluster:
-    certificate-authority: path/to/my/cafile
-    server: https://horse.org:4443
-  name: horse-cluster
-- cluster:
-    insecure-skip-tls-verify: true
-    server: https://pig.org:443
-  name: pig-cluster
+  - cluster:
+      api-version: v1
+      server: http://cow.org:8080
+    name: cow-cluster
+  - cluster:
+      certificate-authority: path/to/my/cafile
+      server: https://horse.org:4443
+    name: horse-cluster
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://pig.org:443
+    name: pig-cluster
 contexts:
-- context:
-    cluster: horse-cluster
-    namespace: chisel-ns
-    user: green-user
-  name: federal-context
-- context:
-    cluster: pig-cluster
-    namespace: saw-ns
-    user: black-user
-  name: queen-anne-context
+  - context:
+      cluster: horse-cluster
+      namespace: chisel-ns
+      user: green-user
+    name: federal-context
+  - context:
+      cluster: pig-cluster
+      namespace: saw-ns
+      user: black-user
+    name: queen-anne-context
 kind: Config
 preferences:
   colors: true
 users:
-- name: blue-user
-  user:
-    token: blue-token
-- name: green-user
-  user:
-    client-certificate: path/to/my/client/cert
-    client-key: path/to/my/client/key
+  - name: blue-user
+    user:
+      token: blue-token
+  - name: green-user
+    user:
+      client-certificate: path/to/my/client/cert
+      client-key: path/to/my/client/key
 ```
 
 ### 各个组件的拆解/释意
@@ -72,34 +72,34 @@ users:
 
 ```yaml
 clusters:
-- cluster:
-    certificate-authority: path/to/my/cafile
-    server: https://horse.org:4443
-  name: horse-cluster
-- cluster:
-    insecure-skip-tls-verify: true
-    server: https://pig.org:443
-  name: pig-cluster
+  - cluster:
+      certificate-authority: path/to/my/cafile
+      server: https://horse.org:4443
+    name: horse-cluster
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://pig.org:443
+    name: pig-cluster
 ```
 
 `cluster` 中包含 kubernetes 集群的端点数据，包括 kubernetes apiserver 的完整 url 以及集群的证书颁发机构或者当集群的服务证书未被系统信任的证书颁发机构签名时，设置`insecure-skip-tls-verify: true`。
 
-`cluster` 的名称（昵称）作为该 kubeconfig 文件中的集群字典的 key。 您可以使用 `kubectl config set-cluster`添加或修改 `cluster` 条目。
+`cluster` 的名称（昵称）作为该 kubeconfig 文件中的集群字典的 key。您可以使用 `kubectl config set-cluster`添加或修改 `cluster` 条目。
 
 #### user
 
 ```yaml
 users:
-- name: blue-user
-  user:
-    token: blue-token
-- name: green-user
-  user:
-    client-certificate: path/to/my/client/cert
-    client-key: path/to/my/client/key
+  - name: blue-user
+    user:
+      token: blue-token
+  - name: green-user
+    user:
+      client-certificate: path/to/my/client/cert
+      client-key: path/to/my/client/key
 ```
 
-`user` 定义用于向 kubernetes 集群进行身份验证的客户端凭据。在加载/合并 kubeconfig 之后，`user` 将有一个名称（昵称）作为用户条目列表中的 key。 可用凭证有 `client-certificate`、`client-key`、`token` 和 `username/password`。 `username/password` 和 `token` 是二者只能选择一个，但 client-certificate 和 client-key 可以分别与它们组合。
+`user` 定义用于向 kubernetes 集群进行身份验证的客户端凭据。在加载/合并 kubeconfig 之后，`user` 将有一个名称（昵称）作为用户条目列表中的 key。可用凭证有 `client-certificate`、`client-key`、`token` 和 `username/password`。`username/password` 和 `token` 是二者只能选择一个，但 client-certificate 和 client-key 可以分别与它们组合。
 
 您可以使用 `kubectl config set-credentials` 添加或者修改 `user` 条目。
 
@@ -107,14 +107,14 @@ users:
 
 ```yaml
 contexts:
-- context:
-    cluster: horse-cluster
-    namespace: chisel-ns
-    user: green-user
-  name: federal-context
+  - context:
+      cluster: horse-cluster
+      namespace: chisel-ns
+      user: green-user
+    name: federal-context
 ```
 
-`context` 定义了一个命名的 [`cluster`](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#cluster)、[`user`](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#user)、[`namespace`](https://kubernetes.io/docs/user-guide/namespaces) 元组，用于使用提供的认证信息和命名空间将请求发送到指定的集群。 三个都是可选的；仅使用 `cluster`、`user`、`namespace` 之一指定上下文，或指定 none。 未指定的值或在加载的 kubeconfig 中没有相应条目的命名值（例如，如果为上述 kubeconfig 文件指定了 `pink-user` 的上下文）将被替换为默认值。 有关覆盖/合并行为，请参阅下面的 [加载和合并规则](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#loading-and-merging)。
+`context` 定义了一个命名的 [`cluster`](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#cluster)、[`user`](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#user)、[`namespace`](https://kubernetes.io/docs/user-guide/namespaces) 元组，用于使用提供的认证信息和命名空间将请求发送到指定的集群。三个都是可选的；仅使用 `cluster`、`user`、`namespace` 之一指定上下文，或指定 none。未指定的值或在加载的 kubeconfig 中没有相应条目的命名值（例如，如果为上述 kubeconfig 文件指定了 `pink-user` 的上下文）将被替换为默认值。有关覆盖/合并行为，请参阅下面的 [加载和合并规则](https://kubernetes.io/docs/tasks/access-application-cluster/authenticate-across-clusters-kubeconfig#loading-and-merging)。
 
 您可以使用 `kubectl config set-context` 添加或修改上下文条目。
 
@@ -137,7 +137,7 @@ preferences:
 
 #### 杂项
 
-`apiVersion` 和 `kind` 标识客户端解析器的版本和模式，不应手动编辑。 `preferences` 指定可选（和当前未使用）的 kubectl 首选项。
+`apiVersion` 和 `kind` 标识客户端解析器的版本和模式，不应手动编辑。`preferences` 指定可选（和当前未使用）的 kubectl 首选项。
 
 ## 查看 kubeconfig 文件
 
@@ -170,7 +170,7 @@ mister-red,mister-red,2
 
    如果设置了 `CommandLineLocation` （`kubeconfig` 命令行参数的值），将会只使用该文件，而不会进行合并。该参数在一条命令中只允许指定一次。
 
-   或者，如果设置了 `EnvVarLocation` （`$KUBECONFIG` 的值），其将会被作为应合并的文件列表，并根据以下规则合并文件。空文件名被忽略。非串行内容的文件将产生错误。设置特定值或 map key 的第一个文件将优先使用，并且值或 map key 也永远不会更改。 这意味着设置 CurrentContext 的第一个文件将保留其上下文。 这也意味着如果两个文件同时指定一个 `red-user`，那么将只使用第一个文件中的 `red-user` 的值。 即使第二个文件的 `red-user` 中有非冲突条目也被丢弃。
+   或者，如果设置了 `EnvVarLocation` （`$KUBECONFIG` 的值），其将会被作为应合并的文件列表，并根据以下规则合并文件。空文件名被忽略。非串行内容的文件将产生错误。设置特定值或 map key 的第一个文件将优先使用，并且值或 map key 也永远不会更改。这意味着设置 CurrentContext 的第一个文件将保留其上下文。这也意味着如果两个文件同时指定一个 `red-user`，那么将只使用第一个文件中的 `red-user` 的值。即使第二个文件的 `red-user` 中有非冲突条目也被丢弃。
 
    另外，使用 Home 目录位置（`~/.kube/config`）将不会合并。
 
@@ -180,13 +180,13 @@ mister-red,mister-red,2
    2. 来自合并后的 `kubeconfig` 文件的 `current-context`
    3. 在这个阶段允许空
 
-3. 确定要使用的群集信息和用户。此时，我们可能有也可能没有上下文。他们是基于这个链中的第一次命中。 （运行两次，一次为用户，一次为集群）
+3. 确定要使用的集群信息和用户。此时，我们可能有也可能没有上下文。他们是基于这个链中的第一次命中。（运行两次，一次为用户，一次为集群）
 
    1. 命令行参数——`user` 指定用户，`cluster` 指定集群名称
    2. 如果上下文存在，则使用上下文的值
    3. 允许空
 
-4. 确定要使用的实际群集信息。此时，我们可能有也可能没有集群信息。根据链条构建每个集群信息（第一次命中胜出）：
+4. 确定要使用的实际集群信息。此时，我们可能有也可能没有集群信息。根据链条构建每个集群信息（第一次命中胜出）：
 
    1. 命令行参数——`server`，`api-version`，`certificate-authority` 和 `insecure-skip-tls-verify`
    2. 如果存在集群信息，并且存在该属性的值，请使用它。
@@ -194,7 +194,7 @@ mister-red,mister-red,2
 
 5. 确定要使用的实际用户信息。用户使用与集群信息相同的规则构建，除非，您的每个用户只能使用一种认证技术。
 
-   1. 负载优先级为1）命令行标志 2）来自 kubeconfig 的用户字段
+   1. 负载优先级为 1）命令行标志 2）来自 kubeconfig 的用户字段
    2. 命令行标志是：`client-certificate`、`client-key`、`username`、`password` 和 `token`
    3. 如果有两种冲突的技术，则失败。
 
@@ -226,23 +226,23 @@ $ kubectl config view
 ```yaml
 apiVersion: v1
 clusters:
-- cluster:
-    server: http://localhost:8080
-  name: local-server
+  - cluster:
+      server: http://localhost:8080
+    name: local-server
 contexts:
-- context:
-    cluster: local-server
-    namespace: the-right-prefix
-    user: myself
-  name: default-context
+  - context:
+      cluster: local-server
+      namespace: the-right-prefix
+      user: myself
+    name: default-context
 current-context: default-context
 kind: Config
 preferences: {}
 users:
-- name: myself
-  user:
-    password: secret
-    username: admin
+  - name: myself
+    user:
+      password: secret
+      username: admin
 ```
 
 Kubeconfig 文件会像这样子：
@@ -250,23 +250,23 @@ Kubeconfig 文件会像这样子：
 ```yaml
 apiVersion: v1
 clusters:
-- cluster:
-    server: http://localhost:8080
-  name: local-server
+  - cluster:
+      server: http://localhost:8080
+    name: local-server
 contexts:
-- context:
-    cluster: local-server
-    namespace: the-right-prefix
-    user: myself
-  name: default-context
+  - context:
+      cluster: local-server
+      namespace: the-right-prefix
+      user: myself
+    name: default-context
 current-context: default-context
 kind: Config
 preferences: {}
 users:
-- name: myself
-  user:
-    password: secret
-    username: admin
+  - name: myself
+    user:
+      password: secret
+      username: admin
 ```
 
 #### 示例文件相关操作命令
@@ -289,4 +289,4 @@ $ kubectl config use-context federal-context
 
 - 仔细看一下，了解您的 api-server 的启动方式：在设计 kubeconfig 文件以方便身份验证之前，您需要知道您自己的安全要求和策略。
 - 将上面的代码段替换为您的集群的 api-server 端点的信息。
-- 确保您的 api-server 至少能够以提供一个用户（即 `green-user`）凭据的方式启动。 当然您必须查看 api-server 文档，以了解当前关于身份验证细节方面的最新技术。
+- 确保您的 api-server 至少能够以提供一个用户（即 `green-user`）凭据的方式启动。当然您必须查看 api-server 文档，以了解当前关于身份验证细节方面的最新技术。

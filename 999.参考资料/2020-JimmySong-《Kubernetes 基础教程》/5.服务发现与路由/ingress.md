@@ -1,7 +1,7 @@
 ---
 weight: 41
 title: Ingress
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -13,9 +13,9 @@ Ingress 是从 Kubernetes 集群外部访问集群内部服务的入口，是将
 
 - 节点：Kubernetes 集群中的一台物理机或者虚拟机。
 - 集群：位于 Internet 防火墙后的节点，这是 Kubernetes 管理的主要计算资源。
-- 边界路由器：为集群强制执行防火墙策略的路由器。 这可能是由云提供商或物理硬件管理的网关。
-- 集群网络：一组逻辑或物理链接，可根据 Kubernetes [网络模型](https://kubernetes.io/docs/admin/networking/) 实现群集内的通信。 集群网络的实现包括 Overlay 模型的 [flannel](https://github.com/coreos/flannel#flannel) 和基于 SDN 的 OVS。
-- 服务：使用标签选择器标识一组 pod 成为的 Kubernetes [服务](https://kubernetes.io/docs/user-guide/services/)。 除非另有说明，否则服务假定在集群网络内仅可通过虚拟 IP 访问。
+- 边界路由器：为集群强制执行防火墙策略的路由器。这可能是由云提供商或物理硬件管理的网关。
+- 集群网络：一组逻辑或物理链接，可根据 Kubernetes [网络模型](https://kubernetes.io/docs/admin/networking/) 实现集群内的通信。集群网络的实现包括 Overlay 模型的 [flannel](https://github.com/coreos/flannel#flannel) 和基于 SDN 的 OVS。
+- 服务：使用标签选择器标识一组 pod 成为的 Kubernetes [服务](https://kubernetes.io/docs/user-guide/services/)。除非另有说明，否则服务假定在集群网络内仅可通过虚拟 IP 访问。
 
 ## 什么是 Ingress？
 
@@ -38,7 +38,7 @@ Ingress 是授权入站连接到达集群服务的规则集合。
    [Services]
 ```
 
-你可以给 Ingress 配置提供外部可访问的 URL、负载均衡、SSL、基于名称的虚拟主机等。用户通过 POST Ingress 资源到 API server 的方式来请求 ingress。 [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers) 负责实现 Ingress，通常使用负载均衡器，它还可以配置边界路由和其他前端，这有助于以高可用的方式处理流量。
+你可以给 Ingress 配置提供外部可访问的 URL、负载均衡、SSL、基于名称的虚拟主机等。用户通过 POST Ingress 资源到 API server 的方式来请求 ingress。[Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers) 负责实现 Ingress，通常使用负载均衡器，它还可以配置边界路由和其他前端，这有助于以高可用的方式处理流量。
 
 ## 先决条件
 
@@ -75,15 +75,15 @@ Ingress 是授权入站连接到达集群服务的规则集合。
 
 **5-7 行**: Ingress spec 中包含配置一个 loadbalancer 或 proxy server 的所有信息。最重要的是，它包含了一个匹配所有入站请求的规则列表。目前 ingress 只支持 http 规则。
 
-**8-9 行**：每条 http 规则包含以下信息：一个 `host` 配置项（比如 for.bar.com，在这个例子中默认是 *），`path` 列表（比如：/testpath），每个 path 都关联一个 `backend`(比如 test:80)。在 loadbalancer 将流量转发到 backend 之前，所有的入站请求都要先匹配 host 和 path。
+**8-9 行**：每条 http 规则包含以下信息：一个 `host` 配置项（比如 for.bar.com，在这个例子中默认是 \*），`path` 列表（比如：/testpath），每个 path 都关联一个 `backend`(比如 test:80)。在 loadbalancer 将流量转发到 backend 之前，所有的入站请求都要先匹配 host 和 path。
 
 **10-12 行**：正如 [services doc](https://kubernetes.io/docs/user-guide/services) 中描述的那样，backend 是一个 `service:port` 的组合。Ingress 的流量被转发到它所匹配的 backend。
 
-**全局参数**：为了简单起见，Ingress 示例中没有全局参数，请参阅资源完整定义的 [API 参考](https://releases.k8s.io/master/staging/src/k8s.io/api/extensions/v1beta1/types.go)。 在所有请求都不能跟 spec 中的 path 匹配的情况下，请求被发送到 Ingress controller 的默认后端，可以指定全局缺省 backend。
+**全局参数**：为了简单起见，Ingress 示例中没有全局参数，请参阅资源完整定义的 [API 参考](https://releases.k8s.io/master/staging/src/k8s.io/api/extensions/v1beta1/types.go)。在所有请求都不能跟 spec 中的 path 匹配的情况下，请求被发送到 Ingress controller 的默认后端，可以指定全局缺省 backend。
 
 ## IngressClass
 
-Ingress 可以由不同的控制器实现，通常使用不同的配置。 每个 Ingress 应当指定一个类，也就是一个对 IngressClass 资源的引用。 IngressClass 资源包含额外的配置，其中包括应当实现该类的控制器名称。下面是一个 IngressClass 示例。
+Ingress 可以由不同的控制器实现，通常使用不同的配置。每个 Ingress 应当指定一个类，也就是一个对 IngressClass 资源的引用。IngressClass 资源包含额外的配置，其中包括应当实现该类的控制器名称。下面是一个 IngressClass 示例。
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -110,17 +110,17 @@ IngressClass 的默认作用于是集群级别，关于 IngressClass 作用域�
 
 ### 默认 IngressClass
 
-你可以将一个特定的 IngressClass 标记为集群默认 IngressClass。 将一个 IngressClass 资源的 `ingressclass.kubernetes.io/is-default-class` 注解设置为 `true` 将确保新的未指定 `ingressClassName` 字段的 Ingress 能够分配为这个默认的 IngressClass。集群中最多只能有一个 IngressClass 被标记为默认。
+你可以将一个特定的 IngressClass 标记为集群默认 IngressClass。将一个 IngressClass 资源的 `ingressclass.kubernetes.io/is-default-class` 注解设置为 `true` 将确保新的未指定 `ingressClassName` 字段的 Ingress 能够分配为这个默认的 IngressClass。集群中最多只能有一个 IngressClass 被标记为默认。
 
 ### `kubernetes.io/ingress.class` 注解
 
-在 Kubernetes 1.18 版本引入 IngressClass 资源和 `ingressClassName` 字段之前，Ingress 类是通过 Ingress 中的一个 `kubernetes.io/ingress.class` 注解来指定的。 这个注解从未被正式定义过，但是得到了 [Ingress 控制器](../ingress-controller/)的广泛支持。
+在 Kubernetes 1.18 版本引入 IngressClass 资源和 `ingressClassName` 字段之前，Ingress 类是通过 Ingress 中的一个 `kubernetes.io/ingress.class` 注解来指定的。这个注解从未被正式定义过，但是得到了 [Ingress 控制器](../ingress-controller/)的广泛支持。
 
- `ingressClassName` 配置项是该注解的替代品，但并不完全等价。 该注解通常用于引用实现该 Ingress 的控制器的名称，而这个新的字段则是对一个包含额外 Ingress 配置的 IngressClass 资源的引用，包括 Ingress 控制器的名称。
+`ingressClassName` 配置项是该注解的替代品，但并不完全等价。该注解通常用于引用实现该 Ingress 的控制器的名称，而这个新的字段则是对一个包含额外 Ingress 配置的 IngressClass 资源的引用，包括 Ingress 控制器的名称。
 
 ## Ingress 类型
 
-以下文档描述了 Ingress 资源中公开的一组跨平台功能。 理想情况下，所有的 Ingress controller 都应该符合这个规范，但是目前还没有实现。
+以下文档描述了 Ingress 资源中公开的一组跨平台功能。理想情况下，所有的 Ingress controller 都应该符合这个规范，但是目前还没有实现。
 
 {{<callout warning 注意>}}
 确保您查看控制器特定的文档，以便您了解每个文档的注意事项。
@@ -171,17 +171,17 @@ metadata:
   name: test
 spec:
   rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - path: /foo
-        backend:
-          serviceName: s1
-          servicePort: 80
-      - path: /bar
-        backend:
-          serviceName: s2
-          servicePort: 80
+    - host: foo.bar.com
+      http:
+        paths:
+          - path: /foo
+            backend:
+              serviceName: s1
+              servicePort: 80
+          - path: /bar
+            backend:
+              serviceName: s2
+              servicePort: 80
 ```
 
 使用 `kubectl create -f` 创建完 ingress 后：
@@ -195,7 +195,7 @@ test      -
 					/bar          s2:80
 ```
 
-只要服务（s1，s2）存在，Ingress controller 就会将提供一个满足该 Ingress 的特定 loadbalancer 实现。 这一步完成后，您将在 Ingress 的最后一列看到 loadbalancer 的地址。
+只要服务（s1，s2）存在，Ingress controller 就会将提供一个满足该 Ingress 的特定 loadbalancer 实现。这一步完成后，您将在 Ingress 的最后一列看到 loadbalancer 的地址。
 
 ### 基于名称的虚拟主机
 
@@ -216,25 +216,25 @@ metadata:
   name: test
 spec:
   rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - backend:
-          serviceName: s1
-          servicePort: 80
-  - host: bar.foo.com
-    http:
-      paths:
-      - backend:
-          serviceName: s2
-          servicePort: 80
+    - host: foo.bar.com
+      http:
+        paths:
+          - backend:
+              serviceName: s1
+              servicePort: 80
+    - host: bar.foo.com
+      http:
+        paths:
+          - backend:
+              serviceName: s2
+              servicePort: 80
 ```
 
 **默认 backend**：一个没有 rule 的 ingress，如前面章节中所示，所有流量都将发送到一个默认 backend。你可以用该技巧通知 loadbalancer 如何找到你网站的 404 页面，通过制定一些列 rule 和一个默认 backend 的方式。如果请求 header 中的 host 不能跟 ingress 中的 host 匹配，并且 / 或请求的 URL 不能与任何一个 path 匹配，则流量将路由到你的默认 backend。
 
 ### TLS
 
-你可以通过指定包含 TLS 私钥和证书的 [secret](https://kubernetes.io/docs/user-guide/secrets) 来加密 Ingress。 目前，Ingress 仅支持单个 TLS 端口 443，并假定 TLS termination。 如果 Ingress 中的 TLS 配置部分指定了不同的主机，则它们将根据通过 SNI TLS 扩展指定的主机名（假如 Ingress controller 支持 SNI）在多个相同端口上进行复用。 TLS secret 中必须包含名为 `tls.crt` 和 `tls.key` 的密钥，这里面包含了用于 TLS 的证书和私钥，例如：
+你可以通过指定包含 TLS 私钥和证书的 [secret](https://kubernetes.io/docs/user-guide/secrets) 来加密 Ingress。目前，Ingress 仅支持单个 TLS 端口 443，并假定 TLS termination。如果 Ingress 中的 TLS 配置部分指定了不同的主机，则它们将根据通过 SNI TLS 扩展指定的主机名（假如 Ingress controller 支持 SNI）在多个相同端口上进行复用。TLS secret 中必须包含名为 `tls.crt` 和 `tls.key` 的密钥，这里面包含了用于 TLS 的证书和私钥，例如：
 
 ```yaml
 apiVersion: v1
@@ -263,11 +263,11 @@ spec:
     servicePort: 80
 ```
 
-请注意，各种 Ingress controller 支持的 TLS 功能之间存在差距。 请参阅有关 [nginx](https://git.k8s.io/ingress-nginx/README.md#https)，[GCE](https://git.k8s.io/ingress-gce/README.md#frontend-https) 或任何其他平台特定 Ingress controller 的文档，以了解 TLS 在你的环境中的工作原理。
+请注意，各种 Ingress controller 支持的 TLS 功能之间存在差距。请参阅有关 [nginx](https://git.k8s.io/ingress-nginx/README.md#https)，[GCE](https://git.k8s.io/ingress-gce/README.md#frontend-https) 或任何其他平台特定 Ingress controller 的文档，以了解 TLS 在你的环境中的工作原理。
 
-Ingress controller 启动时附带一些适用于所有 Ingress 的负载平衡策略设置，例如负载均衡算法，后端权重方案等。更高级的负载平衡概念（例如持久会话，动态权重）尚未在 Ingress 中公开。 你仍然可以通过 service loadbalancer 获取这些功能。 随着时间的推移，我们计划将适用于跨平台的负载平衡模式加入到 Ingress 资源中。
+Ingress controller 启动时附带一些适用于所有 Ingress 的负载平衡策略设置，例如负载均衡算法，后端权重方案等。更高级的负载平衡概念（例如持久会话，动态权重）尚未在 Ingress 中公开。你仍然可以通过 service loadbalancer 获取这些功能。随着时间的推移，我们计划将适用于跨平台的负载平衡模式加入到 Ingress 资源中。
 
-还值得注意的是，尽管健康检查不直接通过 Ingress 公开，但 Kubernetes 中存在并行概念，例如 [准备探查](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，可以使你达成相同的最终结果。 请查看特定控制器的文档，以了解他们如何处理健康检查（[nginx](https://git.k8s.io/ingress-nginx/README.md)，[GCE](https://git.k8s.io/ingress-gce/README.md#health-checks)）。
+还值得注意的是，尽管健康检查不直接通过 Ingress 公开，但 Kubernetes 中存在并行概念，例如 [准备探查](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，可以使你达成相同的最终结果。请查看特定控制器的文档，以了解他们如何处理健康检查（[nginx](https://git.k8s.io/ingress-nginx/README.md)，[GCE](https://git.k8s.io/ingress-gce/README.md#health-checks)）。
 
 ## 更新 Ingress
 
@@ -320,7 +320,7 @@ test      -                       178.91.123.132
 
 ## 跨可用域故障
 
-在不同云供应商之间，跨故障域的流量传播技术有所不同。 有关详细信息，请查看相关 Ingress controller 的文档。 有关在 federation 集群中部署 Ingress 的详细信息，请参阅 federation 文档。
+在不同云供应商之间，跨故障域的流量传播技术有所不同。有关详细信息，请查看相关 Ingress controller 的文档。有关在 federation 集群中部署 Ingress 的详细信息，请参阅 federation 文档。
 
 ## 未来计划
 
@@ -345,4 +345,3 @@ test      -                       178.91.123.132
 - [Kubernetes Ingress Resource - kubernetes.io](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 - [使用 NGINX Plus 负载均衡 Kubernetes 服务 - dockone.io](http://dockone.io/article/957)
 - [使用 NGINX 和 NGINX Plus 的 Ingress Controller 进行 Kubernetes 的负载均衡 - cnblogs.com](http://www.cnblogs.com/276815076/p/6407101.html)
-

@@ -1,7 +1,7 @@
 ---
 weight: 44
 title: ServiceAccount
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 summary: "ServiceAccount 为 Pod 中的进程提供身份信息。"
 ---
@@ -12,7 +12,7 @@ ServiceAccount 为 Pod 中的进程提供身份信息。
 本文档描述的关于 ServiceAccount 的行为只有当你按照 Kubernetes 项目建议的方式搭建集群的情况下才有效。集群管理员可能在你的集群中进行了自定义配置，这种情况下该文档可能并不适用。
 {{</callout>}}
 
-当你（真人用户）访问集群（例如使用 `kubectl` 命令）时，API 服务器会将你认证为一个特定的 User Account（目前通常是 `admin`，除非你的系统管理员自定义了集群配置）。Pod 容器中的进程也可以与 API 服务器联系。 当它们在联系 API 服务器的时候，它们会被认证为一个特定的 ServiceAccount（例如`default`）。
+当你（真人用户）访问集群（例如使用 `kubectl` 命令）时，API 服务器会将你认证为一个特定的 User Account（目前通常是 `admin`，除非你的系统管理员自定义了集群配置）。Pod 容器中的进程也可以与 API 服务器联系。当它们在联系 API 服务器的时候，它们会被认证为一个特定的 ServiceAccount（例如`default`）。
 
 ## 使用默认的 ServiceAccount 访问 API 服务器
 
@@ -30,7 +30,6 @@ kind: ServiceAccount
 metadata:
   name: build-robot
 automountServiceAccountToken: false
-...
 ```
 
 在 1.6 以上版本中，你也可以选择只取消单个 pod 的 API 凭证自动挂载：
@@ -48,7 +47,7 @@ spec:
 
 如果在 pod 和 ServiceAccount 中同时设置了 `automountServiceAccountToken`, pod 设置中的优先级更高。
 
-## 使用多个ServiceAccount
+## 使用多个 ServiceAccount
 
 每个 namespace 中都有一个默认的叫做 `default` 的 ServiceAccount 资源。
 
@@ -94,7 +93,7 @@ secrets:
 
 你可以使用授权插件来 [设置 ServiceAccount 的权限](https://kubernetes.io/docs/admin/authorization/#a-quick-note-on-service-accounts) 。
 
-设置非默认的 ServiceAccount，只需要在 pod 的 `spec.serviceAccountName` 字段中将name设置为你想要用的 ServiceAccount 名字即可。
+设置非默认的 ServiceAccount，只需要在 pod 的 `spec.serviceAccountName` 字段中将 name 设置为你想要用的 ServiceAccount 名字即可。
 
 在 pod 创建之初 ServiceAccount 就必须已经存在，否则创建将被拒绝。
 
@@ -208,7 +207,7 @@ serviceaccounts/default
 ```yaml
 spec:
   imagePullSecrets:
-  - name: myregistrykey
+    - name: myregistrykey
 ```
 
 ## 参考

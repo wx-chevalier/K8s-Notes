@@ -1,7 +1,7 @@
 ---
 weight: 66
 title: APIService
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -34,11 +34,11 @@ spec:
 - `insecureSkipTLSVerify`：当与该服务通信时，禁用 TLS 证书认证。强加建议不要设置这个参数，默认为 false。应该使用 CABundle 代替。
 - `service`：与该 APIService 通信时引用的 service，其中要注明 service 的名字和所属的 namespace，如果为空的话，则所有的服务都会该 API groupversion 将在本地 443 端口处理所有通信。
 - `groupPriorityMinimum`：该组 API 的处理优先级，主要排序是基于 `groupPriorityMinimum`，该数字越大表明优先级越高，客户端就会与其通信处理请求。次要排序是基于字母表顺序，例如 v1.bar 比 v1.foo 的优先级更高。
-- `versionPriority`：VersionPriority 控制其组内的 API 版本的顺序。必须大于零。主要排序基于 VersionPriority，从最高到最低（20 大于 10）排序。次要排序是基于对象名称的字母比较。 （v1.foo 在 v1.bar 之前）由于它们都是在一个组内，因此数字可能很小，一般都小于 10。
+- `versionPriority`：VersionPriority 控制其组内的 API 版本的顺序。必须大于零。主要排序基于 VersionPriority，从最高到最低（20 大于 10）排序。次要排序是基于对象名称的字母比较。（v1.foo 在 v1.bar 之前）由于它们都是在一个组内，因此数字可能很小，一般都小于 10。
 
 查看我们使用上面的 yaml 文件创建的 APIService。
 
-```bash
+```````bash
 kubectl get apiservice v1alpha1.custom-metrics.metrics.k8s.io -o yaml
 ​``````yaml
 apiVersion: apiregistration.k8s.io/v1beta1
@@ -66,7 +66,7 @@ status:
     reason: Passed
     status: "True"
     type: Available
-```
+```````
 
 ## 查看集群支持的 APISerivce
 

@@ -1,11 +1,11 @@
 ---
 weight: 81
 title: Kubectl 命令技巧大全
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
-`kubectl` 命令是操作 Kubernetes 集群的最直接和最高效的途径，这个60多 MB 大小的二进制文件，到底有啥能耐呢？
+`kubectl` 命令是操作 Kubernetes 集群的最直接和最高效的途径，这个 60 多 MB 大小的二进制文件，到底有啥能耐呢？
 
 ## Kubectl 自动补全
 
@@ -221,7 +221,7 @@ $ kubectl drain my-node                                                 # 清空
 $ kubectl uncordon my-node                                              # 标记 my-node 可调度
 $ kubectl top node my-node                                              # 显示 my-node 的指标度量
 $ kubectl cluster-info                                                  # 显示 master 和服务的地址
-$ kubectl cluster-info dump                                             # 将当前集群状态输出到 stdout                                    
+$ kubectl cluster-info dump                                             # 将当前集群状态输出到 stdout
 $ kubectl cluster-info dump --output-directory=/path/to/cluster-state   # 将当前集群状态输出到 /path/to/cluster-state
 
 # 如果该键和影响的污点（taint）已存在，则使用指定的值替换
@@ -232,7 +232,7 @@ $ kubectl taint nodes foo dedicated=special-user:NoSchedule
 
 下表列出的是 kubernetes 中所有支持的类型和缩写的别名。
 
-| 资源类型                       | 缩写别名     |
+| 资源类型                   | 缩写别名 |
 | -------------------------- | -------- |
 | `clusters`                 |          |
 | `componentstatuses`        | `cs`     |
@@ -268,31 +268,31 @@ $ kubectl taint nodes foo dedicated=special-user:NoSchedule
 
 要以特定的格式向终端窗口输出详细信息，可以在 `kubectl` 命令中添加 `-o` 或者 `-output` 标志。
 
-| 输出格式                                | 描述                                       |
-| ----------------------------------- | ---------------------------------------- |
-| `-o=custom-columns=<spec>`          | 使用逗号分隔的自定义列列表打印表格                        |
-| `-o=custom-columns-file=<filename>` | 使用 文件中的自定义列模板打印表格                        |
-| `-o=json`                           | 输出 JSON 格式的 API 对象                       |
-| `-o=jsonpath=<template>`            | 打印 [jsonpath](https://kubernetes.io/docs/user-guide/jsonpath) 表达式中定义的字段 |
+| 输出格式                            | 描述                                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------------------- |
+| `-o=custom-columns=<spec>`          | 使用逗号分隔的自定义列列表打印表格                                                          |
+| `-o=custom-columns-file=<filename>` | 使用 文件中的自定义列模板打印表格                                                           |
+| `-o=json`                           | 输出 JSON 格式的 API 对象                                                                   |
+| `-o=jsonpath=<template>`            | 打印 [jsonpath](https://kubernetes.io/docs/user-guide/jsonpath) 表达式中定义的字段          |
 | `-o=jsonpath-file=<filename>`       | 打印由 文件中的 [jsonpath](https://kubernetes.io/docs/user-guide/jsonpath) 表达式定义的字段 |
-| `-o=name`                           | 仅打印资源名称                                  |
-| `-o=wide`                           | 以纯文本格式输出任何附加信息，对于 Pod ，包含节点名称            |
-| `-o=yaml`                           | 输出 YAML 格式的 API 对象                       |
+| `-o=name`                           | 仅打印资源名称                                                                              |
+| `-o=wide`                           | 以纯文本格式输出任何附加信息，对于 Pod ，包含节点名称                                       |
+| `-o=yaml`                           | 输出 YAML 格式的 API 对象                                                                   |
 
 ### Kubectl 详细输出和调试
 
 使用 `-v` 或 `--v` 标志跟着一个整数来指定日志级别。
 
-| 详细等级    | 描述                                       |
-| ------- | ---------------------------------------- |
-| `--v=0` | 总是对操作人员可见。                               |
-| `--v=1` | 合理的默认日志级别，如果您不需要详细输出。                    |
-| `--v=2` | 可能与系统的重大变化相关的，有关稳定状态的信息和重要的日志信息。这是对大多数系统推荐的日志级别。 |
-| `--v=3` | 有关更改的扩展信息。                               |
-| `--v=4` | 调试级别详细输出。                                |
-| `--v=6` | 显示请求的资源。                                 |
-| `--v=7` | 显示HTTP请求的header。                         |
-| `--v=8` | 显示HTTP请求的内容。                             |
+| 详细等级 | 描述                                                                                             |
+| -------- | ------------------------------------------------------------------------------------------------ |
+| `--v=0`  | 总是对操作人员可见。                                                                             |
+| `--v=1`  | 合理的默认日志级别，如果您不需要详细输出。                                                       |
+| `--v=2`  | 可能与系统的重大变化相关的，有关稳定状态的信息和重要的日志信息。这是对大多数系统推荐的日志级别。 |
+| `--v=3`  | 有关更改的扩展信息。                                                                             |
+| `--v=4`  | 调试级别详细输出。                                                                               |
+| `--v=6`  | 显示请求的资源。                                                                                 |
+| `--v=7`  | 显示 HTTP 请求的 header。                                                                        |
+| `--v=8`  | 显示 HTTP 请求的内容。                                                                           |
 
 ## 参考
 

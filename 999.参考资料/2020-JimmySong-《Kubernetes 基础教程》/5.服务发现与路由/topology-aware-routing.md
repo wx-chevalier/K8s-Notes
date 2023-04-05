@@ -1,7 +1,7 @@
 ---
 weight: 40
 title: 拓扑感知路由
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -17,7 +17,7 @@ type: book
 
 ## 端点切片
 
-我们知道 Endpoint 通常情况下是由 Service 资源自动创建和管理的，但是随着 Kubernetes 集群的规模越来越大和管理的服务越来越多，Endpoint API 的局限性变得越来越明显。 [端点切片](https://kubernetes.io/zh/docs/concepts/services-networking/endpoint-slices/)（EndpointSlices）提供了一种简单的方法来跟踪 Kubernetes 集群中的网络端点。它们为 Endpoint 提供了一种可伸缩和可拓展的替代方案，同时还可以被用到拓扑感知路由中。
+我们知道 Endpoint 通常情况下是由 Service 资源自动创建和管理的，但是随着 Kubernetes 集群的规模越来越大和管理的服务越来越多，Endpoint API 的局限性变得越来越明显。[端点切片](https://kubernetes.io/zh/docs/concepts/services-networking/endpoint-slices/)（EndpointSlices）提供了一种简单的方法来跟踪 Kubernetes 集群中的网络端点。它们为 Endpoint 提供了一种可伸缩和可拓展的替代方案，同时还可以被用到拓扑感知路由中。
 
 EndpointSlices 示例如下：
 
@@ -43,7 +43,7 @@ endpoints:
     zone: zone-a
 ```
 
-EndpointSlice 中的每个端点都可以包含一定的拓扑信息。 拓扑信息包括端点的位置，对应节点、可用区的信息。 这些信息体现为 EndpointSlices 的如下端点字段：
+EndpointSlice 中的每个端点都可以包含一定的拓扑信息。拓扑信息包括端点的位置，对应节点、可用区的信息。这些信息体现为 EndpointSlices 的如下端点字段：
 
 - `nodeName` - 端点所在的 Node 名称
 - `zone` - 端点所处的可用区
@@ -51,7 +51,7 @@ EndpointSlice 中的每个端点都可以包含一定的拓扑信息。 拓扑�
 
 ## 启用拓扑感知
 
-请启用 kube-apiserver、kube-controller-manager、和 kube-proxy 的[特性门控](https://kubernetes.io/zh/docs/reference/command-line-tools-reference/feature-gates/) `TopologyAwareHints`。通过把 Service 中的注解 `service.kubernetes.io/topology-aware-hints` 的值设置为 `auto`， 来激活服务的拓扑感知提示功能。 这告诉 EndpointSlice 控制器在它认为安全的时候来设置拓扑提示。kube-proxy 组件依据 EndpointSlice 控制器设置的提示，过滤由它负责路由的端点。
+请启用 kube-apiserver、kube-controller-manager、和 kube-proxy 的[特性门控](https://kubernetes.io/zh/docs/reference/command-line-tools-reference/feature-gates/) `TopologyAwareHints`。通过把 Service 中的注解 `service.kubernetes.io/topology-aware-hints` 的值设置为 `auto`， 来激活服务的拓扑感知提示功能。这告诉 EndpointSlice 控制器在它认为安全的时候来设置拓扑提示。kube-proxy 组件依据 EndpointSlice 控制器设置的提示，过滤由它负责路由的端点。
 
 由 EndpointSlice 控制器提供提示信息后 EndpointSlice 的示例如下：
 
@@ -87,11 +87,10 @@ endpoints:
 
 控制面（尤其是端点切片的[控制器](https://kubernetes.io/zh/docs/concepts/architecture/controller/)） 会创建和管理 EndpointSlice 对象。EndpointSlice 对象还有一些其他使用场景， 例如作为服务网格（Service Mesh）的实现。这些场景都会导致有其他实体 或者控制器负责管理额外的 EndpointSlice 集合。
 
-为了确保多个实体可以管理 EndpointSlice 而且不会相互产生干扰，Kubernetes 定义了[标签](https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/) `endpointslice.kubernetes.io/managed-by`，用来标明哪个实体在管理某个 EndpointSlice。端点切片控制器会在自己所管理的所有 EndpointSlice 上将该标签值设置 为 `endpointslice-controller.k8s.io`。 管理 EndpointSlice 的其他实体也应该为此标签设置一个唯一值。
+为了确保多个实体可以管理 EndpointSlice 而且不会相互产生干扰，Kubernetes 定义了[标签](https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/) `endpointslice.kubernetes.io/managed-by`，用来标明哪个实体在管理某个 EndpointSlice。端点切片控制器会在自己所管理的所有 EndpointSlice 上将该标签值设置 为 `endpointslice-controller.k8s.io`。管理 EndpointSlice 的其他实体也应该为此标签设置一个唯一值。
 
 ## 参考
 
 - [使用拓扑键实现拓扑感知的流量路由 - kubernetes.io](https://kubernetes.io/zh/docs/concepts/services-networking/service-topology/)
 - [端点切片 - kubernetes.io](https://kubernetes.io/zh/docs/concepts/services-networking/endpoint-slices/)
 - [拓扑感知提示 - kubernetes.io](https://kubernetes.io/zh/docs/concepts/services-networking/topology-aware-hints/)
-

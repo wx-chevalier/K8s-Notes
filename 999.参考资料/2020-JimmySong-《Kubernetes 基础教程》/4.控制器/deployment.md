@@ -696,7 +696,7 @@ Conditions:
   Progressing   True    NewReplicaSetAvailable
 ```
 
-`Type=Available`、 `Status=True` 意味着您的 Deployment 有最小可用性。 最小可用性是在 Deployment 策略中指定的参数。`Type=Progressing` 、 `Status=True` 意味着您的 Deployment 或者在部署过程中，或者已经成功部署，达到了期望的最少的可用 replica 数量（查看特定状态的 Reason—— 在我们的例子中 `Reason=NewReplicaSetAvailable` 意味着 Deployment 已经完成）。
+`Type=Available`、 `Status=True` 意味着您的 Deployment 有最小可用性。最小可用性是在 Deployment 策略中指定的参数。`Type=Progressing` 、 `Status=True` 意味着您的 Deployment 或者在部署过程中，或者已经成功部署，达到了期望的最少的可用 replica 数量（查看特定状态的 Reason—— 在我们的例子中 `Reason=NewReplicaSetAvailable` 意味着 Deployment 已经完成）。
 
 您可以使用 `kubectl rollout status` 命令查看 Deployment 进程是否失败。当 Deployment 过程超过了 deadline，`kubectl rollout status` 将返回非 0 的 exit code。
 
@@ -714,7 +714,7 @@ $ echo $?
 
 ## 清理 Policy
 
-您可以设置 Deployment 中的 `.spec.revisionHistoryLimit` 项来指定保留多少旧的 ReplicaSet。 余下的将在后台被当作垃圾收集。默认的，所有的 revision 历史就都会被保留。在未来的版本中，将会更改为 2。
+您可以设置 Deployment 中的 `.spec.revisionHistoryLimit` 项来指定保留多少旧的 ReplicaSet。余下的将在后台被当作垃圾收集。默认的，所有的 revision 历史就都会被保留。在未来的版本中，将会更改为 2。
 
 **注意**：将该值设置为 0，将导致所有的 Deployment 历史记录都会被清除，该 Deployment 就无法再回退了。
 
@@ -756,7 +756,7 @@ $ echo $?
 
 ### 策略
 
-`.spec.strategy` 指定新的 Pod 替换旧的 Pod 的策略。 `.spec.strategy.type` 可以是 "Recreate" 或者是 "RollingUpdate"。"RollingUpdate" 是默认值。
+`.spec.strategy` 指定新的 Pod 替换旧的 Pod 的策略。`.spec.strategy.type` 可以是 "Recreate" 或者是 "RollingUpdate"。"RollingUpdate" 是默认值。
 
 #### Recreate Deployment
 

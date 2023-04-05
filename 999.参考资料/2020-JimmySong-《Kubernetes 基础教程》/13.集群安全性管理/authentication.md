@@ -108,7 +108,7 @@ Service account 是一个自动启用的验证器，它使用签名的 bearer to
 - `--service-account-key-file` 一个包含签名 bearer token 的 PEM 编码文件。如果未指定，将使用 API server 的 TLS 私钥。
 - `--service-account-lookup` 如果启用，从 API 中删除掉的 token 将被撤销。
 
-Service account 通常 API server 自动创建，并通过 `ServiceAccount` [注入控制器](https://kubernetes.io/docs/admin/admission-controllers/) 关联到集群中运行的 Pod 上。Bearer token 挂载到 pod 中众所周知的位置，并允许集群进程与 API server 通信。 帐户可以使用 `PodSpec` 的 `serviceAccountName` 字段显式地与 Pod 关联。
+Service account 通常 API server 自动创建，并通过 `ServiceAccount` [注入控制器](https://kubernetes.io/docs/admin/admission-controllers/) 关联到集群中运行的 Pod 上。Bearer token 挂载到 pod 中众所周知的位置，并允许集群进程与 API server 通信。帐户可以使用 `PodSpec` 的 `serviceAccountName` 字段显式地与 Pod 关联。
 
 注意： `serviceAccountName` 通常被省略，因为这会自动生成。
 

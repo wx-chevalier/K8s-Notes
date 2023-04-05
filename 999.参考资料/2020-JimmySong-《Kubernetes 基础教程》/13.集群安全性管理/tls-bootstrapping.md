@@ -1,7 +1,7 @@
 ---
 weight: 86
 title: TLS Bootstrap
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -17,7 +17,7 @@ Kubernetes 1.4 引入了一个用于从集群级证书颁发机构（CA）请求
 
 ### Token 认证文件
 
-Token 可以是任意的，但应该可以表示为从安全随机数生成器（例如大多数现代操作系统中的 /dev/urandom）导出的至少128位熵。生成 token 有很多中方式。例如：
+Token 可以是任意的，但应该可以表示为从安全随机数生成器（例如大多数现代操作系统中的 /dev/urandom）导出的至少 128 位熵。生成 token 有很多中方式。例如：
 
 `head -c 16 /dev/urandom | od -An -t x | tr -d ' '`
 
@@ -85,9 +85,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: approve-node-client-csr
 rules:
-- apiGroups: ["certificates.k8s.io"]
-  resources: ["certificatesigningrequests/nodeclient"]
-  verbs: ["create"]
+  - apiGroups: ["certificates.k8s.io"]
+    resources: ["certificatesigningrequests/nodeclient"]
+    verbs: ["create"]
 ---
 # A ClusterRole which instructs the CSR approver to approve a node renewing its
 # own client credentials.
@@ -96,9 +96,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: approve-node-client-renewal-csr
 rules:
-- apiGroups: ["certificates.k8s.io"]
-  resources: ["certificatesigningrequests/selfnodeclient"]
-  verbs: ["create"]
+  - apiGroups: ["certificates.k8s.io"]
+    resources: ["certificatesigningrequests/selfnodeclient"]
+    verbs: ["create"]
 ---
 # A ClusterRole which instructs the CSR approver to approve a node requesting a
 # serving cert matching its client cert.
@@ -107,9 +107,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: approve-node-server-renewal-csr
 rules:
-- apiGroups: ["certificates.k8s.io"]
-  resources: ["certificatesigningrequests/selfnodeserver"]
-  verbs: ["create"]
+  - apiGroups: ["certificates.k8s.io"]
+    resources: ["certificatesigningrequests/selfnodeserver"]
+    verbs: ["create"]
 ```
 
 这些权力可以授予给凭证，如 bootstrap token。例如，要复制由已被移除的自动批准标志提供的行为，由单个组批准所有的 CSR：
@@ -128,9 +128,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: auto-approve-csrs-for-group
 subjects:
-- kind: Group
-  name: kubelet-bootstrap-token
-  apiGroup: rbac.authorization.k8s.io
+  - kind: Group
+    name: kubelet-bootstrap-token
+    apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
   name: approve-node-client-csr
@@ -145,9 +145,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: node1-client-cert-renewal
 subjects:
-- kind: User
-  name: system:node:node-1 # Let "node-1" renew its client certificate.
-  apiGroup: rbac.authorization.k8s.io
+  - kind: User
+    name: system:node:node-1 # Let "node-1" renew its client certificate.
+    apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
   name: approve-node-client-renewal-csr
@@ -172,7 +172,7 @@ kubectl config set-credentials kubelet-bootstrap --token=${BOOTSTRAP_TOKEN} --ku
 --experimental-bootstrap-kubeconfig="/path/to/bootstrap/kubeconfig"
 ```
 
-此外，在1.7中，kubelet 实现了 **Alpha** 功能，使其客户端和/或服务器都能轮转提供证书。
+此外，在 1.7 中，kubelet 实现了 **Alpha** 功能，使其客户端和/或服务器都能轮转提供证书。
 
 可以分别通过 kubelet 中的 `RotateKubeletClientCertificate` 和 `RotateKubeletServerCertificate` 功能标志启用此功能，但在未来版本中可能会以向后兼容的方式发生变化。
 
@@ -180,10 +180,10 @@ kubectl config set-credentials kubelet-bootstrap --token=${BOOTSTRAP_TOKEN} --ku
 --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true
 ```
 
-`RotateKubeletClientCertificate` 可以让 kubelet 在其现有凭据到期时通过创建新的 CSR 来轮换其客户端证书。 `RotateKubeletServerCertificate` 可以让 kubelet 在其引导客户端凭据后还可以请求服务证书，并轮换该证书。服务证书目前不要求 DNS 或 IP SANs。
+`RotateKubeletClientCertificate` 可以让 kubelet 在其现有凭据到期时通过创建新的 CSR 来轮换其客户端证书。`RotateKubeletServerCertificate` 可以让 kubelet 在其引导客户端凭据后还可以请求服务证书，并轮换该证书。服务证书目前不要求 DNS 或 IP SANs。
 
 ## kubectl 审批
 
 签名控制器不会立即签署所有证书请求。相反，它会一直等待直到适当特权的用户被标记为 “已批准” 状态。这最终将是由外部审批控制器来处理的自动化过程，但是对于 alpha 版本的 API 来说，可以由集群管理员通过 kubectl 命令手动完成。
 
-管理员可以使用 `kubectl get csr` 命令列出所有的 CSR，使用 `kubectl describe csr <name>` 命令描述某个 CSR的详细信息。在 1.6 版本以前，[没有直接的批准/拒绝命令](https://github.com/kubernetes/kubernetes/issues/30163) ，因此审批者需要直接更新 Status 信息（[查看如何实现](https://github.com/gtank/csrctl)）。此后的 Kubernetes 版本中提供了 `kubectl certificate approve <name>` 和 `kubectl certificate deny <name>` 命令。
+管理员可以使用 `kubectl get csr` 命令列出所有的 CSR，使用 `kubectl describe csr <name>` 命令描述某个 CSR 的详细信息。在 1.6 版本以前，[没有直接的批准/拒绝命令](https://github.com/kubernetes/kubernetes/issues/30163) ，因此审批者需要直接更新 Status 信息（[查看如何实现](https://github.com/gtank/csrctl)）。此后的 Kubernetes 版本中提供了 `kubectl certificate approve <name>` 和 `kubectl certificate deny <name>` 命令。

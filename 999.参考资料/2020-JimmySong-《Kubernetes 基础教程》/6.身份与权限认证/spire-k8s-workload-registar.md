@@ -1,7 +1,7 @@
 ---
 weight: 49
 title: SPIRE Kubernetes 工作负载注册器
-date: '2022-06-08T16:00:00+08:00'
+date: "2022-06-08T16:00:00+08:00"
 type: book
 summary: 本文介绍了如何在 Kubernetes 中使用 SPIRE 工作负载注册器，包括工作负载注册器部署的方式，注册模式等。
 ---
@@ -22,40 +22,40 @@ SPIRE Kubernetes 工作负载注册器实现了一个 Kubernetes `ValidatingAdmi
 
 配置文件是注册器所必需的。它包含 [HCL](https://github.com/hashicorp/hcl) 编码的配置项。
 
-| 键                    | 类型     | 必需的？ | 描述                                                         | 默认                          |
-| :-------------------- | :------- | :------- | :----------------------------------------------------------- | :---------------------------- |
+| 键                    | 类型     | 必需的？ | 描述                                                                                          | 默认                          |
+| :-------------------- | :------- | :------- | :-------------------------------------------------------------------------------------------- | :---------------------------- |
 | `log_level`           | string   | 必需的   | 日志级别（`panic`、 `fatal`、 `error`、 `warn`、 `warning`、 `info`、 `debug`、`trace` 之一） | `info`                        |
-| `log_path`            | string   | 可选的   | 写入日志的磁盘路径                                           |                               |
-| `trust_domain`        | string   | 必需的   | SPIRE 服务器的信任域                                         |                               |
-| `agent_socket_path`   | string   | 可选的   | SPIRE 代理的 Unix 域套接字的路径。如果 `server_address` 不是 unix 域套接字地址，则为必需。 |                               |
-| `server_address`      | string   | 必需的   | SPIRE 服务器的地址。可以使用 `unix:///path/to/socket` 指定本地套接字。这与代理套接字不同。 |                               |
-| `server_socket_path`  | string   | 可选的   | SPIRE 服务器的 Unix 域套接字的路径，相当于指定带有 `unix://` 前缀的 `server_address` |                               |
-| `cluster`             | string   | 必需的   | 用于在其下注册节点 / 工作负载的逻辑集群。必须与 SPIRE SERVER PSAT 节点证明者配置相匹配。 |                               |
-| `pod_label`           | string   | 可选的   | pod 标签，用于基于标签的工作负载注册                         |                               |
-| `pod_annotation`      | string   | 可选的   | pod 注解，用于基于注解的工作负载注册                         |                               |
-| `mode`                | string   | 可选的   | 如何使用 `webhook`、 `reconcile` 或运行注册器 `crd`。        | `webhook`                     |
-| `disabled_namespaces` | []string | 可选的   | 逗号分隔的命名空间列表，用于禁用自动 SVID 生成               | `kube-system`、 `kube-public` |
+| `log_path`            | string   | 可选的   | 写入日志的磁盘路径                                                                            |                               |
+| `trust_domain`        | string   | 必需的   | SPIRE 服务器的信任域                                                                          |                               |
+| `agent_socket_path`   | string   | 可选的   | SPIRE 代理的 Unix 域套接字的路径。如果 `server_address` 不是 unix 域套接字地址，则为必需。    |                               |
+| `server_address`      | string   | 必需的   | SPIRE 服务器的地址。可以使用 `unix:///path/to/socket` 指定本地套接字。这与代理套接字不同。    |                               |
+| `server_socket_path`  | string   | 可选的   | SPIRE 服务器的 Unix 域套接字的路径，相当于指定带有 `unix://` 前缀的 `server_address`          |                               |
+| `cluster`             | string   | 必需的   | 用于在其下注册节点 / 工作负载的逻辑集群。必须与 SPIRE SERVER PSAT 节点证明者配置相匹配。      |                               |
+| `pod_label`           | string   | 可选的   | pod 标签，用于基于标签的工作负载注册                                                          |                               |
+| `pod_annotation`      | string   | 可选的   | pod 注解，用于基于注解的工作负载注册                                                          |                               |
+| `mode`                | string   | 可选的   | 如何使用 `webhook`、 `reconcile` 或运行注册器 `crd`。                                         | `webhook`                     |
+| `disabled_namespaces` | []string | 可选的   | 逗号分隔的命名空间列表，用于禁用自动 SVID 生成                                                | `kube-system`、 `kube-public` |
 
 以下配置指令是针对 `webhook` 模式的：
 
-| 键                                  | 类型    | 必需的？ | 描述                                                         | 默认         |
-| :---------------------------------- | :------ | :------- | :----------------------------------------------------------- | :----------- |
-| `addr`                              | string  | 必需的   | 将 HTTPS 监听器绑定到的地址                                  | `:8443`      |
-| `cert_path`                         | string  | 必需的   | PEM 编码的服务器 TLS 证书的磁盘路径                          | `cert.pem`   |
-| `key_path`                          | string  | 必需的   | PEM 编码的服务器 TLS 密钥的磁盘路径                          | `key.pem`    |
-| `cacert_path`                       | string  | 必需的   | 用于验证客户端（即 API 服务器）的 CA 证书的磁盘路径          | `cacert.pem` |
+| 键                                  | 类型    | 必需的？ | 描述                                                                     | 默认         |
+| :---------------------------------- | :------ | :------- | :----------------------------------------------------------------------- | :----------- |
+| `addr`                              | string  | 必需的   | 将 HTTPS 监听器绑定到的地址                                              | `:8443`      |
+| `cert_path`                         | string  | 必需的   | PEM 编码的服务器 TLS 证书的磁盘路径                                      | `cert.pem`   |
+| `key_path`                          | string  | 必需的   | PEM 编码的服务器 TLS 密钥的磁盘路径                                      | `key.pem`    |
+| `cacert_path`                       | string  | 必需的   | 用于验证客户端（即 API 服务器）的 CA 证书的磁盘路径                      | `cacert.pem` |
 | `insecure_skip_client_verification` | boolean | 必需的   | 如果为 true，则跳过客户端证书验证（在这种情况下 `cacert_path` 被忽略）。 | `false`      |
 
 以下配置是针对 `reconcile` 模式的：
 
-| 键                              | 类型   | 必需的？ | 描述                                                         | 默认                  |
-| :------------------------------ | :----- | :------- | :----------------------------------------------------------- | :-------------------- |
+| 键                              | 类型   | 必需的？ | 描述                                                          | 默认                  |
+| :------------------------------ | :----- | :------- | :------------------------------------------------------------ | :-------------------- |
 | `leader_election`               | bool   | 可选的   | 启用 / 禁用领导者选举。如果你有多个注册器副本正在运行，请启用 | false                 |
-| `leader_election_resource_lock` | string | 可选的   | 配置用于领导选举锁的资源类型                                 | `configmaps`          |
-| `metrics_addr`                  | string | 可选的   | 公开指标的地址，`0` 用于禁用                                 | `:8080`               |
-| `controller_name`               | string | 可选的   | 构成用于父 ID 的 spiffe ID 的一部分                          | `spire-k8s-registrar` |
-| `add_pod_dns_names`             | bool   | 可选的   | 启用 / 禁用将 k8s DNS 名称添加到 pod SVID。                  | 错误的                |
-| `cluster_dns_zone`              | string | 可选的   | k8s 集群中用于服务的 DNS 区域。                              | `cluster.local`       |
+| `leader_election_resource_lock` | string | 可选的   | 配置用于领导选举锁的资源类型                                  | `configmaps`          |
+| `metrics_addr`                  | string | 可选的   | 公开指标的地址，`0` 用于禁用                                  | `:8080`               |
+| `controller_name`               | string | 可选的   | 构成用于父 ID 的 spiffe ID 的一部分                           | `spire-k8s-registrar` |
+| `add_pod_dns_names`             | bool   | 可选的   | 启用 / 禁用将 k8s DNS 名称添加到 pod SVID。                   | 错误的                |
+| `cluster_dns_zone`              | string | 可选的   | k8s 集群中用于服务的 DNS 区域。                               | `cluster.local`       |
 
 关于 CRD 配置指令，见 [CRD 模式配置](https://github.com/spiffe/spire/blob/main/support/k8s/k8s-workload-registrar/mode-crd/README.md#configuration)。
 
@@ -74,9 +74,9 @@ cluster = "production"
 
 | 注册模式    | pod_label         | pod_annotation         | identity_template         | 基于服务账户 |
 | ----------- | ----------------- | ---------------------- | ------------------------- | ------------ |
-| `webhook`   | 由 pod_label 指定 | 由 pod_annotation 指定 | *不可用*                  | 服务账户     |
-| `reconcile` | 由 pod_label 指定 | 由 pod_annotation 指定 | *不可用*                  | 服务账户     |
-| `crd`       | 由 pod_label 指定 | 由 pod_annotation 指定 | 由 identity_template 指定 | *不可用*     |
+| `webhook`   | 由 pod_label 指定 | 由 pod_annotation 指定 | _不可用_                  | 服务账户     |
+| `reconcile` | 由 pod_label 指定 | 由 pod_annotation 指定 | _不可用_                  | 服务账户     |
+| `crd`       | 由 pod_label 指定 | 由 pod_annotation 指定 | 由 identity_template 指定 | _不可用_     |
 
 如果对 [基于服务账户的 SPIFFE ID](#service-account-based-workload-registration) `webhook` 使用和 `reconcile` 模式，请不要指定 `pod_label` 或 `pod_annotation`。如果你使用基于标签的 SPIFFE ID，请仅指定 `pod_label`。如果你使用基于注解的 SPIFFE ID，请仅指定 `pod_annotation`
 
@@ -202,7 +202,7 @@ kubectl validatingwebhookconfiguration delete k8s-workload-registrar-webhook
 `reconcile` 和 `crd` 模式都提供了将 DNS 名称添加到 pod 的注册条目的能力。它们目前对应该添加哪些名称有不同的想法，`reconcile` 添加可用于访问 pod 的所有可能名称（通过服务或直接），并将 `crd` 模式限制为 `<service>.<namespace>.svc` 。该功能默认为关闭 `reconcile` 模式和打开 `crd` 模式。
 
 {{<callout warning 注意>}}
-已知某些软件会使用反向 DNS “验证” 客户端证书中提供的 DNS 和 IP SAN。不能保证Kubernetes客户端会从一个具有有效反向DNS的IP地址进行连接，该地址与这些DNS名称实现所创建的名称之一相匹配，在这种情况下验证会失败。如果你打算使用 X509-SVID 对此类服务的客户端进行身份验证，则需要禁用将 DNS 名称添加到条目中。众所周知，这会影响 etcd。
+已知某些软件会使用反向 DNS “验证” 客户端证书中提供的 DNS 和 IP SAN。不能保证 Kubernetes 客户端会从一个具有有效反向 DNS 的 IP 地址进行连接，该地址与这些 DNS 名称实现所创建的名称之一相匹配，在这种情况下验证会失败。如果你打算使用 X509-SVID 对此类服务的客户端进行身份验证，则需要禁用将 DNS 名称添加到条目中。众所周知，这会影响 etcd。
 {{</callout>}}
 
 ## 模式之间的差异

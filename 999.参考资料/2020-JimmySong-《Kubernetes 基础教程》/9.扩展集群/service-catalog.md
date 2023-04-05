@@ -33,11 +33,11 @@ Service Catalog 通过扩展 API 服务器和控制器实现，使用 etcd 进�
 
 Service Catalog 安装 servicecatalog.k8s.ioAPI 并提供以以下 Kubernetes 资源：
 
-- ClusterServiceBroker：作为 service broker 的群集内代理，封装其服务器连接详细信息。这些由集群运营者创建和管理，希望使用 broker 服务在其集群中提供新类型的托管服务。
-- ClusterServiceClass：由特定 service broker 提供的托管服务。将新 ClusterServiceBroker 资源添加到群集时，Service catalog controller 将连接到 service broker 以获取可用托管服务的列表清单。然后它会创建新的 ClusterServiceClass 资源，与每个托管服务相对应。
-- ClusterServicePlan：托管服务的特定产品。例如，托管服务可能有不同的可用套餐，例如免费套餐或付费套餐，或者可能有不同的配置选项，例如使用 SSD 存储或拥有更多资源。同向群集添加 ClusterServiceClass 一样，当添加一个新的 ClusterServiceBroker 时，Service Catalog 会创建一个新的 ClusterServicePlan 资源，与每个托管服务可用的每个服务套餐对应。
+- ClusterServiceBroker：作为 service broker 的集群内代理，封装其服务器连接详细信息。这些由集群运营者创建和管理，希望使用 broker 服务在其集群中提供新类型的托管服务。
+- ClusterServiceClass：由特定 service broker 提供的托管服务。将新 ClusterServiceBroker 资源添加到集群时，Service catalog controller 将连接到 service broker 以获取可用托管服务的列表清单。然后它会创建新的 ClusterServiceClass 资源，与每个托管服务相对应。
+- ClusterServicePlan：托管服务的特定产品。例如，托管服务可能有不同的可用套餐，例如免费套餐或付费套餐，或者可能有不同的配置选项，例如使用 SSD 存储或拥有更多资源。同向集群添加 ClusterServiceClass 一样，当添加一个新的 ClusterServiceBroker 时，Service Catalog 会创建一个新的 ClusterServicePlan 资源，与每个托管服务可用的每个服务套餐对应。
 - ServiceInstance：一个提供好的 ClusterServiceClass 实例。这些是由集群运营者创建的托管服务的特定实例，供一个或多个集群内应用程序使用。当创建一个新的 ServiceInstance 资源时，Service Catalog controller 连接到相应的服务代理并指示它提供服务实例。
-- ServiceBinding：访问 ServiceInstance 的凭据。由想让他们的应用利用 ServiceInstance 的集群集运营者创建。创建之后，Service Catalog controller 将创建一个与此服务实例对应的 Kubernetes 的 Secret，包含此服务实例的连接详细信息和凭证 ，可以挂载到 Pod 中。
+- ServiceBinding：访问 ServiceInstance 的凭据。由想让他们的应用利用 ServiceInstance 的集集群运营者创建。创建之后，Service Catalog controller 将创建一个与此服务实例对应的 Kubernetes 的 Secret，包含此服务实例的连接详细信息和凭证 ，可以挂载到 Pod 中。
 
 ### 鉴权认证
 
@@ -48,7 +48,7 @@ Service Catalog 支持这些认证方法：
 
 ## 用法
 
-群集运营者可以使用 Service Catalog API 资源来提供托管服务，并使其在 Kubernetes 群集中可用。涉及的步骤是：
+集群运营者可以使用 Service Catalog API 资源来提供托管服务，并使其在 Kubernetes 集群中可用。涉及的步骤是：
 
 1. 列出 Service Broker 提供的托管服务清单和服务套餐。
 2. 提供托管服务的新实例。
@@ -57,7 +57,7 @@ Service Catalog 支持这些认证方法：
 
 ### 列出托管服务和服务组
 
-首先，群集运营者必须在 servicecatalog.k8s.io 群组内创建 ClusterServiceBroker 资源。此资源包含访问服务代理端点所需的 URL 和连接详细信息。
+首先，集群运营者必须在 servicecatalog.k8s.io 群组内创建 ClusterServiceBroker 资源。此资源包含访问服务代理端点所需的 URL 和连接详细信息。
 
 这是一个 ClusterServiceBroker 资源的例子：
 
@@ -139,11 +139,11 @@ spec:
 
 1. 当 `ServiceInstance` 资源创建后，Service Catalog 发起到外部 service broker 来提供服务的一个实例。
 2. service broker 创建托管服务的新实例并返回 HTTP 响应。
-3. 然后，群集运营者可以检查实例的状态，来确认它是否准备就绪。
+3. 然后，集群运营者可以检查实例的状态，来确认它是否准备就绪。
 
 ### 绑定到托管服务
 
-在提供新实例后，群集运营者必须绑定到托管服务才能获取到应用程序使用服务所需的连接凭证和服务帐户详细信息。这是通过创建 `ServiceBinding` 资源完成的。
+在提供新实例后，集群运营者必须绑定到托管服务才能获取到应用程序使用服务所需的连接凭证和服务帐户详细信息。这是通过创建 `ServiceBinding` 资源完成的。
 
 以下是一个 `ServiceBinding` 资源的例子：
 
@@ -185,7 +185,6 @@ spec:
 以下示例描述了如何将服务帐户凭证映射到应用程序中。被调用的 sa-key 密钥存储在名为 provider-cloud-key 的卷中，并且应用程序将此卷挂载到 /var/secrets/provider/key.json。环境变量 PROVIDER_APPLICATION_CREDENTIALS 是从挂载文件的值映射而来的。
 
 ```yaml
-
 ---
 spec:
   volumes:
@@ -205,7 +204,6 @@ env:
 以下示例描述如何将 secret 值映射到应用程序环境变量。在此示例中，消息传递队列 `topic` 名称从名为 `provider-queue-credentials` 的 secret 的 key topic 值映射到环境变量 `TOPIC`。
 
 ```yaml
-
 ---
 env:
   - name: "TOPIC"
@@ -235,18 +233,18 @@ Kubernetes 1.7 或更高版本的集群运行 API Aggregator，它位于 core AP
 
 本文档的其余部分详细介绍了如何：
 
-- 在群集上设置 Service Catalog
+- 在集群上设置 Service Catalog
 - 与 Service Catalog API 进行交互
 
 ## 前提条件
 
 ### Kubernetes 版本
 
-Service Catalog 需要 Kubernetes v1.7 或更高版本。您还需要 在主机上安装 [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 。你需要这个文件，以便可以使用 kubectl 和 helm 与群集通信。许多 Kubernetes 安装工具或云提供商会为你设置此配置文件。有关详细信息，请与您的工具或提供商联系。
+Service Catalog 需要 Kubernetes v1.7 或更高版本。您还需要 在主机上安装 [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 。你需要这个文件，以便可以使用 kubectl 和 helm 与集群通信。许多 Kubernetes 安装工具或云提供商会为你设置此配置文件。有关详细信息，请与您的工具或提供商联系。
 
 #### `kubectl` 版本
 
-大多数与 Service Catalog 系统的交互都是通过 `kubectl` 命令行界面实现的。与群集版本一样，Service Catalog 需要 kubectl 版本 1.7 或更高版本。
+大多数与 Service Catalog 系统的交互都是通过 `kubectl` 命令行界面实现的。与集群版本一样，Service Catalog 需要 kubectl 版本 1.7 或更高版本。
 
 首先，检查 `kubectl` 版本：
 
@@ -265,9 +263,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 chmod +x ./kubectl
 ```
 
-### 群集内 DNS
+### 集群内 DNS
 
-您需要启用 Kubernetes 集群内的 DNS。大多数常用的安装方法会为您自动配置群集内 DNS：
+您需要启用 Kubernetes 集群内的 DNS。大多数常用的安装方法会为您自动配置集群内 DNS：
 
 - [Minikube](https://github.com/kubernetes/minikube)
 - [`hack/local-up-cluster.sh`](https://github.com/kubernetes/kubernetes/blob/master/hack/local-up-cluster.sh)
@@ -279,7 +277,7 @@ chmod +x ./kubectl
 
 #### 如果还没有安装 Helm
 
-如果尚未安装 Helm，请下载 [`helm` CLI](https://github.com/kubernetes/helm#install)，然后运行 helm init（这会将 Helm 的服务器端组件 Tiller 安装到 Kubernetes 群集中）。
+如果尚未安装 Helm，请下载 [`helm` CLI](https://github.com/kubernetes/helm#install)，然后运行 helm init（这会将 Helm 的服务器端组件 Tiller 安装到 Kubernetes 集群中）。
 
 #### 如果已经安装了 Helm
 
@@ -326,13 +324,13 @@ svc-cat/catalog    x,y.z      service-catalog API server and controller-manag...
 
 ### RBAC
 
-Kubernetes 群集必须启用 [RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) 才能使用 Service Catalog。
+Kubernetes 集群必须启用 [RBAC](https://kubernetes.io/docs/admin/authorization/rbac/) 才能使用 Service Catalog。
 
-与群集内 DNS 一样，许多安装方法都有对应启用 RBAC 的途径。
+与集群内 DNS 一样，许多安装方法都有对应启用 RBAC 的途径。
 
 #### Minikube
 
-如果您正在使用 Minikube，请使用以下命令启动群集：
+如果您正在使用 Minikube，请使用以下命令启动集群：
 
 ```bash
 minikube start --extra-config=apiserver.Authorization.Mode=RBAC
@@ -340,7 +338,7 @@ minikube start --extra-config=apiserver.Authorization.Mode=RBAC
 
 #### hack/local-cluster-up.sh
 
-如果使用 [`hack/local-up-cluster.sh`](https://github.com/kubernetes/kubernetes/blob/master/hack/local-up-cluster.sh) 脚本，请使用以下命令启动群集：
+如果使用 [`hack/local-up-cluster.sh`](https://github.com/kubernetes/kubernetes/blob/master/hack/local-up-cluster.sh) 脚本，请使用以下命令启动集群：
 
 ```bash
 AUTHORIZATION_MODE=Node,RBAC hack/local-up-cluster.sh -O

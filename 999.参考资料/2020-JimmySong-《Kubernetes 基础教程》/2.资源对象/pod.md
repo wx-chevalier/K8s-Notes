@@ -109,7 +109,7 @@ Pod 原语有利于：
 6. 过了宽限期后，将向 Pod 中依然运行的进程发送 SIGKILL 信号而杀掉进程。
 7. Kubelet 会在 API server 中完成 Pod 的的删除，通过将优雅周期设置为 0（立即删除）。Pod 在 API 中消失，并且在客户端也不可见。
 
-删除宽限期默认是 30 秒。 `kubectl delete` 命令支持 `—grace-period=<seconds>` 选项，允许用户设置自己的宽限期。如果设置为 0 将强制删除 pod。在 kubectl>=1.5 版本的命令中，你必须同时使用 `--force` 和 `--grace-period=0` 来强制删除 pod。 在 yaml 文件中可以通过 `{{ .spec.spec.terminationGracePeriodSeconds }}` 来修改此值。
+删除宽限期默认是 30 秒。`kubectl delete` 命令支持 `—grace-period=<seconds>` 选项，允许用户设置自己的宽限期。如果设置为 0 将强制删除 pod。在 kubectl>=1.5 版本的命令中，你必须同时使用 `--force` 和 `--grace-period=0` 来强制删除 pod。在 yaml 文件中可以通过 `{{ .spec.spec.terminationGracePeriodSeconds }}` 来修改此值。
 
 ### 强制删除 Pod
 
@@ -119,7 +119,7 @@ Pod 的强制删除是通过在集群和 etcd 中将其定义为删除状态。�
 
 ## Pod 中容器的特权模式
 
-从 Kubernetes1.1 版本开始，pod 中的容器就可以开启 privileged 模式，在容器定义文件的 `SecurityContext` 下使用 `privileged` flag。 这在使用 Linux 的网络操作和访问设备的能力时是很有用的。容器内进程可获得近乎等同于容器外进程的权限。在不需要修改和重新编译 kubelet 的情况下就可以使用 pod 来开发节点的网络和存储插件。
+从 Kubernetes1.1 版本开始，pod 中的容器就可以开启 privileged 模式，在容器定义文件的 `SecurityContext` 下使用 `privileged` flag。这在使用 Linux 的网络操作和访问设备的能力时是很有用的。容器内进程可获得近乎等同于容器外进程的权限。在不需要修改和重新编译 kubelet 的情况下就可以使用 pod 来开发节点的网络和存储插件。
 
 如果 master 节点运行的是 kuberentes1.1 或更高版本，而 node 节点的版本低于 1.1 版本，则 API server 将也可以接受新的特权模式的 pod，但是无法启动，pod 将处于 pending 状态。
 

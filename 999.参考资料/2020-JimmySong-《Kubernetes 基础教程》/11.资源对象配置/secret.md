@@ -1,7 +1,7 @@
 ---
 weight: 76
 title: Secret 配置
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -21,7 +21,7 @@ Secret 是一种包含少量敏感信息例如密码、token 或 key 的对象�
 
 Kubernetes 自动创建包含访问 API 凭据的 secret，并自动修改您的 pod 以使用此类型的 secret。
 
-如果需要，可以禁用或覆盖自动创建和使用API凭据。但是，如果您需要的只是安全地访问 apiserver，我们推荐这样的工作流程。
+如果需要，可以禁用或覆盖自动创建和使用 API 凭据。但是，如果您需要的只是安全地访问 apiserver，我们推荐这样的工作流程。
 
 参阅 [Service Account](https://kubernetes.io/docs/user-guide/service-accounts) 文档获取关于 Service Account 如何工作的更多信息。
 
@@ -104,7 +104,7 @@ $ kubectl create -f ./secret.yaml
 secret "mysecret" created
 ```
 
-**编码注意：** secret 数据的序列化 JSON 和 YAML 值使用 base64 编码成字符串。换行符在这些字符串中无效，必须省略。当在Darwin/OS X上使用 `base64` 实用程序时，用户应避免使用 `-b` 选项来拆分长行。另外，对于 Linux用户如果 `-w` 选项不可用的话，应该添加选项 `-w 0` 到 `base64` 命令或管道 `base64 | tr -d '\n'` 。
+**编码注意：** secret 数据的序列化 JSON 和 YAML 值使用 base64 编码成字符串。换行符在这些字符串中无效，必须省略。当在 Darwin/OS X 上使用 `base64` 实用程序时，用户应避免使用 `-b` 选项来拆分长行。另外，对于 Linux 用户如果 `-w` 选项不可用的话，应该添加选项 `-w 0` 到 `base64` 命令或管道 `base64 | tr -d '\n'` 。
 
 #### 解码 Secret
 
@@ -156,16 +156,16 @@ metadata:
   name: mypod
 spec:
   containers:
-  - name: mypod
-    image: redis
-    volumeMounts:
-    - name: foo
-      mountPath: "/etc/foo"
-      readOnly: true
+    - name: mypod
+      image: redis
+      volumeMounts:
+        - name: foo
+          mountPath: "/etc/foo"
+          readOnly: true
   volumes:
-  - name: foo
-    secret:
-      secretName: mysecret
+    - name: foo
+      secret:
+        secretName: mysecret
 ```
 
 您想要用的每个 secret 都需要在 `spec.volumes` 中指明。
@@ -185,19 +185,19 @@ metadata:
   name: mypod
 spec:
   containers:
-  - name: mypod
-    image: redis
-    volumeMounts:
-    - name: foo
-      mountPath: "/etc/foo"
-      readOnly: true
+    - name: mypod
+      image: redis
+      volumeMounts:
+        - name: foo
+          mountPath: "/etc/foo"
+          readOnly: true
   volumes:
-  - name: foo
-    secret:
-      secretName: mysecret
-      items:
-      - key: username
-        path: my-group/my-username
+    - name: foo
+      secret:
+        secretName: mysecret
+        items:
+          - key: username
+            path: my-group/my-username
 ```
 
 将会发生什么呢：
@@ -218,16 +218,16 @@ metadata:
   name: mypod
 spec:
   containers:
-  - name: mypod
-    image: redis
-    volumeMounts:
-    - name: foo
-      mountPath: "/etc/foo"
+    - name: mypod
+      image: redis
+      volumeMounts:
+        - name: foo
+          mountPath: "/etc/foo"
   volumes:
-  - name: foo
-    secret:
-      secretName: mysecret
-      defaultMode: 256
+    - name: foo
+      secret:
+        secretName: mysecret
+        defaultMode: 256
 ```
 
 然后，secret 将被挂载到 `/etc/foo` 目录，所有通过该 secret volume 挂载创建的文件的权限都是 `0400`。
@@ -243,19 +243,19 @@ metadata:
   name: mypod
 spec:
   containers:
-  - name: mypod
-    image: redis
-    volumeMounts:
-    - name: foo
-      mountPath: "/etc/foo"
+    - name: mypod
+      image: redis
+      volumeMounts:
+        - name: foo
+          mountPath: "/etc/foo"
   volumes:
-  - name: foo
-    secret:
-      secretName: mysecret
-      items:
-      - key: username
-        path: my-group/my-username
-        mode: 511
+    - name: foo
+      secret:
+        secretName: mysecret
+        items:
+          - key: username
+            path: my-group/my-username
+            mode: 511
 ```
 
 在这种情况下，导致 `/etc/foo/my-group/my-username` 的文件的权限值为 `0777`。由于 JSON 限制，必须以十进制格式指定模式。
@@ -282,14 +282,14 @@ $ cat /etc/foo/password
 
 当已经在 volume 中消被消费的 secret 被更新时，被映射的 key 也将被更新。
 
-Kubelet 在周期性同步时检查被挂载的 secret 是不是最新的。但是，它正在使用其基于本地 ttl 的缓存来获取当前的 secret 值。结果是，当 secret 被更新的时刻到将新的 secret 映射到 pod 的时刻的总延迟可以与 kubelet 中的secret 缓存的 kubelet sync period + ttl 一样长。
+Kubelet 在周期性同步时检查被挂载的 secret 是不是最新的。但是，它正在使用其基于本地 ttl 的缓存来获取当前的 secret 值。结果是，当 secret 被更新的时刻到将新的 secret 映射到 pod 的时刻的总延迟可以与 kubelet 中的 secret 缓存的 kubelet sync period + ttl 一样长。
 
 #### Secret 作为环境变量
 
 将 secret 作为 pod 中的环境变量使用：
 
 1. 创建一个 secret 或者使用一个已存在的 secret。多个 pod 可以引用同一个 secret。
-2. 在每个容器中修改您想要使用 secret key 的 Pod 定义，为要使用的每个 secret key 添加一个环境变量。消费secret key 的环境变量应填充 secret 的名称，并键入 `env[x].valueFrom.secretKeyRef`。
+2. 在每个容器中修改您想要使用 secret key 的 Pod 定义，为要使用的每个 secret key 添加一个环境变量。消费 secret key 的环境变量应填充 secret 的名称，并键入 `env[x].valueFrom.secretKeyRef`。
 3. 修改镜像并／或者命令行，以便程序在指定的环境变量中查找值。
 
 ```yaml
@@ -299,19 +299,19 @@ metadata:
   name: secret-env-pod
 spec:
   containers:
-  - name: mycontainer
-    image: redis
-    env:
-      - name: SECRET_USERNAME
-        valueFrom:
-          secretKeyRef:
-            name: mysecret
-            key: username
-      - name: SECRET_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: mysecret
-            key: password
+    - name: mycontainer
+      image: redis
+      env:
+        - name: SECRET_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+        - name: SECRET_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
   restartPolicy: Never
 ```
 
@@ -350,15 +350,15 @@ imagePullSecret 的使用在 [镜像文档](https://kubernetes.io/docs/concepts/
 
 Secret API 对象驻留在命名空间中。它们只能由同一命名空间中的 pod 引用。
 
-每个 secret 的大小限制为1MB。这是为了防止创建非常大的 secret 会耗尽 apiserver 和 kubelet 的内存。然而，创建许多较小的 secret 也可能耗尽内存。更全面得限制 secret 对内存使用的更全面的限制是计划中的功能。
+每个 secret 的大小限制为 1MB。这是为了防止创建非常大的 secret 会耗尽 apiserver 和 kubelet 的内存。然而，创建许多较小的 secret 也可能耗尽内存。更全面得限制 secret 对内存使用的更全面的限制是计划中的功能。
 
-Kubelet 仅支持从 API server 获取的 Pod 使用 secret。这包括使用 kubectl 创建的任何 pod，或间接通过 replication controller 创建的 pod。它不包括通过 kubelet `--manifest-url` 标志，其 `--config` 标志或其 REST API 创建的pod（这些不是创建 pod 的常用方法）。
+Kubelet 仅支持从 API server 获取的 Pod 使用 secret。这包括使用 kubectl 创建的任何 pod，或间接通过 replication controller 创建的 pod。它不包括通过 kubelet `--manifest-url` 标志，其 `--config` 标志或其 REST API 创建的 pod（这些不是创建 pod 的常用方法）。
 
 必须先创建 secret，除非将它们标记为可选项，否则必须在将其作为环境变量在 pod 中使用之前创建 secret。对不存在的 secret 的引用将阻止其启动。
 
 通过 `secretKeyRef` 对不存在于命名的 key 中的 key 进行引用将阻止该启动。
 
-用于通过 `envFrom` 填充环境变量的 secret，这些环境变量具有被认为是无效环境变量名称的 key 将跳过这些键。该 pod 将被允许启动。将会有一个事件，其原因是 `InvalidVariableNames`，该消息将包含被跳过的无效键的列表。该示例显示一个 pod，它指的是包含2个无效键，1badkey 和 2alsobad 的默认/mysecret ConfigMap。
+用于通过 `envFrom` 填充环境变量的 secret，这些环境变量具有被认为是无效环境变量名称的 key 将跳过这些键。该 pod 将被允许启动。将会有一个事件，其原因是 `InvalidVariableNames`，该消息将包含被跳过的无效键的列表。该示例显示一个 pod，它指的是包含 2 个无效键，1badkey 和 2alsobad 的默认/mysecret ConfigMap。
 
 ```bash
 $ kubectl get events
@@ -368,7 +368,7 @@ LASTSEEN   FIRSTSEEN   COUNT     NAME            KIND      SUBOBJECT            
 
 ### Secret 与 Pod 生命周期的联系
 
-通过 API 创建的 Pod 时，不会检查应用的 secret 是否存在。一旦 Pod 被调度，kubelet 就会尝试获取该 secret 的值。如果获取不到该 secret，或者暂时无法与 API server 建立连接，kubelet 将会定期重试。Kubelet 将会报告关于 pod 的事件，并解释它无法启动的原因。一旦获取的 secret，kubelet将创建并装载一个包含它的卷。在安装所有pod的卷之前，都不会启动 pod 的容器。
+通过 API 创建的 Pod 时，不会检查应用的 secret 是否存在。一旦 Pod 被调度，kubelet 就会尝试获取该 secret 的值。如果获取不到该 secret，或者暂时无法与 API server 建立连接，kubelet 将会定期重试。Kubelet 将会报告关于 pod 的事件，并解释它无法启动的原因。一旦获取的 secret，kubelet 将创建并装载一个包含它的卷。在安装所有 pod 的卷之前，都不会启动 pod 的容器。
 
 ## 使用案例
 
@@ -380,9 +380,9 @@ LASTSEEN   FIRSTSEEN   COUNT     NAME            KIND      SUBOBJECT            
 $ kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=/path/to/.ssh/id_rsa --from-file=ssh-publickey=/path/to/.ssh/id_rsa.pub
 ```
 
-**安全性注意事项**：发送自己的 ssh 密钥之前要仔细思考：集群的其他用户可能有权访问该密钥。使用您想要共享 Kubernetes 群集的所有用户可以访问的服务帐户，如果它们遭到入侵，可以撤销。
+**安全性注意事项**：发送自己的 ssh 密钥之前要仔细思考：集群的其他用户可能有权访问该密钥。使用您想要共享 Kubernetes 集群的所有用户可以访问的服务帐户，如果它们遭到入侵，可以撤销。
 
-现在我们可以创建一个使用 ssh 密钥引用 secret 的pod，并在一个卷中使用它：
+现在我们可以创建一个使用 ssh 密钥引用 secret 的 pod，并在一个卷中使用它：
 
 ```yaml
 kind: Pod
@@ -393,16 +393,16 @@ metadata:
     name: secret-test
 spec:
   volumes:
-  - name: secret-volume
-    secret:
-      secretName: ssh-key-secret
-  containers:
-  - name: ssh-test-container
-    image: mySshImage
-    volumeMounts:
     - name: secret-volume
-      readOnly: true
-      mountPath: "/etc/secret-volume"
+      secret:
+        secretName: ssh-key-secret
+  containers:
+    - name: ssh-test-container
+      image: mySshImage
+      volumeMounts:
+        - name: secret-volume
+          readOnly: true
+          mountPath: "/etc/secret-volume"
 ```
 
 当容器中的命令运行时，密钥的片段将可在以下目录：
@@ -433,42 +433,42 @@ secret "test-db-secret" created
 apiVersion: v1
 kind: List
 items:
-- kind: Pod
-  apiVersion: v1
-  metadata:
-    name: prod-db-client-pod
-    labels:
-      name: prod-db-client
-  spec:
-    volumes:
-    - name: secret-volume
-      secret:
-        secretName: prod-db-secret
-    containers:
-    - name: db-client-container
-      image: myClientImage
-      volumeMounts:
-      - name: secret-volume
-        readOnly: true
-        mountPath: "/etc/secret-volume"
-- kind: Pod
-  apiVersion: v1
-  metadata:
-    name: test-db-client-pod
-    labels:
-      name: test-db-client
-  spec:
-    volumes:
-    - name: secret-volume
-      secret:
-        secretName: test-db-secret
-    containers:
-    - name: db-client-container
-      image: myClientImage
-      volumeMounts:
-      - name: secret-volume
-        readOnly: true
-        mountPath: "/etc/secret-volume"
+  - kind: Pod
+    apiVersion: v1
+    metadata:
+      name: prod-db-client-pod
+      labels:
+        name: prod-db-client
+    spec:
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: prod-db-secret
+      containers:
+        - name: db-client-container
+          image: myClientImage
+          volumeMounts:
+            - name: secret-volume
+              readOnly: true
+              mountPath: "/etc/secret-volume"
+  - kind: Pod
+    apiVersion: v1
+    metadata:
+      name: test-db-client-pod
+      labels:
+        name: test-db-client
+    spec:
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: test-db-secret
+      containers:
+        - name: db-client-container
+          image: myClientImage
+          volumeMounts:
+            - name: secret-volume
+              readOnly: true
+              mountPath: "/etc/secret-volume"
 ```
 
 这两个容器将在其文件系统上显示以下文件，其中包含每个容器环境的值：
@@ -490,8 +490,8 @@ metadata:
 spec:
   serviceAccount: prod-db-client
   containers:
-  - name: db-client-container
-    image: myClientImage
+    - name: db-client-container
+      image: myClientImage
 ```
 
 ### 使用案例：secret 卷中以点号开头的文件
@@ -512,20 +512,20 @@ metadata:
   name: secret-dotfiles-pod
 spec:
   volumes:
-  - name: secret-volume
-    secret:
-      secretName: dotfile-secret
-  containers:
-  - name: dotfile-test-container
-    image: gcr.io/google_containers/busybox
-    command:
-    - ls
-    - "-l"
-    - "/etc/secret-volume"
-    volumeMounts:
     - name: secret-volume
-      readOnly: true
-      mountPath: "/etc/secret-volume"
+      secret:
+        secretName: dotfile-secret
+  containers:
+    - name: dotfile-test-container
+      image: gcr.io/google_containers/busybox
+      command:
+        - ls
+        - "-l"
+        - "/etc/secret-volume"
+      volumeMounts:
+        - name: secret-volume
+          readOnly: true
+          mountPath: "/etc/secret-volume"
 ```
 
 `Secret-volume` 将包含一个单独的文件，叫做 `.secret-file`，`dotfile-test-container` 的 `/etc/secret-volume/.secret-file`路径下将有该文件。
@@ -550,7 +550,7 @@ spec:
 
 Secret 的重要性通常不尽相同，其中许多可能只对 Kubernetes 集群内（例如 service account 令牌）和对外部系统造成影响。即使一个应用程序可以理解其期望的与之交互的 secret 的权力，但是同一命名空间中的其他应用程序也可以使这些假设无效。
 
-由于这些原因，在命名空间中 `watch` 和 `list` secret 的请求是非常强大的功能，应该避免这样的行为，因为列出 secret 可以让客户端检查所有 secret 是否在该命名空间中。在群集中`watch` 和 `list` 所有 secret 的能力应该只保留给最有特权的系统级组件。
+由于这些原因，在命名空间中 `watch` 和 `list` secret 的请求是非常强大的功能，应该避免这样的行为，因为列出 secret 可以让客户端检查所有 secret 是否在该命名空间中。在集群中`watch` 和 `list` 所有 secret 的能力应该只保留给最有特权的系统级组件。
 
 需要访问 secrets API 的应用程序应该根据他们需要的 secret 执行 `get` 请求。这允许管理员限制对所有 secret 的访问，同时设置 [白名单访问](https://kubernetes.io/docs/admin/authorization/rbac/#referring-to-resources) 应用程序需要的各个实例。
 
@@ -577,7 +577,7 @@ Pod 中有多个容器。但是，pod 中的每个容器必须请求其挂载卷
 - API server 的 secret 数据以纯文本的方式存储在 etcd 中；因此：
   - 管理员应该限制 admin 用户访问 etcd；
   - API server 中的 secret 数据位于 etcd 使用的磁盘上；管理员可能希望在不再使用时擦除/粉碎 etcd 使用的磁盘
-- 如果您将 secret 数据编码为 base64 的清单（JSON 或 YAML）文件，共享该文件或将其检入代码库，这样的话该密码将会被泄露。 Base64 编码不是一种加密方式，一样也是纯文本。
+- 如果您将 secret 数据编码为 base64 的清单（JSON 或 YAML）文件，共享该文件或将其检入代码库，这样的话该密码将会被泄露。Base64 编码不是一种加密方式，一样也是纯文本。
 - 应用程序在从卷中读取 secret 后仍然需要保护 secret 的值，例如不会意外记录或发送给不信任方。
 - 可以创建和使用 secret 的 pod 的用户也可以看到该 secret 的值。即使 API server 策略不允许用户读取 secret 对象，用户也可以运行暴露 secret 的 pod。
 - 如果运行了多个副本，那么这些 secret 将在它们之间共享。默认情况下，etcd 不能保证与 SSL/TLS 的对等通信，尽管可以进行配置。
