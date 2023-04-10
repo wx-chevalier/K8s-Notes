@@ -64,21 +64,21 @@
         - 3.2.5.1 99.参考资料 [1]
           - [3.2.5.1.1 2021.Kubernetes StatefulSet   Examples & Best Practices](/02.资源对象/02.控制器/Stateful%20Set/99.参考资料/2021.Kubernetes%20StatefulSet%20-%20Examples%20&%20Best%20Practices.md)
     - 3.3 03.服务发现与路由 [4]
-      - [3.3.1 Ingress [3]](/02.资源对象/03.服务发现与路由/Ingress/README.md)
-        - [3.3.1.1 Nginx [3]](/02.资源对象/03.服务发现与路由/Ingress/Nginx/README.md)
-          - [3.3.1.1.1 CertManager](/02.资源对象/03.服务发现与路由/Ingress/Nginx/CertManager.md)
-          - [3.3.1.1.2 Nginx Ingress 关联外部服务](/02.资源对象/03.服务发现与路由/Ingress/Nginx/Nginx%20Ingress%20关联外部服务.md)
-          - [3.3.1.1.3 Nginx Ingress 配置](/02.资源对象/03.服务发现与路由/Ingress/Nginx/Nginx%20Ingress%20配置.md)
-        - [3.3.1.2 Porter](/02.资源对象/03.服务发现与路由/Ingress/Porter/README.md)
+      - [3.3.1 01.Service [2]](/02.资源对象/03.服务发现与路由/01.Service/README.md)
+        - [3.3.1.1 服务定义 [1]](/02.资源对象/03.服务发现与路由/01.Service/服务定义/README.md)
+          - [3.3.1.1.1 ClusterIP](/02.资源对象/03.服务发现与路由/01.Service/服务定义/ClusterIP.md)
+        - [3.3.1.2 案例：访问应用服务](/02.资源对象/03.服务发现与路由/01.Service/案例：访问应用服务.md)
+      - [3.3.2 02.Ingress [3]](/02.资源对象/03.服务发现与路由/02.Ingress/README.md)
+        - [3.3.2.1 Nginx [3]](/02.资源对象/03.服务发现与路由/02.Ingress/Nginx/README.md)
+          - [3.3.2.1.1 CertManager](/02.资源对象/03.服务发现与路由/02.Ingress/Nginx/CertManager.md)
+          - [3.3.2.1.2 Nginx Ingress 关联外部服务](/02.资源对象/03.服务发现与路由/02.Ingress/Nginx/Nginx%20Ingress%20关联外部服务.md)
+          - [3.3.2.1.3 Nginx Ingress 配置](/02.资源对象/03.服务发现与路由/02.Ingress/Nginx/Nginx%20Ingress%20配置.md)
+        - [3.3.2.2 Porter](/02.资源对象/03.服务发现与路由/02.Ingress/Porter/README.md)
           
-        - [3.3.1.3 Traefik](/02.资源对象/03.服务发现与路由/Ingress/Traefik/README.md)
+        - [3.3.2.3 Traefik](/02.资源对象/03.服务发现与路由/02.Ingress/Traefik/README.md)
           
-      - [3.3.2 Network Policy](/02.资源对象/03.服务发现与路由/Network%20Policy/README.md)
+      - [3.3.3 Network Policy](/02.资源对象/03.服务发现与路由/Network%20Policy/README.md)
         
-      - [3.3.3 Service [2]](/02.资源对象/03.服务发现与路由/Service/README.md)
-        - [3.3.3.1 服务定义 [1]](/02.资源对象/03.服务发现与路由/Service/服务定义/README.md)
-          - [3.3.3.1.1 ClusterIP](/02.资源对象/03.服务发现与路由/Service/服务定义/ClusterIP.md)
-        - [3.3.3.2 案例：访问应用服务](/02.资源对象/03.服务发现与路由/Service/案例：访问应用服务.md)
       - 3.3.4 kube proxy [2]
         - [3.3.4.1 kube proxy](/02.资源对象/03.服务发现与路由/kube-proxy/kube-proxy.md)
         - [3.3.4.2 代理与负载均衡](/02.资源对象/03.服务发现与路由/kube-proxy/代理与负载均衡.md)
