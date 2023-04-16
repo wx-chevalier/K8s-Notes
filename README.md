@@ -26,7 +26,7 @@
 
 # Introduction | 前言
 
-![Kubernetes 网络示意图](https://i.postimg.cc/cC1YKzNS/image.png)
+![Kubernetes 网络示意图](https://assets.ng-tech.icu/item/20230416205351.png)
 
 K8s 的官方定义为：K8s is an open-source system for automating deployment, scaling, and management of containerized applications.It groups containers that make up an application into logical units for easy management and discovery.
 
