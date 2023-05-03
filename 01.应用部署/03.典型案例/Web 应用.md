@@ -68,7 +68,7 @@ kubernetes                      ClusterIP      10.43.0.1       <none>           
 nginx                           NodePort       10.43.8.50      <none>                                   80:32356/TCP                 4m5s
 ```
 
-![Pod 列表](https://i.postimg.cc/6qQZRXwh/image.png)
+![Pod 列表](https://assets.ng-tech.icu/item/20230502140612.png)
 
 # Ingress
 
@@ -238,4 +238,4 @@ nginx-ingress  0s
 
 # 滚动升级
 
-> https://mp.weixin.qq.com/s/JX8Sw828e0Gv8ndYn3KXvQ 在Kubernetes中部署网站的综合指南 Todos
+> https://mp.weixin.qq.com/s/JX8Sw828e0Gv8ndYn3KXvQ 在 Kubernetes 中部署网站的综合指南 Todos
