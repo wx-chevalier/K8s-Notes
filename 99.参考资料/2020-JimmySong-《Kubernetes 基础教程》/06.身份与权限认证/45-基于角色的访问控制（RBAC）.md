@@ -1,9 +1,4 @@
----
-weight: 45
-title: 基于角色的访问控制（RBAC）
-date: "2022-05-21T00:00:00+08:00"
-type: book
----
+# 基于角色的访问控制（RBAC）
 
 **注意：本文基于 Kubernetes 1.6 撰写，当时 RBAC 模式处于 beta 版本。**
 
