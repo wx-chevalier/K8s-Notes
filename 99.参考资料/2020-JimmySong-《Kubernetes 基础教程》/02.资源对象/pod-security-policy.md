@@ -93,7 +93,7 @@ _Pod 安全策略_ 由设置和策略组成，它们能够控制 Pod 访问的�
 
 ### 主机网络
 
-- _HostPorts_， 默认为 `empty`。`HostPortRange` 列表通过 `min`(包含) and `max`(包含) 来定义，指定了被允许的主机端口。
+- _HostPorts_，默认为 `empty`。`HostPortRange` 列表通过 `min`(包含) and `max`(包含) 来定义，指定了被允许的主机端口。
 
 ### 允许的主机路径
 

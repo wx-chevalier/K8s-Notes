@@ -1,7 +1,7 @@
 ---
 weight: 85
 title: Kublet 的认证授权
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
@@ -26,7 +26,7 @@ Kubelet 的 HTTPS 端点对外暴露了用于访问不同敏感程度数据的 A
 启用 API bearer token（包括 service account token）用于向 kubelet 的 HTTPS 端点进行身份验证：
 
 - 确保在 API server 中开启了 `authentication.k8s.io/v1beta1` API 组。
-- 启动 kubelet 时指定 `--authentication-token-webhook`， `--kubeconfig` 和 `--require-kubeconfig` 标志
+- 启动 kubelet 时指定 `--authentication-token-webhook`，`--kubeconfig` 和 `--require-kubeconfig` 标志
 - Kubelet 在配置的 API server 上调用 `TokenReview` API 以确定来自 bearer token 的用户信息
 
 ## Kubelet 授权
@@ -61,18 +61,18 @@ Verb（动词）是根据传入的请求的 HTTP 动词确定的：
 
 | Kubelet API  | 资源  | 子资源  |
 | ------------ | ----- | ------- |
-| /stats/*     | nodes | stats   |
-| /metrics/*   | nodes | metrics |
-| /logs/*      | nodes | log     |
-| /spec/*      | nodes | spec    |
-| *all others* | nodes | proxy   |
+| /stats/\*    | nodes | stats   |
+| /metrics/\*  | nodes | metrics |
+| /logs/\*     | nodes | log     |
+| /spec/\*     | nodes | spec    |
+| _all others_ | nodes | proxy   |
 
 Namespace 和 API 组属性总是空字符串，资源的名字总是 kubelet 的 `Node` API 对象的名字。
 
 当以该模式运行时，请确保用户为 apiserver 指定了 `--kubelet-client-certificate` 和 `--kubelet-client-key` 标志并授权了如下属性：
 
-- verb=*, resource=nodes, subresource=proxy
-- verb=*, resource=nodes, subresource=stats
-- verb=*, resource=nodes, subresource=log
-- verb=*, resource=nodes, subresource=spec
-- verb=*, resource=nodes, subresource=metrics
+- verb=\*, resource=nodes, subresource=proxy
+- verb=\*, resource=nodes, subresource=stats
+- verb=\*, resource=nodes, subresource=log
+- verb=\*, resource=nodes, subresource=spec
+- verb=\*, resource=nodes, subresource=metrics

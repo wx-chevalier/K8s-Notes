@@ -96,11 +96,11 @@ Kubernetes 做了大量工作，尽可能确保提供给工作负载和服务的
 
 ![服务响应慢](https://pic.imgdb.cn/item/622daf985baa1a80ab3ab4ca.jpg)
 
-下面举个 SQL 慢查询的例子（如下图）。在这个例子中网关调用 product 服务， product 服务依赖了 MySQL 服务，逐步查看链路上的黄金指标，最终发现 product 执行了一条特别复杂的 SQL，关联了多张表，导致 MySQL 服务响应慢。MySQL 协议基于 TCP 之上的，我们的 eBPF 探针识别到 MySQL 协议后，组装、还原了 MySQL 协议内容，任何语言执行的 SQL 语句都能采集到。
+下面举个 SQL 慢查询的例子（如下图）。在这个例子中网关调用 product 服务，product 服务依赖了 MySQL 服务，逐步查看链路上的黄金指标，最终发现 product 执行了一条特别复杂的 SQL，关联了多张表，导致 MySQL 服务响应慢。MySQL 协议基于 TCP 之上的，我们的 eBPF 探针识别到 MySQL 协议后，组装、还原了 MySQL 协议内容，任何语言执行的 SQL 语句都能采集到。
 
 ![MySQL 探针](https://pic.imgdb.cn/item/622dafc35baa1a80ab3aca52.jpg)
 
-第二个例子是应用本身慢的例子，这时候自然会问具体哪一步、哪个函数造成了慢， ARMS 应用监控支持的火焰图通过对 CPU 耗时定期采样（如下图），帮助快速定位到代码级别问题。
+第二个例子是应用本身慢的例子，这时候自然会问具体哪一步、哪个函数造成了慢，ARMS 应用监控支持的火焰图通过对 CPU 耗时定期采样（如下图），帮助快速定位到代码级别问题。
 
 ![应用本身问题](https://pic.imgdb.cn/item/622dafe45baa1a80ab3ad915.jpg)
 

@@ -80,7 +80,7 @@ cluster = "production"
 
 如果对 [基于服务账户的 SPIFFE ID](#service-account-based-workload-registration) `webhook` 使用和 `reconcile` 模式，请不要指定 `pod_label` 或 `pod_annotation`。如果你使用基于标签的 SPIFFE ID，请仅指定 `pod_label`。如果你使用基于注解的 SPIFFE ID，请仅指定 `pod_annotation`
 
-对于 `crd` 模式，如果既不选择 `pod_label` 也不选择 `pod_annotation` 工作负载注册模式， `identity_template` 则作为默认配置： `ns/{{.Pod.Namespace}}/sa/{{.Pod.ServiceAccount}}`
+对于 `crd` 模式，如果既不选择 `pod_label` 也不选择 `pod_annotation` 工作负载注册模式，`identity_template` 则作为默认配置： `ns/{{.Pod.Namespace}}/sa/{{.Pod.ServiceAccount}}`
 
 新创建的 SVID 可能需要几秒钟才能对工作负载可用。
 

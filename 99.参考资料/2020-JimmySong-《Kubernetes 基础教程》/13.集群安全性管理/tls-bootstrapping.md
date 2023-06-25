@@ -65,7 +65,7 @@ Kube-controller-manager 标志为：
 
 控制器将 CSR 分为三个子资源：
 
-1. `nodeclient` ：用户的客户端认证请求 `O=system:nodes`， `CN=system:node:(node name)`。
+1. `nodeclient` ：用户的客户端认证请求 `O=system:nodes`，`CN=system:node:(node name)`。
 2. `selfnodeclient`：更新具有相同 `O` 和 `CN` 的客户端证书的节点。
 3. `selfnodeserver`：更新服务证书的节点（ALPHA，需要 feature gate）。
 

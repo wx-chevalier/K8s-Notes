@@ -45,7 +45,7 @@ $ cat <<EOF | cfssl genkey - | cfssljson -bare server
 EOF
 ```
 
-`172.168.0.24` 是 service 的 cluster IP，`my-svc.my-namespace.svc.cluster.local` 是 service 的 DNS 名称， `10.0.34.2` 是 Pod 的 IP， `my-pod.my-namespace.pod.cluster.local` 是 pod 的 DNS 名称，你可以看到以下输出：
+`172.168.0.24` 是 service 的 cluster IP，`my-svc.my-namespace.svc.cluster.local` 是 service 的 DNS 名称，`10.0.34.2` 是 Pod 的 IP，`my-pod.my-namespace.pod.cluster.local` 是 pod 的 DNS 名称，你可以看到以下输出：
 
 ```ini
 2017/03/21 06:48:17 [INFO] generate received request

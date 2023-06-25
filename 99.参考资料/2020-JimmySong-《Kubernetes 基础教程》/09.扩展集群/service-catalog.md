@@ -283,13 +283,13 @@ chmod +x ./kubectl
 
 如果已经安装了 Helm，请运行 helm version 并确保客户端和服务器版本均为 v2.7.0 或更高。
 
-如果不是， 请安装[更新版本的 helm CLI](https://github.com/kubernetes/helm#install) 并运行 `helm init --upgrade`。
+如果不是，请安装[更新版本的 helm CLI](https://github.com/kubernetes/helm#install) 并运行 `helm init --upgrade`。
 
 有关安装的更多详细信息，请参阅 Helm 安装说明。
 
 #### Tiller 权限
 
-Tiller 是 Helm 的服务端组件。默认情况下， helm init 将 Tiller pod 安装到 kube-system 名称空间中，并将 Tiller 配置为使用 default 服务帐户（service account）。
+Tiller 是 Helm 的服务端组件。默认情况下，helm init 将 Tiller pod 安装到 kube-system 名称空间中，并将 Tiller 配置为使用 default 服务帐户（service account）。
 
 需要对 Tiller 进行配置 `cluster-admin` 权限，才能正确安装 Service Catalog：
 

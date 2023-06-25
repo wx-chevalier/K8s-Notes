@@ -28,7 +28,7 @@ rules:
     verbs: ["get", "watch", "list"]
 ```
 
-`ClusterRole` 对象可以授予与 `Role` 对象相同的权限，但由于它们属于集群范围对象， 也可以使用它们授予对以下几种资源的访问权限：
+`ClusterRole` 对象可以授予与 `Role` 对象相同的权限，但由于它们属于集群范围对象，也可以使用它们授予对以下几种资源的访问权限：
 
 - 集群范围资源（例如节点，即 node）
 - 非资源类型 endpoint（例如”/healthz”）
@@ -320,25 +320,25 @@ API Server 会创建一组默认的 `ClusterRole` 和 `ClusterRoleBinding` 对�
 
 ### 面向用户的角色
 
-一些默认角色并不包含 `system:` 前缀，它们是面向用户的角色。这些角色包含超级用户角色（`cluster-admin`），即旨在利用 ClusterRoleBinding（`cluster-status`）在集群范围内授权的角色， 以及那些使用 RoleBinding（`admin`、`edit` 和 `view`）在特定命名空间中授权的角色。
+一些默认角色并不包含 `system:` 前缀，它们是面向用户的角色。这些角色包含超级用户角色（`cluster-admin`），即旨在利用 ClusterRoleBinding（`cluster-status`）在集群范围内授权的角色，以及那些使用 RoleBinding（`admin`、`edit` 和 `view`）在特定命名空间中授权的角色。
 
-| 默认 ClusterRole  | 默认 ClusterRoleBinding  | 描述                                                                                                                                                                                                                                    |
-| ----------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **cluster-admin** | **system:masters** group | 超级用户权限，允许对任何资源执行任何操作。在 **ClusterRoleBinding** 中使用时，可以完全控制集群和所有命名空间中的所有资源。在 **RoleBinding** 中使用时，可以完全控制 RoleBinding 所在命名空间中的所有资源，包括命名空间自己。            |
-| **admin**         | None                     | 管理员权限，利用 **RoleBinding** 在某一命名空间内部授予。在 **RoleBinding** 中使用时，允许针对命名空间内大部分资源的读写访问， 包括在命名空间内创建角色与角色绑定的能力。但不允许对资源配额（resource quota）或者命名空间本身的写访问。 |
-| **edit**          | None                     | 允许对某一个命名空间内大部分对象的读写访问，但不允许查看或者修改角色或者角色绑定。                                                                                                                                                      |
-| **view**          | None                     | 允许对某一个命名空间内大部分对象的只读访问。不允许查看角色或者角色绑定。由于可扩散性等原因，不允许查看 secret 资源。                                                                                                                    |
+| 默认 ClusterRole  | 默认 ClusterRoleBinding  | 描述                                                                                                                                                                                                                                   |
+| ----------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **cluster-admin** | **system:masters** group | 超级用户权限，允许对任何资源执行任何操作。在 **ClusterRoleBinding** 中使用时，可以完全控制集群和所有命名空间中的所有资源。在 **RoleBinding** 中使用时，可以完全控制 RoleBinding 所在命名空间中的所有资源，包括命名空间自己。           |
+| **admin**         | None                     | 管理员权限，利用 **RoleBinding** 在某一命名空间内部授予。在 **RoleBinding** 中使用时，允许针对命名空间内大部分资源的读写访问，包括在命名空间内创建角色与角色绑定的能力。但不允许对资源配额（resource quota）或者命名空间本身的写访问。 |
+| **edit**          | None                     | 允许对某一个命名空间内大部分对象的读写访问，但不允许查看或者修改角色或者角色绑定。                                                                                                                                                     |
+| **view**          | None                     | 允许对某一个命名空间内大部分对象的只读访问。不允许查看角色或者角色绑定。由于可扩散性等原因，不允许查看 secret 资源。                                                                                                                   |
 
 ### Core Component Roles
 
 ### 核心组件角色
 
-| 默认 ClusterRole                   | 默认 ClusterRoleBinding                    | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **system:kube-scheduler**          | **system:kube-scheduler** user             | 允许访问 kube-scheduler 组件所需要的资源。                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| **system:kube-controller-manager** | **system:kube-controller-manager** user    | 允许访问 kube-controller-manager 组件所需要的资源。单个控制循环所需要的权限请参阅 [控制器（controller）角色](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#controller-roles).                                                                                                                                                                                                                                                                                                          |
-| **system:node**                    | **system:nodes** group (deprecated in 1.7) | 允许对 kubelet 组件所需要的资源的访问，**包括读取所有 secret 和对所有 pod 的写访问**。自 Kubernetes 1.7 开始，相比较于这个角色，更推荐使用 [Node authorizer](https://kubernetes.io/docs/admin/authorization/node/) 以及 [NodeRestriction admission plugin](https://kubernetes.io/docs/admin/admission-controllers#NodeRestriction)， 并允许根据调度运行在节点上的 pod 授予 kubelets API 访问的权限。自 Kubernetes 1.7 开始，当启用 `Node` 授权模式时，对 `system:nodes` 用户组的绑定将不会被自动创建。 |
-| **system:node-proxier**            | **system:kube-proxy** user                 | 允许对 kube-proxy 组件所需要资源的访问。                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 默认 ClusterRole                   | 默认 ClusterRoleBinding                    | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **system:kube-scheduler**          | **system:kube-scheduler** user             | 允许访问 kube-scheduler 组件所需要的资源。                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **system:kube-controller-manager** | **system:kube-controller-manager** user    | 允许访问 kube-controller-manager 组件所需要的资源。单个控制循环所需要的权限请参阅 [控制器（controller）角色](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#controller-roles).                                                                                                                                                                                                                                                                                                         |
+| **system:node**                    | **system:nodes** group (deprecated in 1.7) | 允许对 kubelet 组件所需要的资源的访问，**包括读取所有 secret 和对所有 pod 的写访问**。自 Kubernetes 1.7 开始，相比较于这个角色，更推荐使用 [Node authorizer](https://kubernetes.io/docs/admin/authorization/node/) 以及 [NodeRestriction admission plugin](https://kubernetes.io/docs/admin/admission-controllers#NodeRestriction)，并允许根据调度运行在节点上的 pod 授予 kubelets API 访问的权限。自 Kubernetes 1.7 开始，当启用 `Node` 授权模式时，对 `system:nodes` 用户组的绑定将不会被自动创建。 |
+| **system:node-proxier**            | **system:kube-proxy** user                 | 允许对 kube-proxy 组件所需要资源的访问。                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 ### 其它组件角色
 
@@ -467,7 +467,7 @@ subjects:
 
 ## 服务账户（Service Account）权限
 
-默认的 RBAC 策略将授予控制平面组件（control-plane component）、节点（node）和控制器（controller）一组范围受限的权限， 但对于”kube-system” 命名空间以外的服务账户，则 **不授予任何权限**（超出授予所有认证用户的发现权限）。
+默认的 RBAC 策略将授予控制平面组件（control-plane component）、节点（node）和控制器（controller）一组范围受限的权限，但对于”kube-system” 命名空间以外的服务账户，则 **不授予任何权限**（超出授予所有认证用户的发现权限）。
 
 这一点允许您根据需要向特定服务账户授予特定权限。细粒度的角色绑定将提供更好的安全性，但需要更多精力管理。更粗粒度的授权可能授予服务账户不需要的 API 访问权限（甚至导致潜在授权扩散），但更易于管理。
 
@@ -550,7 +550,7 @@ subjects:
 
 在 Kubernetes 1.6 之前，许多部署使用非常宽泛的 ABAC 策略，包括授予对所有服务账户的完整 API 访问权限。
 
-默认的 RBAC 策略将授予控制平面组件（control-plane components）、节点（nodes）和控制器（controller）一组范围受限的权限， 但对于”kube-system” 命名空间以外的服务账户，则 _不授予任何权限_（超出授予所有认证用户的发现权限）。
+默认的 RBAC 策略将授予控制平面组件（control-plane components）、节点（nodes）和控制器（controller）一组范围受限的权限，但对于”kube-system” 命名空间以外的服务账户，则 _不授予任何权限_（超出授予所有认证用户的发现权限）。
 
 虽然安全性更高，但这可能会影响到期望自动接收 API 权限的现有工作负载。以下是管理此转换的两种方法：
 

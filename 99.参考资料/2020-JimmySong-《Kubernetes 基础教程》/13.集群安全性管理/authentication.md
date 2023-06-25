@@ -83,7 +83,7 @@ Authorization: Bearer 31ada4fd-adec-460c-809a-9e56ceb75269
 Authorization: Bearer 781292.db7bc3a58fc5f07e
 ```
 
-在 API server 的启动参数中加上 `--experimental-bootstrap-token-auth` 标志以启用 Bootstrap Token Authenticator。您必须通过 Controller Manager 上的 `--controllers` 标志启用 TokenCleaner 控制器，如 `--controllers=*,tokencleaner`。如果您使用它来引导集群， `kubeadm` 会为您完成。
+在 API server 的启动参数中加上 `--experimental-bootstrap-token-auth` 标志以启用 Bootstrap Token Authenticator。您必须通过 Controller Manager 上的 `--controllers` 标志启用 TokenCleaner 控制器，如 `--controllers=*,tokencleaner`。如果您使用它来引导集群，`kubeadm` 会为您完成。
 
 认证者认证为 `system:bootstrap:<Token ID>` 。被包含在 `system:bootstrappers` 组中。命名和组是有意限制用户使用过去的 bootstap token。可以使用用户名和组（`kubeadm` 使用）来制定适当的授权策略以支持引导集群。
 
@@ -413,7 +413,7 @@ extra:
 为了防止 header 欺骗，验证代理需要在验证请求 header 之前向 API server 提供有效的客户端证书，以对照指定的 CA 进行验证。
 
 - `--requestheader-client-ca-file` 必需。PEM 编码的证书包。在检查用户名的请求 header 之前，必须针对指定文件中的证书颁发机构提交并验证有效的客户端证书。
-- `--requestheader-allowed-names` 可选。Common Name （cn）列表。如果设置了，则在检查用户名的请求 header 之前， 必须提供指定列表中 Common Name（cn）的有效客户端证书。如果为空，则允许使用任何 Common Name。
+- `--requestheader-allowed-names` 可选。Common Name （cn）列表。如果设置了，则在检查用户名的请求 header 之前，必须提供指定列表中 Common Name（cn）的有效客户端证书。如果为空，则允许使用任何 Common Name。
 
 ### Keystone 密码
 

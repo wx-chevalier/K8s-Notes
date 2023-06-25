@@ -1,13 +1,13 @@
 ---
 weight: 64
 title: 使用 CRD 扩展 Kubernetes API
-date: '2022-05-21T00:00:00+08:00'
+date: "2022-05-21T00:00:00+08:00"
 type: book
 ---
 
 本文是如何创建 CRD 来扩展 Kubernetes API 的教程。CRD 是用来扩展 Kubernetes 最常用的方式，在 Service Mesh 和 Operator 中也被大量使用。因此读者如果想在 Kubernetes 上做扩展和开发的话，是十分有必要了解 CRD 的。
 
-在阅读本文前您需要先了解[使用自定义资源扩展 API](../custom-resource)， 以下内容译自 [Kubernetes 官方文档](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/)，有删改，推荐阅读[如何从零开始编写一个 Kubernetes CRD](https://cloudnative.to/blog/kubernetes-crd-quick-start/)。
+在阅读本文前您需要先了解[使用自定义资源扩展 API](../custom-resource)，以下内容译自 [Kubernetes 官方文档](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/)，有删改，推荐阅读[如何从零开始编写一个 Kubernetes CRD](https://cloudnative.to/blog/kubernetes-crd-quick-start/)。
 
 ## 创建 CRD（CustomResourceDefinition）
 
@@ -55,7 +55,7 @@ spec:
     kind: CronTab
     # CLI中使用的资源简称
     shortNames:
-    - ct
+      - ct
 ```
 
 > 此处使用的 apiVersion 版本是 `apiextensions.k8s.io/v1`，跟上一版 `apiextensions.k8s.io/v1beta1` 的最主要区别是改用了 [OpenAPI v3.0 validation schema](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/#validation)。
@@ -78,7 +78,7 @@ kubectl create -f resourcedefinition.yaml
 
 ## 创建自定义对象
 
-创建 CustomResourceDefinition 对象后，您可以创建自定义对象。自定义对象可包含自定义字段。这些字段可以包含任意  JSON。在以下示例中， `cronSpec` 和 `image` 自定义字段在自定义对象中设置 `CronTab`。`CronTab` 类型来自您在上面创建的 CustomResourceDefinition 对象的规范。
+创建 CustomResourceDefinition 对象后，您可以创建自定义对象。自定义对象可包含自定义字段。这些字段可以包含任意 JSON。在以下示例中，`cronSpec` 和 `image` 自定义字段在自定义对象中设置 `CronTab`。`CronTab` 类型来自您在上面创建的 CustomResourceDefinition 对象的规范。
 
 如果您将以下 YAML 保存到 `my-crontab.yaml`：
 
@@ -124,21 +124,21 @@ kubectl get ct -o yaml
 ```yaml
 apiVersion: v1
 items:
-- apiVersion: stable.example.com/v1
-  kind: CronTab
-  metadata:
-    clusterName: ""
-    creationTimestamp: 2017-05-31T12:56:35Z
-    deletionGracePeriodSeconds: null
-    deletionTimestamp: null
-    name: my-new-cron-object
-    namespace: default
-    resourceVersion: "285"
-    selfLink: /apis/stable.example.com/v1/namespaces/default/crontabs/my-new-cron-object
-    uid: 9423255b-4600-11e7-af6a-28d2447dc82b
-  spec:
-    cronSpec: '* * * * */5'
-    image: my-awesome-cron-image
+  - apiVersion: stable.example.com/v1
+    kind: CronTab
+    metadata:
+      clusterName: ""
+      creationTimestamp: 2017-05-31T12:56:35Z
+      deletionGracePeriodSeconds: null
+      deletionTimestamp: null
+      name: my-new-cron-object
+      namespace: default
+      resourceVersion: "285"
+      selfLink: /apis/stable.example.com/v1/namespaces/default/crontabs/my-new-cron-object
+      uid: 9423255b-4600-11e7-af6a-28d2447dc82b
+    spec:
+      cronSpec: "* * * * */5"
+      image: my-awesome-cron-image
 kind: List
 metadata:
   resourceVersion: ""
@@ -170,12 +170,12 @@ apiVersion: "stable.example.com/v1"
 kind: CronTab
 metadata:
   finalizers:
-  - finalizer.stable.example.com
+    - finalizer.stable.example.com
 ```
 
 终结器是任意字符串值，当存在时确保在资源存在时不可能进行硬删除。
 
-对具有终结器的对象的第一个删除请求设置该`metadata.deletionTimestamp`字段的值， 但不删除它。设置此值后，`finalizer` 只能删除列表中的条目。
+对具有终结器的对象的第一个删除请求设置该`metadata.deletionTimestamp`字段的值，但不删除它。设置此值后，`finalizer` 只能删除列表中的条目。
 
 如果设置了 `metadata.deletionTimestamp` 字段，控制器监控对象将执行它们所有的终结器，对该对象轮询更新请求。执行完所有终结器后，将删除该资源。
 
@@ -203,8 +203,8 @@ metadata:
 
 该 schema 在 CustomResourceDefinition 中定义。在以下示例中，CustomResourceDefinition 对自定义对象应用以下验证：
 
-- `spec.cronSpec`  必须是字符串，并且必须是正则表达式描述的形式。
-- `spec.replicas`  必须是整数，且最小值必须为 1，最大值为 10。
+- `spec.cronSpec` 必须是字符串，并且必须是正则表达式描述的形式。
+- `spec.replicas` 必须是整数，且最小值必须为 1，最大值为 10。
 
 将 CustomResourceDefinition 保存到 `resourcedefinition.yaml`：
 
@@ -226,9 +226,9 @@ spec:
     singular: crontab
     kind: CronTab
     shortNames:
-    - ct
+      - ct
   validation:
-   # openAPIV3Schema 适用于验证自定义对象的 schema。
+    # openAPIV3Schema 适用于验证自定义对象的 schema。
     openAPIV3Schema:
       properties:
         spec:
@@ -251,9 +251,9 @@ kubectl create -f resourcedefinition.yaml
 `CronTab` 如果其字段中存在无效值，则将拒绝创建类型的自定义对象的请求。在以下示例中，自定义对象包含具有无效值的字段：
 
 - `spec.cronSpec` 与正则表达式不匹配。
-- `spec.replicas` 大于10。
+- `spec.replicas` 大于 10。
 
-如果您将以下YAML保存到`my-crontab.yaml`：
+如果您将以下 YAML 保存到`my-crontab.yaml`：
 
 ```yaml
 apiVersion: "stable.example.com/v1"
@@ -305,26 +305,26 @@ crontab "my-new-cron-object" created
 
 ### 其他打印列
 
-从 Kubernetes 1.11 开始，kubectl 使用服务器端打印。服务器决定 `kubectl get` 命令显示哪些列。您可以使用 CustomResourceDefinition 自定义这些列。下面的示例将输出 `Spec`、`Replicas` 和 `Age`  列。
+从 Kubernetes 1.11 开始，kubectl 使用服务器端打印。服务器决定 `kubectl get` 命令显示哪些列。您可以使用 CustomResourceDefinition 自定义这些列。下面的示例将输出 `Spec`、`Replicas` 和 `Age` 列。
 
 1. 将 CustomResourceDefinition 保存到 `resourcedefinition.yaml`。
 
    ```yaml
-     apiVersion: apiextensions.k8s.io/v1beta1
-     kind: CustomResourceDefinition
-     metadata:
-       name: crontabs.stable.example.com
-     spec:
-       group: stable.example.com
-       version: v1
-       scope: Namespaced
-       names:
-         plural: crontabs
-         singular: crontab
-         kind: CronTab
-         shortNames:
+   apiVersion: apiextensions.k8s.io/v1beta1
+   kind: CustomResourceDefinition
+   metadata:
+     name: crontabs.stable.example.com
+   spec:
+     group: stable.example.com
+     version: v1
+     scope: Namespaced
+     names:
+       plural: crontabs
+       singular: crontab
+       kind: CronTab
+       shortNames:
          - ct
-       additionalPrinterColumns:
+     additionalPrinterColumns:
        - name: Spec
          type: string
          description: The cron spec defining the interval a CronJob is run
@@ -344,7 +344,7 @@ crontab "my-new-cron-object" created
    kubectl create -f resourcedefinition.yaml
    ```
 
-3. 使用上一节中的创建的  `my-crontab.yaml`  实例。
+3. 使用上一节中的创建的 `my-crontab.yaml` 实例。
 
 4. 调用服务器端打印：
 
@@ -359,7 +359,7 @@ crontab "my-new-cron-object" created
      my-new-cron-object   * * * * *   1          7s
    ```
 
- `NAME` 列是隐含的，不需要在 CustomResourceDefinition 中定义。
+`NAME` 列是隐含的，不需要在 CustomResourceDefinition 中定义。
 
 #### Priority（优先级）
 
@@ -448,8 +448,8 @@ crontab "my-new-cron-object" created
 
 - `SpecReplicasPath` 在与之对应的自定义资源中定义 JSONPath `Scale.Spec.Replicas`。
   - 这是一个必需的值。
-  - `.spec`  只允许使用带点符号的 JSONPaths 。
-  - 如果 `SpecReplicasPath` 自定义资源中没有值，则 `/scale` 子资源将在GET上返回错误。
+  - `.spec` 只允许使用带点符号的 JSONPaths 。
+  - 如果 `SpecReplicasPath` 自定义资源中没有值，则 `/scale` 子资源将在 GET 上返回错误。
 - `StatusReplicasPath` 在与之对应的自定义资源中定义 JSONPath `Scale.Status.Replicas`。
   - 这是一个必需的值。
   - `.stutus` 只允许使用带点符号的 JSONPaths 。
@@ -460,7 +460,7 @@ crontab "my-new-cron-object" created
   - `.status` 只允许使用带点符号的 JSONPaths 。
   - 如果 `LabelSelectorPath` 自定义资源中没有值，则子资源 `/scale` 中的状态选择器值将默认为空字符串。
 
-在以下示例中，启用了status 和 scale 子资源。
+在以下示例中，启用了 status 和 scale 子资源。
 
 将 CustomResourceDefinition 保存到`resourcedefinition.yaml`：
 
@@ -481,7 +481,7 @@ spec:
     singular: crontab
     kind: CronTab
     shortNames:
-    - ct
+      - ct
   # subresources describes the subresources for custom resources.
   subresources:
     # status enables the status subresource.
@@ -535,7 +535,7 @@ kubectl create -f my-crontab.yaml
 /apis/stable.example.com/v1/namespaces/*/crontabs/scale
 ```
 
-可以使用该 `kubectl scale` 命令缩放自定义资源。例如，以上创建的自定义资源的的 `.spec.replicas`  设置为 5：
+可以使用该 `kubectl scale` 命令缩放自定义资源。例如，以上创建的自定义资源的的 `.spec.replicas` 设置为 5：
 
 ```bash
 kubectl scale --replicas=5 crontabs/my-new-cron-object
@@ -570,10 +570,10 @@ spec:
     singular: crontab
     kind: CronTab
     shortNames:
-    - ct
+      - ct
     # categories is a list of grouped resources the custom resource belongs to.
     categories:
-    - all
+      - all
 ```
 
 并创建它：
