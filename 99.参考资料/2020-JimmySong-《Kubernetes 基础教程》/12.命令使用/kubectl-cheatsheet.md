@@ -160,7 +160,7 @@ $ kubectl autoscale deployment foo --min=2 --max=10                # 自动扩�
 ```bash
 $ kubectl patch node k8s-node-1 -p '{"spec":{"unschedulable":true}}' # 部分更新节点
 
-# 更新容器镜像； spec.containers[*].name 是必须的，因为这是合并的关键字
+# 更新容器镜像；spec.containers[*].name 是必须的，因为这是合并的关键字
 $ kubectl patch pod valid-pod -p '{"spec":{"containers":[{"name":"kubernetes-serve-hostname","image":"new image"}]}}'
 
 # 使用具有位置数组的 json 补丁更新容器镜像
