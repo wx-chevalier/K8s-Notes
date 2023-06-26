@@ -191,7 +191,7 @@ metadata:
 
 可以通过 [OpenAPI v3 schema](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject)验证自定义对象是否符合标准 。此外，以下限制适用于 schema：
 
-- 字段`default`、`nullable`、`discriminator`、`readOnly`、`writeOnly`、`xml`、 `deprecated` 和 `$ref` 不能设置。
+- 字段`default`、`nullable`、`discriminator`、`readOnly`、`writeOnly`、`xml`、`deprecated` 和 `$ref` 不能设置。
 - 该字段 `uniqueItems` 不能设置为 true。
 - 该字段 `additionalProperties` 不能设置为 false。
 

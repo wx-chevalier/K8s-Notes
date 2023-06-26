@@ -22,19 +22,19 @@ SPIRE Kubernetes 工作负载注册器实现了一个 Kubernetes `ValidatingAdmi
 
 配置文件是注册器所必需的。它包含 [HCL](https://github.com/hashicorp/hcl) 编码的配置项。
 
-| 键                    | 类型     | 必需的？ | 描述                                                                                          | 默认                          |
-| :-------------------- | :------- | :------- | :-------------------------------------------------------------------------------------------- | :---------------------------- |
-| `log_level`           | string   | 必需的   | 日志级别（`panic`、 `fatal`、 `error`、 `warn`、 `warning`、 `info`、 `debug`、`trace` 之一） | `info`                        |
-| `log_path`            | string   | 可选的   | 写入日志的磁盘路径                                                                            |                               |
-| `trust_domain`        | string   | 必需的   | SPIRE 服务器的信任域                                                                          |                               |
-| `agent_socket_path`   | string   | 可选的   | SPIRE 代理的 Unix 域套接字的路径。如果 `server_address` 不是 unix 域套接字地址，则为必需。    |                               |
-| `server_address`      | string   | 必需的   | SPIRE 服务器的地址。可以使用 `unix:///path/to/socket` 指定本地套接字。这与代理套接字不同。    |                               |
-| `server_socket_path`  | string   | 可选的   | SPIRE 服务器的 Unix 域套接字的路径，相当于指定带有 `unix://` 前缀的 `server_address`          |                               |
-| `cluster`             | string   | 必需的   | 用于在其下注册节点 / 工作负载的逻辑集群。必须与 SPIRE SERVER PSAT 节点证明者配置相匹配。      |                               |
-| `pod_label`           | string   | 可选的   | pod 标签，用于基于标签的工作负载注册                                                          |                               |
-| `pod_annotation`      | string   | 可选的   | pod 注解，用于基于注解的工作负载注册                                                          |                               |
-| `mode`                | string   | 可选的   | 如何使用 `webhook`、 `reconcile` 或运行注册器 `crd`。                                         | `webhook`                     |
-| `disabled_namespaces` | []string | 可选的   | 逗号分隔的命名空间列表，用于禁用自动 SVID 生成                                                | `kube-system`、 `kube-public` |
+| 键                    | 类型     | 必需的？ | 描述                                                                                       | 默认                         |
+| :-------------------- | :------- | :------- | :----------------------------------------------------------------------------------------- | :--------------------------- |
+| `log_level`           | string   | 必需的   | 日志级别（`panic`、`fatal`、`error`、`warn`、`warning`、`info`、`debug`、`trace` 之一）    | `info`                       |
+| `log_path`            | string   | 可选的   | 写入日志的磁盘路径                                                                         |                              |
+| `trust_domain`        | string   | 必需的   | SPIRE 服务器的信任域                                                                       |                              |
+| `agent_socket_path`   | string   | 可选的   | SPIRE 代理的 Unix 域套接字的路径。如果 `server_address` 不是 unix 域套接字地址，则为必需。 |                              |
+| `server_address`      | string   | 必需的   | SPIRE 服务器的地址。可以使用 `unix:///path/to/socket` 指定本地套接字。这与代理套接字不同。 |                              |
+| `server_socket_path`  | string   | 可选的   | SPIRE 服务器的 Unix 域套接字的路径，相当于指定带有 `unix://` 前缀的 `server_address`       |                              |
+| `cluster`             | string   | 必需的   | 用于在其下注册节点 / 工作负载的逻辑集群。必须与 SPIRE SERVER PSAT 节点证明者配置相匹配。   |                              |
+| `pod_label`           | string   | 可选的   | pod 标签，用于基于标签的工作负载注册                                                       |                              |
+| `pod_annotation`      | string   | 可选的   | pod 注解，用于基于注解的工作负载注册                                                       |                              |
+| `mode`                | string   | 可选的   | 如何使用 `webhook`、`reconcile` 或运行注册器 `crd`。                                       | `webhook`                    |
+| `disabled_namespaces` | []string | 可选的   | 逗号分隔的命名空间列表，用于禁用自动 SVID 生成                                             | `kube-system`、`kube-public` |
 
 以下配置指令是针对 `webhook` 模式的：
 

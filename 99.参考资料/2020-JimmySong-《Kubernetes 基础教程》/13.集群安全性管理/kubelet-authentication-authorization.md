@@ -42,7 +42,7 @@ Kubelet 的 HTTPS 端点对外暴露了用于访问不同敏感程度数据的 A
 如果要细分访问 kubelet API，将授权委托给 API server：
 
 - 确保 API server 中启用了 `authorization.k8s.io/v1beta1` API 组
-- 启动 kubelet 时指定 `--authorization-mode=Webhook`、 `--kubeconfig` 和 `--require-kubeconfig` 标志
+- 启动 kubelet 时指定 `--authorization-mode=Webhook`、`--kubeconfig` 和 `--require-kubeconfig` 标志
 - kubelet 在配置的 API server 上调用 `SubjectAccessReview` API，以确定每个请求是否被授权
 
 kubelet 使用与 apiserver 相同的 [请求属性](https://kubernetes.io/docs/admin/authorization/#request-attributes) 方法来授权 API 请求。

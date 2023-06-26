@@ -124,7 +124,7 @@ contexts:
 current-context: federal-context
 ```
 
-`current-context` 是昵称或者说是作为 `cluster`、`user`、`namespace` 元组的 ”key“，当 kubectl 从该文件中加载配置的时候会被默认使用。您可以在 kubectl 命令行里覆盖这些值，通过分别传入 `—context=CONTEXT`、 `—cluster=CLUSTER`、`--user=USER` 和 `--namespace=NAMESPACE` 。
+`current-context` 是昵称或者说是作为 `cluster`、`user`、`namespace` 元组的 ”key“，当 kubectl 从该文件中加载配置的时候会被默认使用。您可以在 kubectl 命令行里覆盖这些值，通过分别传入 `—context=CONTEXT`、`—cluster=CLUSTER`、`--user=USER` 和 `--namespace=NAMESPACE` 。
 
 您可以使用 `kubectl config use-context` 更改 `current-context`。
 
