@@ -7,7 +7,7 @@ type: book
 
 [Calico](https://www.projectcalico.org/) 原意为”有斑点的“，如果说一只猫为 calico cat 的话，就是说这是只花猫，也叫三色猫，所以 calico 的 logo 是只三色猫。
 
-![Calico](https://assets.ng-tech.icu/book/kubernetes-handbook/006tNc79gy1fz65bt7ieej30c90bsgn2.jpg "Calico logo")
+![Calico](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/006tNc79gy1fz65bt7ieej30c90bsgn2.jpg "Calico logo")
 
 ## 概念
 
@@ -36,7 +36,7 @@ Calico 由以下组件组成，在部署 Calico 的时候部分组件是可选�
 
 Calico 的架构图如下所示：
 
-![Calico 架构图](https://assets.ng-tech.icu/book/kubernetes-handbook/calico-architecture.png "Calico 架构图（图片来自 [Calico 官网](https://projectcalico.docs.tigera.io/reference/architecture/overview)）")
+![Calico 架构图](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/calico-architecture.png "Calico 架构图（图片来自 [Calico 官网](https://projectcalico.docs.tigera.io/reference/architecture/overview)）")
 
 ### Calico API Server
 

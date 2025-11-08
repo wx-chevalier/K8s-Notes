@@ -19,7 +19,7 @@ type: book
 
 Lens 界面图下图所示。
 
-![Lens Kubernetes IDE 界面](https://assets.ng-tech.icu/book/kubernetes-handbook/lens.jpg "Lens Kubernetes IDE 界面")
+![Lens Kubernetes IDE 界面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/lens.jpg "Lens Kubernetes IDE 界面")
 
 ## 参考
 

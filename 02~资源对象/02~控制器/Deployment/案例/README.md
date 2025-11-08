@@ -2,7 +2,7 @@
 
 参考[云原生](https://ng-tech.icu/books/Backend-Notes/#/?q=云原生)一篇中的定义，将云原生的组件映射为 Kubernetes 的原语（即 Kubernetes 里的各种资源对象和概念组合），可以得到如下图：
 
-![云原生与 K8s 概念映射](https://assets.ng-tech.icu/item/20230430223550.png)
+![云原生与 K8s 概念映射](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230430223550.png)
 
 在 K8s 中的应用部署我们往往应该遵循如下的规则：
 

@@ -4,7 +4,7 @@ Flannel 是 CoreOS 团队针对 Kubernetes 设计的一个网络规划服务，�
 
 Flannel 的设计目的就是为集群中的所有节点重新规划 IP 地址的使用规则，从而使得不同节点上的容器能够获得“同属一个内网”且”不重复的”IP 地址，并让属于不同节点上的容器能够直接通过内网 IP 通信。Flannel 实质上是一种“覆盖网络(overlaynetwork)”，也就是将 TCP 数据包装在另一种网络包里面进行路由转发和通信，目前已经支持 udp、vxlan、host-gw、aws-vpc、gce 和 alloc 路由等数据转发方式，默认的节点间数据通信方式是 UDP 转发。
 
-![Flannel 网络模型解析](https://assets.ng-tech.icu/item/20230430223215.png)
+![Flannel 网络模型解析](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230430223215.png)
 
 数据请求从容器 1(10.0.46.2:2379)中发出后，首先经由所在主机的 docker0 虚拟网卡(10.0.46.1)转发到 flannel0 虚拟网卡(10.0.46.0)，这是个 P2P 虚拟网卡，Flannel 通过修改 Node 路由表的方式实现 flanneld 服务监听 flannel0 虚拟网卡数据。接着 flannel 服务将原本的数据内容 UDP 封装后根据自己的路由表投递给目的节点的 flanneld 服务。在此包中，包含有 outer-ip(source:192.168.8.227, dest:192.168.8.228)，inner-ip(source:10.0.46.2:2379, dest:10.0.90.2:8080)。
 

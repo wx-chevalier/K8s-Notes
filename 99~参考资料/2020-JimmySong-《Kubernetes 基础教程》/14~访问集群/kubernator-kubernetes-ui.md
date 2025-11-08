@@ -24,11 +24,11 @@ kubectl proxy
 
 Catalog 页面可以看到 Kubernetes 中资源对象的树形结构，还可以在该页面中对资源对象的配置进行更改和操作。
 
-![Kubernator catalog 页面](https://assets.ng-tech.icu/book/kubernetes-handbook/kubernator-catalog.jpg "Kubernator catalog 页面")
+![Kubernator catalog 页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/kubernator-catalog.jpg "Kubernator catalog 页面")
 
 RBAC 页面可以看到集群中 RBAC 关系及结构。
 
-![Kubernator rbac 页面](https://assets.ng-tech.icu/book/kubernetes-handbook/kubernator-rbac.jpg "Kubernator rbac 页面")
+![Kubernator rbac 页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/kubernator-rbac.jpg "Kubernator rbac 页面")
 
 ## 参考
 

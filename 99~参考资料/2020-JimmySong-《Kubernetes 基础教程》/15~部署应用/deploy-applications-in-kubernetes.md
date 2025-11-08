@@ -9,7 +9,7 @@ type: book
 
 整个过程如下图所示。
 
-![流程图](https://assets.ng-tech.icu/book/kubernetes-handbook/how-to-use-kubernetes-with-istio.jpg "流程图")
+![流程图](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/how-to-use-kubernetes-with-istio.jpg "流程图")
 
 为了讲解详细流程，我特意写了用 Go 语言开发的示例程序放在 GitHub 中，模拟监控流程：
 
@@ -18,7 +18,7 @@ type: book
 
 API 文档见 [k8s-app-monitor-test](https://github.com/rootsongjc/k8s-app-monitor-test) 中的 `api.html` 文件，该文档在 API blueprint 中定义，使用 [aglio](https://github.com/danielgtaylor/aglio) 生成，打开后如图所示：
 
-![API](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-test-api-doc.jpg "API")
+![API](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-test-api-doc.jpg "API")
 
 ## 关于服务发现
 
@@ -34,7 +34,7 @@ API 文档见 [k8s-app-monitor-test](https://github.com/rootsongjc/k8s-app-monit
 
 构建流程见：https://app.wercker.com/jimmysong/k8s-app-monitor-agent/
 
-![wercker构建页面](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-agent-wercker.jpg "wercker构建页面")
+![wercker构建页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-agent-wercker.jpg "wercker构建页面")
 
 生成了如下两个 docker 镜像：
 
@@ -140,20 +140,20 @@ kubectl apply -n default -f <(istioctl kube-inject -f k8s-app-monitor-istio-all-
 
 如果您使用的是 Traefik ingress 来暴露的服务，那么在浏览器中访问 `http://k8s-app-monitor-agent.jimmysong.io/k8s-app-monitor-agent`，可以看到如下的画面，每次刷新页面将看到新的柱状图。
 
-![图表](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-agent.jpg "图表")
+![图表](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-agent.jpg "图表")
 
 使用 [kubernetes-vagrant-centos-cluster](https://github.com/rootsongjc/kubernetes-vagrant-centos-cluster) 来部署的 kubernetes 集群，该应用集成了 Istio 服务网格后可以通过 `http://172.17.8.101:32000/k8s-app-monitor-agent` 来访问。
 
 在对 _k8s-app-monitor-agent_ 服务进行了 N 此访问之后，再访问 [`http://grafana.istio.jimmysong.io`](http://grafana.istio.jimmysong.io/) 可以看到 服务网格 的监控信息。
 
-![Grafana页面](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-istio-grafana.png "Grafana页面")
+![Grafana页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-istio-grafana.png "Grafana页面")
 
 访问 `http://servicegraph.istio.jimmysong.io/dotviz` 可以看到服务的依赖和 QPS 信息。
 
-![servicegraph 页面](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-istio-servicegraph-dotviz.png "servicegraph 页面")
+![servicegraph 页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-istio-servicegraph-dotviz.png "servicegraph 页面")
 
 访问 `http://zipkin.istio.jimmysong.io` 可以选择查看 `k8s-app-monitor-agent` 应用的追踪信息。
 
-![Zipkin页面](https://assets.ng-tech.icu/book/kubernetes-handbook/k8s-app-monitor-istio-zipkin.png "Zipkin页面")
+![Zipkin页面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/k8s-app-monitor-istio-zipkin.png "Zipkin页面")
 
 至此从代码提交到上线到 Kubernetes 集群上并集成 Istio 服务网格的过程就全部完成了。

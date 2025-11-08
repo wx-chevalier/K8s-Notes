@@ -68,7 +68,7 @@ kubernetes                      ClusterIP      10.43.0.1       <none>           
 nginx                           NodePort       10.43.8.50      <none>                                   80:32356/TCP                 4m5s
 ```
 
-![Pod 列表](https://assets.ng-tech.icu/item/20230502140612.png)
+![Pod 列表](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230502140612.png)
 
 # Ingress
 

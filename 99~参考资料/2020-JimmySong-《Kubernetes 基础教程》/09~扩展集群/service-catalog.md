@@ -27,7 +27,7 @@ Service Catalog 使用 [Open Service Broker API](https://github.com/openserviceb
 
 Service Catalog 通过扩展 API 服务器和控制器实现，使用 etcd 进行存储。它还使用 Kubernetes 1.7 + 中提供的聚合层来呈现其 API。
 
-![Service Catalog 架构](https://assets.ng-tech.icu/book/kubernetes-handbook/service-catalog-architecture.jpg "Service Catalog 架构")
+![Service Catalog 架构](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/service-catalog-architecture.jpg "Service Catalog 架构")
 
 ### API 资源
 
@@ -77,7 +77,7 @@ spec:
 
 以下是说明从一个 service broker 列出托管服务和套餐所涉及步骤的顺序图：
 
-![列出服务](https://assets.ng-tech.icu/book/kubernetes-handbook/service-catalog-list.jpg "列出服务")
+![列出服务](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/service-catalog-list.jpg "列出服务")
 
 1. 将 ClusterServiceBroker 资源添加到 Service catalog 中，它会触发对外部 Service Broker 的调用以获取可用服务的清单。
 
@@ -135,7 +135,7 @@ spec:
 
 以下序列图说明了提供一个新的托管服务的实例所涉及的步骤：
 
-![启用一个服务](https://assets.ng-tech.icu/book/kubernetes-handbook/service-catalog-provision.jpg "启用一个服务")
+![启用一个服务](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/service-catalog-provision.jpg "启用一个服务")
 
 1. 当 `ServiceInstance` 资源创建后，Service Catalog 发起到外部 service broker 来提供服务的一个实例。
 2. service broker 创建托管服务的新实例并返回 HTTP 响应。
@@ -164,7 +164,7 @@ spec:
 
 以下序列图说明了绑定到托管服务实例所涉及的步骤：
 
-![Bind to a managed service](https://assets.ng-tech.icu/book/kubernetes-handbook/service-catalog-bind.jpg "绑定到托管服务")
+![Bind to a managed service](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/service-catalog-bind.jpg "绑定到托管服务")
 
 1. 在 ServiceBinding 创建后，Service Catalog 给外部 service broker 发一个调用请求，获取与服务实例绑定所需的信息。
 
@@ -176,7 +176,7 @@ spec:
 
 绑定后，最后一步是将连接凭证和服务特定的信息映射到应用程序中。这些信息存储在 secret 中，应用程序可以用来访问并与托管服务连接。
 
-![映射连接凭证](https://assets.ng-tech.icu/book/kubernetes-handbook/service-catalog-map.jpg "映射连接凭证")
+![映射连接凭证](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/book/kubernetes-handbook/service-catalog-map.jpg "映射连接凭证")
 
 #### Pod 配置文件
 
