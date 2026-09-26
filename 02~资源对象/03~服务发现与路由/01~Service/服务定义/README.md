@@ -69,7 +69,7 @@ Kubernetes 支持以下四种 Service 类型：
         +---------------+                    +---------------+
         |targetPort:80  |                   |      Pod      |
         +---------------+                   +---------------+
-```yaml
+```
 ### 访问方式示例
 
 1. **集群内部访问**
@@ -105,7 +105,7 @@ spec:
     - port: 8080 # 集群内访问端口
       nodePort: 30163 # 节点访问端口
       targetPort: 80 # 容器端口
-```yaml
+```
 ### 多端口配置
 
 ```yaml
@@ -125,7 +125,7 @@ spec:
       protocol: TCP
       port: 443
       targetPort: 9377
-```yaml
+```
 ## 高级特性
 
 ### 1. 无选择器服务
@@ -147,7 +147,7 @@ spec:
       port: 80
       targetPort: 9376
   # 无 selector
-```yaml
+```
 需要手动配置 Endpoints：
 
 ```yaml
@@ -160,7 +160,7 @@ subsets:
       - ip: 1.2.3.4
     ports:
       - port: 9376
-```yaml
+```
 ### 2. ExternalName 服务
 
 用于映射外部服务：
@@ -173,7 +173,7 @@ metadata:
 spec:
   type: ExternalName
   externalName: my.database.example.com
-```yaml
+```
 ## 最佳实践
 
 1. 为多端口服务提供清晰的端口名称

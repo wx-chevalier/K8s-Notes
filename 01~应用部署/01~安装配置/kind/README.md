@@ -33,13 +33,13 @@ k8s_POD_kube-apiserver-docker-for-desktop_kube-system_f7a81e8fe624bd46059fc6084e
 k8s_POD_kube-controller-manager-docker-for-desktop_kube-system_8d1848c1e562e35a225e402988eadcd1_0                       gcr.io/google_containers/pause-amd64:3.0                 "/pause"
 k8s_POD_kube-scheduler-docker-for-desktop_kube-system_972d74c9fc2f4ebd8ab673058e386a65_0                                gcr.io/google_containers/pause-amd64:3.0                 "/pause"
 k8s_POD_etcd-docker-for-desktop_kube-system_56a21c0a5f545c0cca5388c457bb1b3b_0                                          gcr.io/google_containers/pause-amd64:3.0                 "/pause"
-```yaml
+```
 关于各个容器的作用，可以参阅 [这里](https://github.com/kubernetes/kubernetes/tree/master/build)。在安装过程中，Docker 也为我们安装了 kubectl 控制命令：
 
 ```sh
 $ kubectl get namespaces
 $ kubectl get pods --namespace kube-system
-```yaml
+```
 接下来我们可以使用 kubectl 命令来创建简单的 kubernetes-dashboard 服务：
 
 ```sh
@@ -50,7 +50,7 @@ role "kubernetes-dashboard-minimal" created
 rolebinding "kubernetes-dashboard-minimal" created
 deployment "kubernetes-dashboard" created
 service "kubernetes-dashboard" created
-```yaml
+```
 服务安装完毕后可以查看部署的容器与服务：
 
 ```sh
@@ -62,7 +62,7 @@ kubernetes-dashboard   1         1         1            0           26s
 NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)         AGE
 kube-dns               ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP   22m
 kubernetes-dashboard   ClusterIP   10.111.242.95   <none>        443/TCP         30s
-```yaml
+```
 在 Dashboard 启动完毕后，可以使用 kubectl 提供的 Proxy 服务来访问该面板：
 
 ```sh
@@ -70,7 +70,7 @@ $ kubectl proxy
 
 # 打开如下地址：
 # http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
-```yaml
+```
 如果访问报错，可以尝试编辑 kubernetes-dashboard 服务，或者参阅[这里](https://parg.co/U8m)：
 
 ```sh
@@ -100,7 +100,7 @@ spec:
   type: ClusterIP ->> NodePort
 status:
   loadBalancer: {}
-```yaml
+```
 访问上述地址，我们可以看到登录界面：
 
 ![](https://parg.co/U8G)
@@ -140,7 +140,7 @@ services:
   db:
     build: db
     image: dockerdemos/lab-db
-```yaml
+```
 然后使用 stack 命令创建应用栈：
 
 ```sh
@@ -149,7 +149,7 @@ $ docker stack deploy --compose-file stack.yml demo
 Stack demo was created
 Waiting for the stack to be stable and running...
  - Service web has one container running
-```yaml
+```
 应用栈创建完毕后，可以使用 kubectl 查看创建的 Pods:
 
 ```sh
@@ -163,7 +163,7 @@ words-54bf6c5d57-dzxm8   1/1       Running   0          2m
 words-54bf6c5d57-k2448   1/1       Running   0          2m
 words-54bf6c5d57-mhh4p   1/1       Running   0          2m
 words-54bf6c5d57-w2q82   1/1       Running   0          2m
-```yaml
+```
 也可以来查看部署的集群与服务：
 
 ```sh
@@ -179,10 +179,10 @@ db           ClusterIP      None           <none>        55555/TCP      3m
 kubernetes   ClusterIP      10.96.0.1      <none>        443/TCP        52m
 web          LoadBalancer   10.97.154.28   <pending>     80:30577/TCP   3m
 words        ClusterIP      None           <none>        55555/TCP      3m
-```yaml
+```
 可以看到这里的 web 有所谓的 LoadBalancer 类型，即可以对外提供服务。最后我们还可以用 stack 与 kubectl 命令来删除应用：
 
 ```sh
 $ docker stack remove demo
 $ kubectl delete deployment kubernetes-dashboard --namespace kube-system
-```yaml
+```

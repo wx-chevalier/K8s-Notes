@@ -62,4 +62,4 @@ To connect to your database directly from outside the K8s cluster:
     kubectl port-forward svc/mysql 3306
 
     mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}
-```yaml
+```

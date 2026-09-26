@@ -8,7 +8,7 @@ MEAN 是用来构建网站和 web 应用的免费开源的 JavaScript 软件栈�
 
 ```sh
 
-```yaml
+```
 # Links
 
 - https://jimmysong.io/kubernetes-handbook/practice/helm.html

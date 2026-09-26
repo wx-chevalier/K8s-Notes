@@ -47,7 +47,7 @@ spec:
     - name: secret-volume
       secret:
         secretName: secret-config
-```yaml
+```
 需要注意的是，当我们将 ConfigMap 或者 Secret 包装成卷并挂载到某个目录时，我们其实创建了一些新的 Volume，这些 Volume 并不是 Kubernetes 中的对象，它们只存在于当前 Pod 中，随着 Pod 的删除而删除，但是需要注意的是这些临时卷的删除并不会导致相关 ConfigMap 或者 Secret 对象的删除。
 
 从上面我们其实可以看出 Volume 没有办法脱离 Pod 而生存，它与 Pod 拥有完全相同的生命周期，而且它们也不是 Kubernetes 对象，所以 Volume 的主要作用还是用于跨节点或者容器对数据进行同步和共享。

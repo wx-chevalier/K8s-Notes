@@ -46,7 +46,7 @@ echo "$CLUSTER_IP  $HOSTNAME" | sudo tee -a /etc/hosts
 
 echo Username: user
 echo Password: $(kubectl get secret --namespace default dokuwiki-dokuwiki -o jsonpath="{.data.dokuwiki-password}" | base64 --decode)
-```yaml
+```
 部署完成后，根据提示生成相应的登陆用户名和密码。
 
 ```sh
@@ -55,7 +55,7 @@ Username: user
 
 $ echo Password: $(kubectl get secret --namespace default dokuwiki-dokuwiki -o jsonpath="{.data.dokuwiki-password}" | base64 --decode)
 Password: e2GrABBkwF
-```yaml
+```
 测试从各节点的宿主机 IP 访问应用，这里我们直接使用 Curl 命令进行访问。
 
 ```sh
@@ -104,10 +104,10 @@ Expires: Thu, 19 Nov 1981 08:52:00 GMT
 Cache-Control: no-store, no-cache, must-revalidate
 Pragma: no-cache
 Set-Cookie: DW68700bfd16c2027de7de74a5a8202a6f=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; HttpOnly
-```yaml
+```
 Curl 用法很多，你也可以使用下面方式来达到相同的效果。
 
 ```sh
 $ curl -H "Host:wiki.hi-linux.com"  "http://192.168.100.211/doku.php"
-```yaml
+```
 当然你也可以在本地 hosts 文件中对 IP 和域名进行绑定后，通过浏览器访问该应用。

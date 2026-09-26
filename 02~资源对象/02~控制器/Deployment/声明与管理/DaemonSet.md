@@ -22,14 +22,14 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 node / elliot-01 untainted
 taint "node-role.kubernetes.io/master:" not found
 taint "node-role.kubernetes.io/master:" not found
-```yaml
+```
 Now we can create our DaemonSet:
 
 ```yaml
 kubectl create -f first-daemonset.yaml
 
 daemonset.extensions / daemon-set-first created
-```yaml
+```
 Let's list our DaemonSet:
 
 ```yaml
@@ -37,7 +37,7 @@ kubectl get daemonset
 
 NAME DESIRED CURRENT READY UP-TO-DATE ... AGE
 daemon-set-first 3 3 3 3 30s
-```yaml
+```
 Viewing the DaemonSet details:
 
 ```yaml
@@ -72,7 +72,7 @@ Type Reason Age From Message
 Normal SuccessfulCreate 41s daemonset-controller Created pod: daemon-set-first-jl6f5
 Normal SuccessfulCreate 412 daemonset-controller Created pod: daemon-set-first-jh2sp
 Normal SuccessfulCreate 412 daemonset-controller Created pod: daemon-set-first-t9rv9
-```yaml
+```
 Viewing pod details:
 
 ```yaml
@@ -82,7 +82,7 @@ NAME READY STATUS RESTARTS AGE .. NODE
 daemon-set-first .. 1/1 Running 0 1m elliot-01
 daemon-set-first .. 1/1 Running 0 1m elliot-02
 daemon-set-first .. 1/1 Running 0 1m elliot-03
-```yaml
+```
 As we can see we have one pod per node running our ` daemon-set-first`.
 
 Let's change the image of this pod directly in DaemonSet, using the command ` kubectl set`:
@@ -91,7 +91,7 @@ Let's change the image of this pod directly in DaemonSet, using the command ` ku
 kubectl set image ds daemon-set-first nginx = nginx: 1.15.0
 
 daemonset.extensions / daemon-set-first image updated
-```yaml
+```
 Let's confirm that the image has really been changed:
 
 ```yaml
@@ -126,7 +126,7 @@ Type Reason Age From Message
 Normal SuccessfulCreate 2m daemonset-controller Created pod: daemon-set-first-jl6f5
 Normal SuccessfulCreate 2m daemonset-controller Created pod: daemon-set-first-jh2sp
 Normal SuccessfulCreate 2m daemonset-controller Created pod: daemon-set-first-t9rv9
-```yaml
+```
 Now let's check if the pod images are up to date:
 
 ```yaml
@@ -136,7 +136,7 @@ NAME READY STATUS RESTARTS AGE
 daemon-set-first-jh2sp 1/1 Running 0 2m
 daemon-set-first-jl6f5 1/1 Running 0 2m
 daemon-set-first-t9rv9 1/1 running 0 2m
-```yaml
+```
 As we can see, we had no restart on the pods.
 
 Let's check the image running on one of the pods:
@@ -145,7 +145,7 @@ Let's check the image running on one of the pods:
 kubectl describe pod daemon-set-first-jh2sp | grep -i image:
 
 Image: nginx: 1.7.9
-```yaml
+```
 Exactly, we were unable to change information from the running DaemonSet.
 
 What if the pod is deleted?
@@ -154,7 +154,7 @@ What if the pod is deleted?
 kubectl delete pod daemon-set-first-jh2sp
 
 pod "daemon-set-first-jh2sp" deleted
-```yaml
+```
 Viewing the pods:
 
 ```yaml
@@ -164,7 +164,7 @@ NAME READY STATUS RESTARTS AGE
 daemon-set-first-hp4qc 1/1 Running 0 3s
 daemon-set-first-jl6f5 1/1 running 0 10m
 daemon-set-first-t9rv9 1/1 running 0 10m
-```yaml
+```
 Let's list the new Pod that was created, after deleting the old Pod:
 
 ```yaml
@@ -172,7 +172,7 @@ kubectl describe pod daemon-set-first-hp4qc | grep -i image:
 
     Image: nginx: 1.15.0
 
-```yaml
+```
 Now a Pod that was already running:
 
 ```yaml
@@ -180,7 +180,7 @@ kubectl describe pod daemon-set-first-jl6f5 | grep -i image:
 
     Image: nginx: 1.7.9
 
-```yaml
+```
 As we can see, to update all the pods in DaemonSet we need to recreate it or destroy all the pods related to it, but isn't that too bad? Yes, it's really bad. To improve our lives we have the option ` RollingUpdate` that we will see in the next chapter.
 
 # Rollouts and Rollbacks
@@ -196,7 +196,7 @@ daemonsets "daemon-set-first"
 REVISION CHANGE-CAUSE
 1 <none>
 2 <none>
-```yaml
+```
 It will show two lines, the first which is the original, with the image of ` nginx: 1.7.9` and the second already with the image ` nginx: 1.15.0`. The information is not very detailed, do you agree?
 
 Here's how to check the details of each of these entries, which are called ** revision **.
@@ -217,7 +217,7 @@ Host Port: 0 / TCP
 Environment: <none>
 Mounts: <none>
 Volumes: <none>
-```yaml
+```
 Viewing revision 2:
 
 ```yaml
@@ -234,14 +234,14 @@ Host Port: 0 / TCP
 Environment: <none>
 Mounts: <none>
 Volumes: <none>
-```yaml
+```
 To return to the desired revision, simply do the following:
 
 ```yaml
 kubectl rollout undo ds daemon-set-first --to-revision = 1
 
 daemonset.extensions / daemon-set-first rolled back
-```yaml
+```
 Notice that we changed the ` history` for ` undo` and the ` revision` for ` to-revision`, so we will do the ** rollback ** in our DaemonSet, and return the version of the image that we wish. 😃
 
 ---
@@ -269,7 +269,7 @@ Let's confirm that we are already running the new image and one of our pods:
 kubectl describe pod daemon-set-first-hp4qc | grep -i image:
 
 Image: nginx: 1.15.0
-```yaml
+```
 It didn't work, why? Because we will have to kill the Pod to be recreated with the new settings.
 
 Let's fine-tune our DaemonSet, add the RollingUpdate and this guy will automatically update the Pods when there are changes.
@@ -280,7 +280,7 @@ Come on, first let's remove the ` DaemonSet`, add two new information to our yam
 kubectl delete -f first-daemonset.yaml
 
 daemonset.extensions "daemon-set-first" deleted
-```yaml
+```
 Edit the ` first-daemonset.yaml` file.
 
 `I came first daemonset.yaml`
@@ -295,7 +295,7 @@ Create the DaemonSet:
 kubectl create -f first-daemonset.yaml
 
 daemonset.extensions / daemon-set-first created
-```yaml
+```
 Success, let's check if our DaemonSet has started up correctly.
 
 ```yaml
@@ -303,7 +303,7 @@ kubectl get daemonset
 
 NAME DESIRED CURRENT READY ... AGE
 daemon-set-first 3 3 3 ... 5m
-```yaml
+```
 Viewing the DaemonSet details:
 
 ```yaml
@@ -339,7 +339,7 @@ Normal SuccessfulCreate 5m daemonset-controller Created pod: daemon-set-first-52
 Normal SuccessfulCreate 5m daemonset-controller Created pod: daemon-set-first-6sln2
 Normal SuccessfulCreate 5m daemonset-controller Created pod: daemon-set-first-9v2w9
 daemonset-controller Created pod: daemon-set-first-9dktj
-```yaml
+```
 Let's check out our newly added ` RollingUpdate` configuration:
 
 ```yaml
@@ -348,14 +348,14 @@ kubectl get ds daemon-set-first -o yaml | grep -A 2 Strategy
 updateStrategy:
 rollingUpdate:
 maxUnavailable: 1
-```yaml
+```
 Now with our DaemonSet already configured, let's change that same ` nginx` image and see what actually happens:
 
 ```yaml
 kubectl set image ds daemon-set-first nginx = nginx: 1.15.0
 
 daemonset.extensions / daemon-set-first image updated
-```yaml
+```
 Let's list the DaemonSet and the Pods to make sure nothing is broken:
 
 ```yaml
@@ -363,7 +363,7 @@ kubectl get daemonset
 
 NAME DESIRED CURRENT READY ... AGE
 daemon-set-first 3 3 3 ... 6m
-```yaml
+```
 Viewing the pods:
 
 ```yaml
@@ -373,7 +373,7 @@ NAME READY STATUS RESTARTS AGE NODE
 daemon-set-first-7m ... 1/1 Running 0 10s elliot-02
 daemon-set-first-j7 ... 1/1 Running 0 10s elliot-03
 daemon-set-first-v5 ... 1/1 Running 0 10s elliot-01
-```yaml
+```
 As we can see, our DaemonSet has remained the same, but the Pods have been recreated, we will detail the DaemonSet to see the changes made.
 
 ```yaml
@@ -414,7 +414,7 @@ Normal SuccessfulDelete 10m daemonset-controller Deleted pod: daemon-set-first-5
 Normal SuccessfulCreate 1m daemonset-controller Created pod: daemon-set-first-7mpwr
 Normal SuccessfulDelete 10m daemonset-controller Deleted pod: daemon-set-first-9v2w9
 Normal SuccessfulCreate 1m daemonset-controller Created pod: daemon-set-first-v5m47
-```yaml
+```
 Look how cool! If we look at the ** Events ** field we can see that the ` RollingUpdate` killed the old pods and recreated with the new image that we changed using the ` kubectl set`.
 
 We can also check in one of the Pods if this change really happened.
@@ -423,7 +423,7 @@ We can also check in one of the Pods if this change really happened.
 kubectl describe pod daemon-set-first-j788v | grep -i image:
 
 Image: nginx: 1.15.0
-```yaml
+```
 See? Very sensational this business of ` RollingUpdate`.
 
 Let's check out our change history:
@@ -435,7 +435,7 @@ daemonsets "daemon-set-first"
 REVISION CHANGE-CAUSE
 1 <none>
 2 <none>
-```yaml
+```
 Yes, we have two changes. Let's drill down to see which is which.
 
 Viewing revision 1:
@@ -454,7 +454,7 @@ Host Port: 0 / TCP
 Environment: <none>
 Mounts: <none>
 Volumes: <none>
-```yaml
+```
 Viewing revision 2:
 
 ```yaml
@@ -471,7 +471,7 @@ Host Port: 0 / TCP
 Environment: <none>
 Mounts: <none>
 Volumes: <none>
-```yaml
+```
 Now let's rollback our DaemonSet to revision 1:
 
 ```yaml
@@ -479,7 +479,7 @@ kubectl rollout undo ds daemon-set-first --to-revision = 1
 
 daemonset.extensions / daemon-set-first rolled back
 kubectl rollout undo ds daem kubectl rollout undo ds daem
-```yaml
+```
 Viewing the pods:
 
 ```yaml
@@ -489,14 +489,14 @@ NAME READY STATUS RESTARTS AGE
 daemon-set-first-c2jjk 1/1 Running 0 19s
 daemon-set-first-hrn48 1/1 Running 0 19s
 daemon-set-first-t6mr9 1/1 Running 0 19s
-```yaml
+```
 Viewing pod details:
 
 ```yaml
 kubectl describe pod daemon-set-first-c2jjk | grep -i image:
 
 Image: nginx: 1.7.9
-```yaml
+```
 Sensational isn't it?
 
 Did it go bad?
@@ -507,14 +507,14 @@ Just return to the other setting:
 kubectl rollout undo ds daemon-set-first --to-revision = 2
 
 daemonset.extensions / daemon-set-first rolled back
-```yaml
+```
 Viewing the rollout status:
 
 ```yaml
 kubectl rollout status ds daemon-set-first
 
 daemon set "daemon-set-first" successfully rolled out
-```yaml
+```
 Viewing the pods:
 
 ```yaml
@@ -524,18 +524,18 @@ NAME READY STATUS RESTARTS AGE
 daemon-set-first-jzck9 1/1 Running 0 32s
 daemon-set-first-td7h5 1/1 Running 0 29s
 daemon-set-first-v5c86 1/1 Running 0 40s
-```yaml
+```
 Viewing pod details:
 
 ```yaml
 kubectl describe pod daemon-set-first-jzck9 | grep -i image:
 
 Image: nginx: 1.15.0
-```yaml
+```
 Now let's delete our DaemonSet:
 
 ```yaml
 kubectl delete ds daemon-set-first
 
 daemonset.extensions "daemon-set-first" deleted
-```yaml
+```

@@ -15,7 +15,7 @@ metadata:
   name: build-robot
 automountServiceAccountToken: false
 # ...
-```yaml
+```
 在 1.6 以上版本中，您也可以选择只取消单个 pod 的 API 凭证自动挂载：
 
 ```yml
@@ -27,7 +27,7 @@ spec:
   serviceAccountName: build-robot
   automountServiceAccountToken: false
 #  ...
-```yaml
+```
 如果在 pod 和 service account 中同时设置了 automountServiceAccountToken, pod 设置中的优先级更高。
 
 # 使用多个 Service Account
@@ -38,7 +38,7 @@ spec:
 $ kubectl get serviceAccounts
 NAME      SECRETS    AGE
 default   1          1d
-```yaml
+```
 您可以像这样创建一个 ServiceAccount 对象：
 
 ```sh
@@ -50,7 +50,7 @@ metadata:
 EOF
 $ kubectl create -f /tmp/serviceaccount.yaml
 serviceaccount "build-robot" created
-```yaml
+```
 如果您看到如下的 service account 对象的完整输出信息：
 
 ```sh
@@ -66,12 +66,12 @@ metadata:
   uid: 721ab723-13bc-11e5-aec2-42010af0021e
 secrets:
 - name: build-robot-token-bvbk5
-```yaml
+```
 然后您将看到有一个 token 已经被自动创建，并被 service account 引用。您可以使用授权插件来 设置 service account 的权限。设置非默认的 service account，只需要在 pod 的 spec.serviceAccountName 字段中将 name 设置为您想要用的 service account 名字即可。在 pod 创建之初 service account 就必须已经存在，否则创建将被拒绝。您不能更新已创建的 pod 的 service account。您可以清理 service account，如下所示：
 
 ```sh
 $ kubectl delete serviceaccount/build-robot
-```yaml
+```
 # 手动创建 service account 的 API token
 
 假设我们已经有了一个如上文提到的名为 ”build-robot“ 的 service account，我们手动创建一个新的 secret。
@@ -88,7 +88,7 @@ type: kubernetes.io/service-account-token
 EOF
 $ kubectl create -f /tmp/build-robot-secret.yaml
 secret "build-robot-secret" created
-```yaml
+```
 现在您可以确认下新创建的 secret 取代了 “build-robot” 这个 service account 原来的 API token。所有已不存在的 service account 的 token 将被 token controller 清理掉。
 
 ```sh
@@ -105,7 +105,7 @@ Data
 ca.crt: 1220 bytes
 token: ...
 namespace: 7 bytes
-```yaml
+```
 # 为 service account 添加 ImagePullSecret
 
 首先，创建一个 imagePullSecret，详见这里。然后，确认已创建。如：
@@ -114,12 +114,12 @@ namespace: 7 bytes
 $ kubectl get secrets myregistrykey
 NAME             TYPE                              DATA    AGE
 myregistrykey    kubernetes.io/.dockerconfigjson   1       1d
-```yaml
+```
 然后，修改 namespace 中的默认 service account 使用该 secret 作为 imagePullSecret。
 
 ```sh
 kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'
-```yaml
+```
 Vi 交互过程中需要手动编辑：
 
 ```sh
@@ -155,11 +155,11 @@ imagePullSecrets:
 - name: myregistrykey
 $ kubectl replace serviceaccount default -f ./sa.yaml
 serviceaccounts/default
-```yaml
+```
 现在，所有当前 namespace 中新创建的 pod 的 spec 中都会增加如下内容：
 
 ```yml
 spec:
   imagePullSecrets:
     - name: myregistrykey
-```yaml
+```

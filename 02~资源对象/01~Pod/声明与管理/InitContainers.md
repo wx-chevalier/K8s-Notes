@@ -34,7 +34,7 @@ spec :
   volumes :
   - name : workdir
     emptyDir : {}
-```yaml
+```
 然后从清单中创建 Pod：
 
 ```sh
@@ -133,11 +133,11 @@ wget: note: TLS certificate validation not implemented
 saving to '/work-dir/index.html'
 index.html           100% |********************************|  765k  0:00:00 ETA
 '/work-dir/index.html' saved
-```yaml
+```
 最后，让我们从清单中删除 Pod。
 
 ```sh
 $ kubectl delete -f nginx-initcontainer.yaml
 
 pod/init-demo deleted
-```yaml
+```

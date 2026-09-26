@@ -12,7 +12,7 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": ["https://registry.docker-cn.co"]
 }
 EOF
-```yaml
+```
 gcr.io 的很多镜像国内不便于访问，有同学将 [gcr.io 相关镜像](https://github.com/anjia0532/gcr.io_mirror) pull 下来，然后 push 到 docker 官方仓库，相关转换语法如下：
 
 ```sh
@@ -22,7 +22,7 @@ anjia0532/namespace.image_name:image_tag
 
 # 特别的
 k8s.gcr.io/{image}/{tag} <==> gcr.io/google-containers/{image}/{tag} <==> anjia0532/google-containers.{image}/{tag}
-```yaml
+```
 批量转换的脚本如下：
 
 ```sh
@@ -57,7 +57,7 @@ for img in $(docker images --format "{{.Repository}}:{{.Tag}}"| grep "anjia0532"
   docker tag $img "${n}${image}${tag}"
   [[ ${n} == "gcr.io/google-containers" ]] && docker tag $img "k8s.gcr.io${image}${tag}"
 done
-```yaml
+```
 # kubelet
 
 kubeadm 用于搭建并启动一个集群，kubelet 用于集群中所有节点上都有的用于做诸如启动 pod 或容器这种事情，kubectl 则是与集群交互的命令行接口。kubelet 和 kubectl 并不会随 kubeadm 安装而自动安装，需要手工安装。
@@ -73,7 +73,7 @@ $ apt-get update
 
 $ apt-get install -y kubelet kubeadm kubectl --allow-unauthenticated
 $ apt-mark hold kubelet kubeadm kubectl
-```yaml
+```
 配置 cgroup driver, 保证和 docker 的一样:
 
 ```sh
@@ -88,7 +88,7 @@ KUBELET_KUBEADM_EXTRA_ARGS=--cgroup-driver=<value>
 # 配置修改后重启
 $ systemctl daemon-reload
 $ systemctl restart kubelet
-```yaml
+```
 # kubeadm 集群初始化
 
 kubeadm 安装完毕后，可以初始化 Master 节点：
@@ -106,7 +106,7 @@ $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # 或者 Root 用户还可以添加如下映射
 $ export KUBECONFIG=/etc/kubernetes/admin.conf
-```yaml
+```
 值得一提的是，如果无法通过代理访问，还可以使用国内的镜像数据，可以使用[如下脚本](https://github.com/anjia0532/gcr.io_mirror)便捷录取墙外镜像:
 
 ```sh
@@ -127,7 +127,7 @@ for img in $(docker images --format "{{.Repository}}:{{.Tag}}"| grep "anjia0532"
   docker tag $img "${n}${image}${tag}"
   [[ ${n} == "gcr.io/google-containers" ]] && docker tag $img "k8s.gcr.io${image}${tag}"
 done
-```yaml
+```
 # kubectl
 
 Master 节点初始化完毕后，我们需要加入工作节点，或者设置 Master 节点上可调度 Pods
@@ -144,7 +144,7 @@ $ kubeadm token list
 
 # 工作节点加入集群
 $ kubeadm join --token <token> <master-ip>:<master-port> --discovery-token-ca-cert-hash sha256:<hash>
-```yaml
+```
 # 网络配置
 
 我们还需要配置节点间通信的网络:
@@ -156,7 +156,7 @@ $ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl vers
 # 或者安装 Flannel 网络
 $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
-```yaml
+```
 我们也可以使用自定义的配置文件来配置 K8S 集群，譬如可以手工指定默认网关使用的网络接口，完整配置文件可以参考[这里](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file):
 
 ```yaml
@@ -164,7 +164,7 @@ apiVersion: kubeadm.k8s.io/v1alpha1
 kind: MasterConfiguration
 networking:
   podSubnet: 10.244.0.0/16 # 使用 flannel
-```yaml
+```
 可以配置 kubernetes-dashboard 作为首个服务:
 
 ```sh
@@ -174,4 +174,4 @@ $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master
 $ kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
 
 # http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
-```yaml
+```

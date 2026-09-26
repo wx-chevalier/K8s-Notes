@@ -33,7 +33,7 @@ subsets:
     ports:
       - port: 58080
         protocol: TCP
-```yaml
+```
 值得注意的是，这里我们在声明服务的时候并未指明 Pod Selector，这也就创建了一个没有后端的 Service，我们需要手动地去创建某个 Endpoints 然后将流量导入到该 Endpoints。外部对服务的访问则是同样创建 Ingress 资源即可：
 
 ```yml
@@ -66,7 +66,7 @@ spec:
             backend:
               serviceName: release-name-ufc-rancher
               servicePort: 58080
-```yaml
+```
 这里我们的实例可以参考使用 Ingress 以允许用域名方式访问 Rancher，其 Helm 配置参考 [K8s/Helm](https://github.com/BE-Kits/k8s-examples)。
 
 ## 外部域名

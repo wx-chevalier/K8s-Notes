@@ -57,7 +57,7 @@ You can now access Minio server on http://localhost:9000. Follow the below steps
 3. mc ls minio-local
 
 Alternately, you can use your browser or the Minio SDK to access the server - https://docs.minio.io/categories/17
-```yaml
+```
 部署完成后，我们在本地 hosts 文件中对 IP 和域名进行绑定，并通过浏览器访问该应用。登陆用户名和密码在部署完成后的提示信息中。最后我们在 Kubernetes 上来查看下部署成功后的 Ingress 信息。
 
 ```sh
@@ -65,4 +65,4 @@ $ kubectl get ingress
 NAME                HOSTS                ADDRESS   PORTS     AGE
 dokuwiki-dokuwiki   wiki.hi-linux.com              80        44m
 minio               minio.hi-linux.com             80        50s
-```yaml
+```

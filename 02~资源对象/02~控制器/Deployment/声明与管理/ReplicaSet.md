@@ -24,7 +24,7 @@ spec :
         image : nginx: 1.7.9
         ports :
         - containerPort : 80
-```yaml
+```
 从 manifest 中创建 ReplicaSet：
 
 ```sh
@@ -69,7 +69,7 @@ Events:
   Normal  SuccessfulCreate  31s   replicaset-controller  Created pod: replica-set-primeiro-mg8q9
   Normal  SuccessfulCreate  31s   replicaset-controller  Created pod: replica-set-primeiro-6drmt
   Normal  SuccessfulCreate  31s   replicaset-controller  Created pod: replica-set-primeiro-7j59w
-```yaml
+```
 因此，我们可以看到所有与 ReplicaSet 相关联的 Pods，如果我们删除其中一个 Pods，会发生什么？让我们测试一下。
 
 ```sh
@@ -83,7 +83,7 @@ NAME                         READY     STATUS    RESTARTS   AGE
 replica-set-primeiro-7j59w   1/1       Running   0          1m
 replica-set-primeiro-mg8q9   1/1       Running   0          1m
 replica-set-primeiro-s5dz2   1/1       Running   0          15s
-```yaml
+```
 你有没有注意到他又重新制作了一个 Pod？ReplicaSet 的原因总是有三个 Pod 可用。我们将改为 4 个副本并重新创建 ReplicaSet，为此我们将使用之前的 kubectl edit，这样我们就可以更改已经运行的 ReplicaSet。
 
 ```sh
@@ -114,7 +114,7 @@ spec :
 ...
 
 replicaset.extensions / replica-set-first edited
-```yaml
+```
 查看 Pod 详情。
 
 ```sh
@@ -125,4 +125,4 @@ replica-set-primeiro-7j59w   1/1       Running   0          2m
 replica-set-primeiro-96hj7   1/1       Running   0          10s
 replica-set-primeiro-mg8q9   1/1       Running   0          2m
 replica-set-primeiro-s5dz2   1/1       Running   0          1m
-```yaml
+```

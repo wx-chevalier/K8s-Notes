@@ -10,7 +10,7 @@ Ingress 就是为了解决这些限制而引入的新资源，主要用来将服
 foo.bar.com --|                 |-> foo.bar.com s1:80
               | 178.91.123.132  |
 bar.foo.com --|                 |-> bar.foo.com s2:80
-```yaml
+```
 如上的需求我们可以定义为如下的 Ingress Controller：
 
 ```yml
@@ -32,7 +32,7 @@ spec:
           - backend:
               serviceName: s2
               servicePort: 80
-```yaml
+```
 Ingress 本身并不会自动创建负载均衡器，集群中需要运行一个 Ingress Controller 来根据 Ingress 的定义来管理负载均衡器。
 
 # Links

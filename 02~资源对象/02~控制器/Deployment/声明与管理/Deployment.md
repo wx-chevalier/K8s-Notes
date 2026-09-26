@@ -27,7 +27,7 @@ spec:
           image: nginx:1.7.9
           ports:
             - containerPort: 80
-```yaml
+```
 然后通过如下操作进行创建：
 
 ```sh
@@ -42,7 +42,7 @@ nginx-deployment   3         0         0            0           1s
 $ kubectl get deployments
 NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3         3         3            3           18s
-```yaml
+```
 可以看到 Deployment 已经创建了 3 个 replica，所有的 replica 都已经是最新的了（包含最新的 pod template），可用的（根据 Deployment 中的.spec.minReadySeconds 声明，处于已就绪状态的 pod 的最少个数）。执行 kubectl get rs 和 kubectl get pods 会显示 Replica Set（RS）和 Pod 已创建。
 
 ```sh
@@ -50,7 +50,7 @@ nginx-deployment   3         3         3            3           18s
 $ kubectl get rs
 NAME                          DESIRED   CURRENT   READY   AGE
 nginx-deployment-2035384211   3         3         0       18s
-```yaml
+```
 ## 扩容
 
 您可以使用以下命令扩容 Deployment：
@@ -58,13 +58,13 @@ nginx-deployment-2035384211   3         3         0       18s
 ```sh
 $ kubectl scale deployment nginx-deployment --replicas 10
 deployment "nginx-deployment" scaled
-```yaml
+```
 假设您的集群中启用了 horizontal pod autoscaling，您可以给 Deployment 设置一个 autoscaler，基于当前 Pod 的 CPU 利用率选择最少和最多的 Pod 数。
 
 ```sh
 $ kubectl autoscale deployment nginx-deployment --min=10 --max=15 --cpu-percent=80
 deployment "nginx-deployment" autoscaled
-```yaml
+```
 RollingUpdate Deployment 支持同时运行一个应用的多个版本。或者 autoscaler 扩 容 RollingUpdate Deployment 的时候，正在中途的 rollout（进行中或者已经暂停的），为了降低风险，Deployment controller 将会平衡已存在的活动中的 ReplicaSet（有 Pod 的 ReplicaSet）和新加入的 replica。这被称为比例扩容。
 
 譬如正在运行中含有 10 个 replica 的 Deployment。maxSurge=3，maxUnavailable=2：
@@ -83,7 +83,7 @@ $ kubectl get rs
 NAME                          DESIRED   CURRENT   READY     AGE
 nginx-deployment-1989198191   5         5         0         9s
 nginx-deployment-618515232    8         8         8         1m
-```yaml
+```
 autoscaler 将 Deployment 的 repllica 数目增加到了 15 个。Deployment controller 需要判断在哪里增加这 5 个新的 replica。如果我们没有谁用比例扩容，所有的 5 个 replica 都会加到一个新的 ReplicaSet 中。如果使用比例扩容，新添加的 replica 将传播到所有的 ReplicaSet 中。大的部分加入 replica 数最多的 ReplicaSet 中，小的部分加入到 replica 数少的 ReplciaSet 中。0 个 replica 的 ReplicaSet 不会被扩容。在我们上面的例子中，3 个 replica 将添加到旧的 ReplicaSet 中，2 个 replica 将添加到新的 ReplicaSet 中。rollout 进程最终会将所有的 replica 移动到新的 ReplicaSet 中，假设新的 replica 成为健康状态。
 
 ```sh
@@ -94,7 +94,7 @@ $ kubectl get rs
 NAME                          DESIRED   CURRENT   READY     AGE
 nginx-deployment-1989198191   7         7         0         7m
 nginx-deployment-618515232    11        11        11        7m
-```yaml
+```
 ## 更新
 
 Kubernetes 提供了多种升级方案，Recreate 即删除所有已存在的 pod,重新创建新的; RollingUpdate 即滚动升级，逐步替换的策略，同时滚动升级时，支持更多的附加参数，例如设置最大不可用 Pod 数量，最小升级间隔时间等等。Deployment 的 rollout 当且仅当 Deployment 的 pod template（例如.spec.template）中的 label 更新或者镜像更改时被触发。其他更新，例如扩容 Deployment 不会触发 rollout。
@@ -103,7 +103,7 @@ Kubernetes 提供了多种升级方案，Recreate 即删除所有已存在的 po
 # 让 nginx pod 使用nginx:1.9.1的镜像来代替原来的nginx:1.7.9的镜像
 $ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
 deployment "nginx-deployment" image updated
-```yaml
+```
 我们可以使用 edit 命令来编辑 Deployment，修改 .spec.template.spec.containers[0].image，将 nginx:1.7.9 改写成 nginx:1.9.1。
 
 ```sh
@@ -120,7 +120,7 @@ $ kubectl get rs
 NAME                          DESIRED   CURRENT   READY   AGE
 nginx-deployment-1564180365   3         3         0       6s
 nginx-deployment-2035384211   0         0         0       36s
-```yaml
+```
 我们通过执行 kubectl get rs 可以看到 Deployment 更新了 Pod，通过创建一个新的 ReplicaSet 并扩容了 3 个 replica，同时将原来的 ReplicaSet 缩容到了 0 个 replica。执行 get pods 只会看到当前的新的 pod。
 
 Deployment 可以保证在升级时只有一定数量的 Pod 是 down 的。默认的，它会确保至少有比期望的 Pod 数量少一个是 up 状态（最多一个不可用）。Deployment 同时也可以确保只创建出超过期望数量的一定数量的 Pod。默认的，它会确保最多比期望的 Pod 数量多一个的 Pod 是 up 的（最多 1 个 surge）。
@@ -139,7 +139,7 @@ REVISION    CHANGE-CAUSE
 1           kubectl create -f https://kubernetes.io/docs/user-guide/nginx-deployment.yaml--record
 2           kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
 3           kubectl set image deployment/nginx-deployment nginx=nginx:1.91
-```yaml
+```
 因为我们创建 Deployment 的时候使用了--record 参数可以记录命令，我们可以很方便的查看每次 revision 的变化。查看单个 revision 的详细信息：
 
 ```sh
@@ -157,7 +157,7 @@ deployments "nginx-deployment" revision 2
         memory:   BestEffort
     Environment Variables:      <none>
   No volumes.
-```yaml
+```
 同样可以通过 rollout 命令来回退版本：
 
 ```sh
@@ -168,7 +168,7 @@ deployment "nginx-deployment" rolled back
 # 使用 --revision参数指定某个历史版本
 $ kubectl rollout undo deployment/nginx-deployment --to-revision=2
 deployment "nginx-deployment" rolled back
-```yaml
+```
 可以通过设置 `.spec.revisonHistoryLimit` 项来指定 deployment 最多保留多少 revision 历史记录。默认的会保留所有的 revision；如果将该项设置为 0，Deployment 就不允许回退了。
 
 ## 暂停和恢复
@@ -182,19 +182,19 @@ nginx     3         3         3            3           1m
 [mkargaki@dhcp129-211 kubernetes]$ kubectl get rs
 NAME               DESIRED   CURRENT   READY     AGE
 nginx-2142116321   3         3         3         1m
-```yaml
+```
 使用以下命令暂停 Deployment：
 
 ```sh
 $ kubectl rollout pause deployment/nginx-deployment
 deployment "nginx-deployment" paused
-```yaml
+```
 然后更新 Deplyment 中的镜像：
 
 ```sh
 $ kubectl set image deploy/nginx nginx=nginx:1.9.1
 deployment "nginx-deployment" image updated
-```yaml
+```
 注意新的 rollout 启动了：
 
 ```sh
@@ -206,20 +206,20 @@ REVISION  CHANGE-CAUSE
 $ kubectl get rs
 NAME               DESIRED   CURRENT   READY     AGE
 nginx-2142116321   3         3         3         2m
-```yaml
+```
 您可以进行任意多次更新，例如更新使用的资源：
 
 ```sh
 $ kubectl set resources deployment nginx -c=nginx --limits=cpu=200m,memory=512Mi
 deployment "nginx" resource requirements updated
 Deployment 暂停前的初始状态将继续它的功能，而不会对 Deployment 的更新产生任何影响，只要 Deployment是暂停的。
-```yaml
+```
 最后，恢复这个 Deployment，观察完成更新的 ReplicaSet 已经创建出来了：
 
 ```sh
 $ kubectl rollout resume deploy nginx
 deployment "nginx" resumed
-```yaml
+```
 # 过滤与选择
 
 ## 根据标签过滤
@@ -234,7 +234,7 @@ labels:
 labels:
   run: nginx
   dc: Netherlands
-```yaml
+```
 Labels 是用来组织集群的，让我们列出我们的 Pods 寻找 Labels。首先让我们用 dc=UK 和 dc=Netherlands 这两个标签进行搜索。
 
 ```sh
@@ -247,7 +247,7 @@ $ kubectl get pods -l dc=Netherlands
 
 NAME                                READY STATUS    RESTARTS   AGE
 segundo-deployment-59db86c584-cf9pp 1/1   Running   0          4m
-```yaml
+```
 如果你想要更个性化的输出，我们可以列举如下：
 
 ```sh
@@ -256,4 +256,4 @@ kubectl get pod -L dc
 NAME                         READY STATUS   RESTARTS AGE DC
 primeiro-deployment-68c9...  1/1   Running  0        5m  UK
 segundo-deployment-59db ...  1/1   Running  0        5m  Netherlands
-```yaml
+```

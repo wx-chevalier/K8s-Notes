@@ -38,7 +38,7 @@ $ helm install \
 
 ## Upgrade
 $ helm upgrade cert-manager  --namespace cert-manager   --version v0.12.0   jetstack/cert-manager
-```yaml
+```
 Cert-manager uses two different custom resources, also known as [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)’s, to configure and control how it operates, as well as share status of its operation. These two resources are:
 
 [Issuers](http://docs.cert-manager.io/en/latest/reference/issuers.html) (or [ClusterIssuers](http://docs.cert-manager.io/en/latest/reference/clusterissuers.html))
@@ -85,14 +85,14 @@ Create this definition locally and update the email address to your own. This em
            ingress:
              class:  nginx
 
-```yaml
+```
 Once edited, apply the custom resource:
 
 ```yaml
 $ kubectl create --edit -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/staging-issuer.yaml
 issuer.certmanager.k8s.io "letsencrypt-staging" created
 
-```yaml
+```
 Also create a production issuer and deploy it. As with the staging issuer, you will need to update this example and add in your own email address.
 
 - production issuer: [production-issuer.yaml](https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/production-issuer.yaml)
@@ -119,7 +119,7 @@ Also create a production issuer and deploy it. As with the staging issuer, you w
 $ kubectl create --edit -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/production-issuer.yaml
 issuer.certmanager.k8s.io "letsencrypt-prod" created
 
-```yaml
+```
 Both of these issuers are configured to use the [HTTP01](http://docs.cert-manager.io/en/latest/tasks/issuers/setup-acme/http01/index.html) challenge provider.
 
 Check on the status of the issuer after you create it:
@@ -161,7 +161,7 @@ Check on the status of the issuer after you create it:
      Status:                True
      Type:                  Ready
  Events:                    <none>
-```yaml
+```
 You should see the issuer listed with a registered account.
 
 # Deploy a TLS Ingress Resource
@@ -200,20 +200,20 @@ spec:
         backend:
           serviceName: kuard
           servicePort: 80
-```yaml
+```
 and apply it:
 
 ```yaml
 $ kubectl create --edit -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/ingress-tls.yaml
 ingress.extensions "kuard" configured
-```yaml
+```
 Cert-manager will read these annotations and use them to create a certificate, which you can request and see:
 
 ```yaml
 $ kubectl get certificate
 NAME                     AGE
 quickstart-example-tls   38s
-```yaml
+```
 Cert-manager reflects the state of the process for every request in the certificate object. You can view this information using the kubectl describe command:
 
 ```yaml
@@ -264,7 +264,7 @@ Cert-manager reflects the state of the process for every request in the certific
    Normal   IssueCert       8m                 cert-manager  Issuing certificate...
    Normal   CertObtained    7m                 cert-manager  Obtained certificate from ACME server
    Normal   CertIssued      7m                 cert-manager  Certificate issued Successfully
-```yaml
+```
 The events associated with this resource and listed at the bottom of the describe results show the state of the request. In the above example the certificate was validated and issued within a couple of minutes.
 
 Once complete, cert-manager will have created a secret with the details of the certificate based on the secret used in the ingress resource. You can use the describe command as well to see some details:
@@ -286,7 +286,7 @@ Data
 ====
 tls.crt:  3566 bytes
 tls.key:  1675 bytes
-```yaml
+```
 Now that we have confidence that everything is configured correctly, you can update the annotations in the ingress to specify the production issuer:
 
 - ingress tls final: [ingress-tls-final.yaml](https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/ingress-tls-final.yaml)
@@ -316,14 +316,14 @@ spec:
 $ kubectl create --edit -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/docs/tutorials/acme/quick-start/example/ingress-tls-final.yaml
 
 ingress.extensions "kuard" configured
-```yaml
+```
 You will also need to delete the existing secret, which cert-manager is watching and will cause it to reprocess the request with the updated issuer.
 
 ```yaml
 $ kubectl delete secret quickstart-example-tls
 
 secret "quickstart-example-tls" deleted
-```yaml
+```
 This will start the process to get a new certificate, and using describe you can see the status. Once the production certificate has been updated, you should see the example KUARD running at your domain with a signed TLS certificate.
 
 ```yaml
@@ -368,7 +368,7 @@ This will start the process to get a new certificate, and using describe you can
 kubectl describe certificate quickstart-example-tls   ----    ------        ----  ----          -------
    Normal  Generated     18s   cert-manager  Generated new private key
    Normal  OrderCreated  18s   cert-manager  Created Order resource "quickstart-example-tls-889745041"
-```yaml
+```
 You can see the current state of the ACME Order by running `kubectl describe` on the Order resource that cert-manager has created for your Certificate:
 
 ```yaml
@@ -379,7 +379,7 @@ Events:
   ----    ------      ----  ----          -------
   Normal  Created     90s   cert-manager  Created Challenge resource "quickstart-example-tls-889745041-0" for domain "example.your-domain.com"
 
-```yaml
+```
 Here, we can see that cert-manager has created 1 ‘Challenge’ resource to fulfil the Order. You can dig into the state of the current ACME challenge by running `kubectl describe` on the automatically created Challenge resource:
 
 ```yaml
@@ -397,7 +397,7 @@ Events:
   Normal  Started    15s   cert-manager  Challenge scheduled for processing
   Normal  Presented  14s   cert-manager  Presented challenge using http-01 challenge mechanism
 
-```yaml
+```
 From above, we can see that the challenge has been ‘presented’ and cert-manager is waiting for the challenge record to propagate to the ingress controller. You should keep an eye out for new events on the challenge resource, as a ‘success’ event should be printed after a minute or so (depending on how fast your ingress controller is at updating rules):
 
 ```yaml
@@ -415,7 +415,7 @@ Events:
   Normal  Started         71s   cert-manager  Challenge scheduled for processing
   Normal  Presented       70s   cert-manager  Presented challenge using http-01 challenge mechanism
   Normal  DomainVerified  2s    cert-manager  Domain "example.your-domain.com" verified with "http-01" validation
-```yaml
+```
 Note
 
 If your challenges are not becoming ‘valid’ and remain in the ‘pending’ state (or enter into a ‘failed’ state), it is likely there is some kind of configuration error. Read the [Challenge resource reference docs](http://docs.cert-manager.io/en/latest/reference/challenges.html) for more information on debugging failing challenges.
@@ -431,7 +431,7 @@ Events:
   Normal  Created     90s   cert-manager  Created Challenge resource "quickstart-example-tls-889745041-0" for domain "example.your-domain.com"
   Normal  OrderValid  16s   cert-manager  Order completed successfully
 
-```yaml
+```
 Finally, the ‘Certificate’ resource will be updated to reflect the state of the issuance process. If all is well, you should be able to ‘describe’ the Certificate and see something like the below:
 
 ```yaml
@@ -451,14 +451,14 @@ Events:
   Normal  Generated      11m                  cert-manager  Generated new private key
   Normal  OrderCreated   11m                  cert-manager  Created Order resource "quickstart-example-tls-889745041"
   Normal  OrderComplete  10m                  cert-manager  Order "quickstart-example-tls-889745041" completed successfully
-```yaml
+```
 Using openssl
 
 ```yaml
 $ echo | openssl s_client -connect "letsencrypt.org":443 -servername "letsencrypt.org" -verify_hostname "letsencrypt.org" 2>/dev/null | openssl x509 -noout -startdate -enddate
 notBefore=Sep 29 16:33:36 2019 GMT
 notAfter=Dec 28 16:33:36 2019 GMT
-```yaml
+```
 Using Sensu/Nagios checks
 
 - [https://github.com/sensu-plugins/sensu-plugins-ssl](https://github.com/sensu-plugins/sensu-plugins-ssl)

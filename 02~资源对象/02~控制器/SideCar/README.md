@@ -69,4 +69,4 @@ spec:
       volumeMounts:
         - name: shared-logs
           mountPath: /usr/share/nginx/html # nginx-specific mount path
-```yaml
+```

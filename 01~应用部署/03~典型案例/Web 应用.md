@@ -44,7 +44,7 @@ spec:
   selector:
     app: nginx
   type: NodePort
-```yaml
+```
 ```sh
 $ kubectl create -f nginx-deployment-service.yaml
 
@@ -65,7 +65,7 @@ $ kubectl get svc
 NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP                              PORT(S)                      AGE
 kubernetes                      ClusterIP      10.43.0.1       <none>                                   443/TCP                      21h
 nginx                           NodePort       10.43.8.50      <none>                                   80:32356/TCP                 4m5s
-```yaml
+```
 ![Pod 列表](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230502140612.png)
 
 # Ingress
@@ -121,7 +121,7 @@ nginx-ingress-default-backend  0/1    1           0          0s
 NAME                           MIN AVAILABLE  MAX UNAVAILABLE  ALLOWED DISRUPTIONS  AGE
 nginx-ingress-controller       1              N/A              0                    0s
 nginx-ingress-default-backend  1              N/A              0                    0s
-```yaml
+```
 部署完成后我们可以看到 Kubernetes 服务中增加了 nginx-ingress-controller 和 nginx-ingress-default-backend 两个服务。nginx-ingress-controller 为 Ingress Controller，主要做为一个七层的负载均衡器来提供 HTTP 路由、粘性会话、SSL 终止、SSL 直通、TCP 和 UDP 负载平衡等功能。nginx-ingress-default-backend 为默认的后端，当集群外部的请求通过 Ingress 进入到集群内部时，如果无法负载到相应后端的 Service 上时，这种未知的请求将会被负载到这个默认的后端上。
 
 ```sh
@@ -135,7 +135,7 @@ $ kubectl --namespace default get services -o wide -w nginx-ingress-controller
 
 NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP                              PORT(S)                      AGE   SELECTOR
 nginx-ingress-controller   LoadBalancer   10.43.115.59   172.19.157.1,172.19.157.2,172.19.157.3   80:32122/TCP,443:32312/TCP   77m   app=nginx-ingress,component=controller,release=nginx-ingress
-```yaml
+```
 由于我们采用了 ExternalIP 方式对外暴露服务，所以 nginx-ingress-controller 会在三台节点宿主机上的 暴露 80/443 端口。我们可以在任意节点上进行访问，因为我们还没有在 Kubernetes 集群中创建 Ingress 资源，所以直接对 ExternalIP 的请求被负载到了 nginx-ingress-default-backend 上。nginx-ingress-default-backend 默认提供了两个 URL 进行访问，其中的 /healthz 用作健康检查返回 200，而 / 返回 404 错误。
 
 ```sh
@@ -144,7 +144,7 @@ $ curl 127.0.0.1/
 
 $ curl 127.0.0.1/healthz/
 # 返回的是 200
-```yaml
+```
 后续我们如果需要创建自身的 Ingress 配置，可以参考如下方式：
 
 ```yml
@@ -169,7 +169,7 @@ spec:
     - hosts:
         - www.example.com
       secretName: example-tls
-```yaml
+```
 如果希望使用 TLS，那么需要创建包含证书与 Key 的 Secret：
 
 ```yml
@@ -182,7 +182,7 @@ data:
   tls.crt: <base64 encoded cert>
   tls.key: <base64 encoded key>
 type: kubernetes.io/tls
-```yaml
+```
 ## WordPress
 
 Helm 安装完毕后，我们来测试部署一个 WordPress 应用：
@@ -192,7 +192,7 @@ $ helm install --name wordpress-test --set "ingress.enabled=true,persistence.ena
 
 NAME:  wordpress-test
 ...
-```yaml
+```
 这里我们使用 Ingress 负载均衡进行访问，可以通过如下方式访问到服务：
 
 ```sh
@@ -211,7 +211,7 @@ Connection: keep-alive
 Vary: Accept-Encoding
 X-Powered-By: PHP/7.0.27
 Link: <http://wordpress.local/wp-json/>; rel="https://api.w.org/"
-```yaml
+```
 也可以根据 Charts 的说明，利用如下命令获得 WordPress 站点的管理员用户和密码：
 
 ```sh
@@ -225,7 +225,7 @@ nginx-ingress  0s
 ==> v1beta1/RoleBinding
 NAME           AGE
 nginx-ingress  0s
-```yaml
+```
 # 滚动升级
 
 > https://mp.weixin.qq.com/s/JX8Sw828e0Gv8ndYn3KXvQ 在 Kubernetes 中部署网站的综合指南 Todos

@@ -30,7 +30,7 @@ spec :
           value: GIROPOPS
         ports :
         - containerPort: 80
-```yaml
+```
 ```yaml
 # vim app2.yaml
 apiVersion: apps / v1
@@ -55,7 +55,7 @@ spec :
           value: STRIGUS
         ports :
         - containerPort: 80
-```yaml
+```
 我们将使用以下命令在集群中创建部署：
 
 ```sh
@@ -66,7 +66,7 @@ deployment.apps/app1 created
 $ kubectl create -f app2.yaml
 
 deployment.apps/app2 created
-```yaml
+```
 然后配置服务：
 
 ```yaml
@@ -83,7 +83,7 @@ spec :
     targetPort: 80
   selector :
       app: app1
-```yaml
+```
 ```yaml
 # vim svc-app2.yaml
 apiVersion: v1
@@ -97,7 +97,7 @@ spec :
     targetPort: 80
   selector :
       app: app2
-```yaml
+```
 让我们用以下命令在集群中创建服务：
 
 ```sh
@@ -108,7 +108,7 @@ service/appsvc1 created
 $ kubectl create -f svc-app2.yaml
 
 service/appsvc2 created
-```yaml
+```
 我们刚刚从一个静态网站上创建了两个 Pod。
 
 ```sh
@@ -124,7 +124,7 @@ NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 appsvc1      ClusterIP   10.107.228.40   <none>        80/TCP    2m
 appsvc2      ClusterIP   10.97.250.131   <none>        80/TCP    2m
 kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   11d
-```yaml
+```
 让我们列出服务的 Endpoints：
 
 ```sh
@@ -134,7 +134,7 @@ NAME         ENDPOINTS                     AGE
 appsvc1      10.44.0.11:80,10.44.0.12:80   4m
 appsvc2      10.32.0.4:80,10.44.0.13:80    4m
 kubernetes   10.142.0.5:6443               11d
-```yaml
+```
 现在让我们访问这些站点，看看我们在 Deployments 中设置的环境变量是否一切顺利。
 
 ```sh
@@ -152,14 +152,14 @@ h1 id="toc_0">Hello STRIGUS!</h1>
 
 <p>This is being served from a <b>docker</b><br>
 container running Nginx.</p>
-```yaml
+```
 # 定义后端
 
 让我们为后台创建一个部署：
 
 ```sh
 $ vim default-backend.yaml
-```yaml
+```
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -195,7 +195,7 @@ spec :
           requests :
               cpu: 10m
             memory: 20Mi
-```yaml
+```
 注意前面文件中的以下参数。
 
 - terminationGracePeriodSeconds => 在用 SIGTERM 信号执行强制终止之前，它将等待 pod 完成的时间，以秒为单位。
@@ -219,7 +219,7 @@ $ kubectl create -f default-backend.yaml -n ingress
 deployment.apps/default-backend created
 
 $ vim default-backend-service.yaml
-```yaml
+```
 ```yaml
 apiVersion: v1
 kind: Service
@@ -232,7 +232,7 @@ spec :
     targetPort: 8080
   selector :
       app: default-backend
-```yaml
+```
 在命名空间 ingress 中为后台创建服务。
 
 ```sh
@@ -267,12 +267,12 @@ $ kubectl get ep -n ingress
 
 NAME              ENDPOINTS                        AGE
 default-backend   10.32.0.14:8080,10.40.0.4:8080   2m
-```yaml
+```
 现在创建一个文件来定义一个 configMap，以便被我们的应用程序使用。
 
 ```sh
 $ vim nginx-ingress-controller-config-map.yaml
-```yaml
+```
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -282,7 +282,7 @@ metadata :
       app: nginx-ingress-lb
 data :
     enable-vts-status: true
-```yaml
+```
 然后创建 ConfigMap：
 
 ```sh
@@ -307,22 +307,22 @@ enable-vts-status:
 ----
 true
 Events:  <none>
-```yaml
+```
 然后创建关联的 Service Account：
 
 ```sh
 $ vim nginx-ingress-controller-service-account.yaml
-```yaml
+```
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata :
     name: nginx
   namespace: ingress
-```yaml
+```
 ```sh
 $ vim nginx-ingress-controller-clusterrole.yaml
-```yaml
+```
 ```yaml
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -376,10 +376,10 @@ rules :
   verbs :
   - get
   - create
-```yaml
+```
 ```sh
 $ vim nginx-ingress-controller-clusterrolebinding.yaml
-```yaml
+```
 ```yaml
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -394,7 +394,7 @@ subjects :
 - kind: ServiceAccount
   name: nginx
   namespace: ingress
-```yaml
+```
 然后将这些配置作用到 ingress 命名空间：
 
 ```sh
@@ -409,7 +409,7 @@ clusterrole.rbac.authorization.k8s.io/nginx-role created
 $ kubectl create -f nginx-ingress-controller-clusterrolebinding.yaml -n ingress
 
 clusterrolebinding.rbac.authorization.k8s.io/nginx-role created
-```yaml
+```
 然后创建另一个部署：
 
 ```yaml
@@ -464,12 +464,12 @@ spec :
           ports :
             - containerPort: 80
             - containerPort: 18080
-```yaml
+```
 ```sh
 $ kubectl create -f nginx-ingress-controller-deployment.yaml -n ingress
 
 deployment.apps/nginx-ingress-controller created
-```yaml
+```
 最后，我们就来定义 Ingress：
 
 ```yaml
@@ -490,7 +490,7 @@ spec :
                 number: 18080
         path: /nginx_status
         pathType: Prefix
-```yaml
+```
 现在创建一个文件来定义将重定向到我们在本节开头创建的应用程序的服务的入口。
 
 ```yaml
@@ -520,7 +520,7 @@ spec :
                 number: 80
         path: /app2
         pathType: Prefix
-```yaml
+```
 ```s
 $ kubectl create -f nginx-ingress.yaml -n ingress
 
@@ -575,7 +575,7 @@ Events:
   Type    Reason  Age   From                      Message
   ----    ------  ----  ----                      -------
   Normal  CREATE  1m    nginx-ingress-controller  Ingress default/app-ingress
-```yaml
+```
 然后我们创建一个 NodePort 服务：
 
 ```yaml
@@ -595,16 +595,16 @@ spec :
       name: http-mgmt
   selector :
       app: nginx-ingress-lb
-```yaml
+```
 ```sh
 $ kubectl create -f nginx-ingress-controller-service.yaml -n=ingress
 
 service/nginx-ingress created
-```yaml
+```
 这样我们就可以直接在外部访问到了：
 
 ```sh
 $ curl http://SEU-ENDEREÇO:30000/app1
 $ curl http://SEU-ENDEREÇO:30000/app2
 $ curl http://SEU-ENDEREÇO:32000/nginx_status
-```yaml
+```
