@@ -16,8 +16,7 @@ mongodb
 └── values.yaml #K8s object configuration
 
 2 directories, 6 files
-```
-
+```yaml
 - Chart.yaml 文件包含 Chart 的描述您可以从模板中访问它。
 - template/ 目录用于模板文件，当 Helm 执行 Chart 时，它将通过模板渲染引擎发送 template/ 目录中的所有文件。然后，它将收集这些模板的结果并将其发送到 Kubernetes。
 - values.yaml 文件对模板也很重要，该文件包含 Chart 的默认值，用户在 Helm 安装或 Helm 升级期间可能会覆盖这些值。
@@ -59,8 +58,7 @@ spec:
             port: {{ .Values.service.internalPort }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
-```
-
+```yaml
 这是该应用的 Deployment 的 yaml 配置文件，其中的双大括号包扩起来的部分是 Go template，其中的 Values 是在 values.yaml 文件中定义的：
 
 ```yml
@@ -84,8 +82,7 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-```
-
+```yaml
 比如在 Deployment.yaml 中定义的容器镜像 `image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"` 其中的：
 
 - .Values.image.repository 就是 nginx
@@ -185,8 +182,7 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-```
-
+```yaml
 我们可以看到 Deployment 和 Service 的名字前半截由两个随机的单词组成，最后才是我们在 values.yaml 中配置的值。
 
 ## 部署到 Kubernetes
@@ -209,14 +205,12 @@ eating-hound-mychart  10.254.135.68  <none>       80/TCP   0s
 NAME                  DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
 eating-hound-mychart  1        1        1           0          0s
 
-
 NOTES:
 1. Get the application URL by running these commands:
   export POD_NAME=$(kubectl get pods --namespace default -l "app=eating-hound-mychart" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl port-forward $POD_NAME 8080:80
-```
-
+```yaml
 现在 Nginx 已经部署到 K8s 集群上，本地执行提示中的命令在本地主机上访问到 Nginx 实例。
 
 ```sh
@@ -225,15 +219,14 @@ $ export POD_NAME=$(kubectl get pods --namespace default -l "app=eating-hound-my
 $ echo "Visit http://127.0.0.1:8080 to use your application"
 
 $ kubectl port-forward $POD_NAME 8080:80
-```
-
+```yaml
 在本地访问 `http://127.0.0.1:8080` 即可访问到 Nginx
 
 # NOTES.txt
 
 在 `chart install`或`chart upgrade` 结束时，Helm 可以为用户打印出一大堆有用的信息。这些信息是使用模板高度定制的。要将安装说明添加到 chart，只需创建一个 `templates/NOTES.txt` 文件即可。这个文件是纯文本的，但是它像一个模板一样处理，并且具有所有可用的普通模板函数和对象。我们来创建一个简单的 `NOTES.txt` 文件：
 
-```
+```yaml
 Thank you for installing {{ .Chart.Name }}.
 
 Your release is named {{ .Release.Name }}.
@@ -242,11 +235,10 @@ To learn more about the release, try:
 
   $ helm status {{ .Release.Name }}
   $ helm get {{ .Release.Name }}
-```
-
+```yaml
 现在，如果我们运行 `helm install ./mychart` 我们会在底部看到这条消息：
 
-```
+```yaml
 RESOURCES:
 ==> v1/Secret
 NAME                   TYPE      DATA      AGE
@@ -255,7 +247,6 @@ rude-cardinal-secret   Opaque    1         0s
 ==> v1/ConfigMap
 NAME                      DATA      AGE
 rude-cardinal-configmap   3         0s
-
 
 NOTES:
 Thank you for installing mychart.
@@ -266,6 +257,5 @@ To learn more about the release, try:
 
   $ helm status rude-cardinal
   $ helm get rude-cardinal
-```
-
+```yaml
 使用`NOTES.txt`这种方式是一种很好的方式，可以为用户提供有关如何使用新安装 chart 的详细信息。强烈建议创建一个文件`NOTES.txt`，尽管这不是必需的。

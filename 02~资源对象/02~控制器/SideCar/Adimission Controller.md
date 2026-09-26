@@ -23,8 +23,7 @@ $ kube-apiserver -h | grep enable-admission-plugins
 --admission-control strings              Admission is divided into two phases. In the first phase, only mutating admission plugins run. In the second phase, only validating admission plugins run. The names in the below list may represent a validating plugin, a mutating plugin, or both. The order of plugins in which they are passed to this flag does not matter. Comma-delimited list of: AlwaysAdmit, AlwaysDeny, AlwaysPullImages, DefaultStorageClass, DefaultTolerationSeconds, DenyEscalatingExec, DenyExecOnPrivileged, EventRateLimit, ExtendedResourceToleration, ImagePolicyWebhook, Initializers, LimitPodHardAntiAffinityTopology, LimitRanger, MutatingAdmissionWebhook, NamespaceAutoProvision, NamespaceExists, NamespaceLifecycle, NodeRestriction, OwnerReferencesPermissionEnforcement, PersistentVolumeClaimResize, PersistentVolumeLabel, PodNodeSelector, PodPreset, PodSecurityPolicy, PodTolerationRestriction, Priority, ResourceQuota, SecurityContextDeny, ServiceAccount, StorageObjectInUseProtection, ValidatingAdmissionWebhook. (DEPRECATED: Use --enable-admission-plugins or --disable-admission-plugins instead. Will be removed in a future version.)
 
 --enable-admission-plugins strings       admission plugins that should be enabled in addition to default enabled ones (NamespaceLifecycle, LimitRanger, ServiceAccount, Priority, DefaultTolerationSeconds, DefaultStorageClass, PersistentVolumeClaimResize, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, ResourceQuota). Comma-delimited list of admission plugins: AlwaysAdmit, AlwaysDeny, AlwaysPullImages, DefaultStorageClass, DefaultTolerationSeconds, DenyEscalatingExec, DenyExecOnPrivileged, EventRateLimit, ExtendedResourceToleration, ImagePolicyWebhook, Initializers, LimitPodHardAntiAffinityTopology, LimitRanger, MutatingAdmissionWebhook, NamespaceAutoProvision, NamespaceExists, NamespaceLifecycle, NodeRestriction, OwnerReferencesPermissionEnforcement, PersistentVolumeClaimResize, PersistentVolumeLabel, PodNodeSelector, PodPreset, PodSecurityPolicy, PodTolerationRestriction, Priority, ResourceQuota, SecurityContextDeny, ServiceAccount, StorageObjectInUseProtection, ValidatingAdmissionWebhook. The order of plugins in this flag does not matter.
-```
-
+```yaml
 # Adimission Webhook
 
 Admission Controller 有着非常丰富的使用场景，譬如 Istio 就是采用 Admission Webhook 实现 SideCar 容器自动注入；我们也可以自动地为应用打标签，或者自动将 SideCar 容器注册到 Pod 中。
@@ -54,8 +53,7 @@ webhooks:
         namespace: <namespace of the front-end service>
         name: <name of the front-end service>
       caBundle: <pem encoded ca cert that signs the server cert used by the webhook>
-```
-
+```yaml
 其中 rules 定义了匹配规则，当发给 API Server 的请求满足该规则的时候，API Server 就会给 clientConfig 中配置的 service 发送 Admission 请求。如果存在多个 K8s 集群，我们也可以共享 WebHook API：
 
 ![WebHook API](https://s2.ax1x.com/2020/01/01/lGsEMF.md.png)
@@ -87,8 +85,7 @@ AdmissionWebhook 可以像拦截器一样拦截 K8s api 请求，要实现修改
      // +optional
      Response *AdmissionResponse `json:"response,omitempty" protobuf:"bytes,2,opt,name=response"`
  }
-```
-
+```yaml
 mutating 是通过 json patch 方式实现的，对应的结构体定义如下：
 
 ```go
@@ -103,4 +100,4 @@ type patchOperation struct {
    Path: "/metadata/annotations",
    Value: true,
  })
-```
+```yaml

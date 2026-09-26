@@ -33,7 +33,6 @@ mysql-test  1     1s
 NAME   TYPE       CLUSTER-IP     EXTERNAL-IP  PORT(S)   AGE
 mysql  ClusterIP  10.100.139.57  <none>       3306/TCP  1s
 
-
 NOTES:
 MySQL can be accessed via port 3306 on the following DNS name from within your cluster:
 mysql.default.svc.cluster.local
@@ -63,4 +62,4 @@ To connect to your database directly from outside the K8s cluster:
     kubectl port-forward svc/mysql 3306
 
     mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}
-```
+```yaml

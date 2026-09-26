@@ -27,8 +27,7 @@ chmod +x ./minikube
 sudo mv ./minikube /usr/local/bin/minikube
 
 minikube version
-```
-
+```yaml
 ## MacOS
 
 ```sh
@@ -49,13 +48,11 @@ echo  " source <(kubectl completion bash) "  >>  ~ /.bashrc # add autocomplete p
 # ZSH
 source <(kubectl completion zsh)
 echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)"
-```
-
+```yaml
 ## Usage
 
 ```sh
 minikube start
-
 
 🎉  minikube 1.10.0 is available! Download it: https://github.com/kubernetes/minikube/releases/tag/v1.10.0
 💡  To disable this notice, run: 'minikube config set WantUpdateNotification false'
@@ -82,4 +79,4 @@ $ minikube ssh
 # Dashboard
 $ minikube dashboard
 
-```
+```yaml

@@ -21,8 +21,7 @@ spec:
           mountPath: /usr/share/nginx/html
   hostNetwork: true
   dnsPolicy: Default
-```
-
+```yaml
 注意，这里使用 hostNetwork 命令指明了使用所在主机的接口，我们接下来使用 kubectl 来创建 Pod：
 
 ```sh
@@ -42,15 +41,13 @@ $ kubectl exec shell-demo cat /proc/1/mounts
 
 # 当有多个容器时，可以指明执行某个容器的命令
 $ kubectl exec -it my-pod --container main-app -- /bin/bash
-```
-
+```yaml
 这里我们使用了本地的 Volume 共享，我们可以在共享的目录中创建新的文本：
 
 ```sh
 $ echo Hello shell demo > /usr/share/nginx/html/index.html
 $ curl localhost
-```
-
+```yaml
 # 多个容器
 
 在以下的配置中，我们可以创建包含两个容器的 Pod，这两个容器共享 Volume 并以此通信：
@@ -82,14 +79,12 @@ spec:
       command: ["/bin/sh"]
       args:
         ["-c", "echo Hello from the debian container > /pod-data/index.html"]
-```
-
+```yaml
 在配置文件中，您可以看到 Pod 具有一个名为 shared-data 的卷。配置文件中列出的第一个容器运行 nginx 服务器。共享卷的安装路径为 `/usr/share/nginx/html`。第二个容器基于 debian 映像，并且具有 `/pod-data` 的安装路径。第二个容器运行以下命令，然后终止。
 
 ```sh
 $ echo Hello from the debian container > /pod-data/index.html
-```
-
+```yaml
 ```sh
 $ kubectl get pod two-containers --output=yaml
 
@@ -121,8 +116,7 @@ spec:
     state:
       running:
     ...
-```
-
+```yaml
 我们可以看到 debian container 被终止了，而 nginx container 依然运行。
 
 ```sh
@@ -130,4 +124,4 @@ $ kubectl exec -it two-containers -c nginx-container -- /bin/bash
 $ root@two-containers:/# curl localhost
 
 > Hello from the debian container
-```
+```yaml

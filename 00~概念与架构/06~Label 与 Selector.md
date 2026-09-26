@@ -9,8 +9,7 @@ Label 是附着到 object 上（例如 Pod）的键值对。可以在创建 obje
   "key1" : "value1",
   "key2" : "value2"
 }
-```
-
+```yaml
 Kubernetes 最终将对 labels 最终索引和反向索引用来优化查询和 watch，在 UI 和命令行中会对它们排序。不要在 label 中使用大型、非标识的结构化数据，记录这样的数据应该用 annotation。Label 能够将组织架构映射到系统架构上（就像是康威定律），这样能够更便于微服务的管理，你可以给 object 打上如下类型的 label：
 
 - "release" : "stable", "release" : "canary"
@@ -32,8 +31,7 @@ $ kubectl get pods -l environment=production,tier=frontend
 $ kubectl get pods -l 'environment in (production),tier in (frontend)'
 $ kubectl get pods -l 'environment in (production, qa)'
 $ kubectl get pods -l 'environment,environment notin (frontend)'
-```
-
+```yaml
 ## API Object
 
 在 service、replicationcontroller 等 object 中有对 Pod 的 label selector，使用方法只能使用等于操作，例如：
@@ -41,8 +39,7 @@ $ kubectl get pods -l 'environment,environment notin (frontend)'
 ```yml
 selector:
   component: redis
-```
-
+```yaml
 在 Job、Deployment、ReplicaSet 和 DaemonSet 这些 object 中，支持 set-based 的过滤，例如：
 
 ```yml
@@ -52,8 +49,7 @@ selector:
   matchExpressions:
     - { key: tier, operator: In, values: [cache] }
     - { key: environment, operator: NotIn, values: [dev] }
-```
-
+```yaml
 如 Service 通过 label selector 将同一类型的 Pod 作为一个服务 expose 出来。
 
 ```yml
@@ -75,8 +71,7 @@ affinity:
               operator: In
               values:
                 - another-node-label-value
-```
-
+```yaml
 # 推荐的标签
 
 共享标签和注解都使用同一个前缀：app.kubernetes.io。没有前缀的标签是用户私有的。共享前缀可以确保共享标签不会干扰用户自定义的标签。为了充分利用这些标签，应该在每个资源对象上都使用它们：
@@ -103,8 +98,7 @@ metadata:
   labels:
     app.kubernetes.io/name: myservice
     app.kubernetes.io/instance: myservice-abcxzy
-```
-
+```yaml
 下面的 Service 用于暴露应用。
 
 ```yml
@@ -114,8 +108,7 @@ metadata:
   labels:
     app.kubernetes.io/name: myservice
     app.kubernetes.io/instance: myservice-abcxzy
-```
-
+```yaml
 ## 案例：带有一个数据库的 Web 应用程序
 
 考虑一个稍微复杂的应用：一个使用 Helm 安装的 Web 应用（WordPress），其中 使用了数据库（MySQL）。以下代码片段说明用于部署此应用程序的对象的开始。以下 Deployment 的开头用于 WordPress：
@@ -131,8 +124,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/component: server
     app.kubernetes.io/part-of: wordpress
-```
-
+```yaml
 这个 Service 用于暴露 WordPress：
 
 ```yml
@@ -146,8 +138,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/component: server
     app.kubernetes.io/part-of: wordpress
-```
-
+```yaml
 MySQL 作为一个 StatefulSet 暴露，包含它和它所属的较大应用程序的元数据：
 
 ```yml
@@ -161,8 +152,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
-```
-
+```yaml
 `Service` 用于将 MySQL 作为 WordPress 的一部分暴露：
 
 ```yaml
@@ -176,6 +166,5 @@ metadata:
     app.kubernetes.io/managed-by: helm
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
-```
-
+```yaml
 使用 MySQL `StatefulSet` 和 `Service`，您会注意到有关 MySQL 和 Wordpress 的信息，包括更广泛的应用程序。

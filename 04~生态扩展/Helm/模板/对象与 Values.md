@@ -55,8 +55,7 @@ Helm 模板提供的内置对象。四个内置对象之一是 Values，该对�
 
 ```yaml
 favoriteDrink: coffee
-```
-
+```yaml
 现在我们可以在模板中使用这个：
 
 ```yaml
@@ -67,8 +66,7 @@ metadata:
 data:
   myvalue: "Hello World"
   drink: {{.Values.favoriteDrink}}
-```
-
+```yaml
 注意我们在最后一行 {{ .Values.favoriteDrink}} 获取 `favoriteDrink` 的值。
 
 让我们看看这是如何渲染的。
@@ -90,8 +88,7 @@ metadata:
 data:
   myvalue: "Hello World"
   drink: coffee
-```
-
+```yaml
 由于 `favoriteDrink` 在默认 `values.yaml` 文件中设置为 `coffee`，这就是模板中显示的值。我们可以轻松地在我们的 helm install 命令中通过加一个 `--set` 添标志来覆盖：
 
 ```bash
@@ -111,8 +108,7 @@ metadata:
 data:
   myvalue: "Hello World"
   drink: slurm
-```
-
+```yaml
 由于 `--set` 比默认 `values.yaml` 文件具有更高的优先级，我们的模板生成 `drink: slurm`。
 
 values 文件也可以包含更多结构化内容。例如，我们在 values.yaml 文件中可以创建 `favorite` 部分，然后在其中添加几个键：
@@ -121,8 +117,7 @@ values 文件也可以包含更多结构化内容。例如，我们在 values.ya
 favorite:
   drink: coffee
   food: pizza
-```
-
+```yaml
 现在我们稍微修改模板：
 
 ```yaml
@@ -134,8 +129,7 @@ data:
   myvalue: "Hello World"
   drink: {{.Values.favorite.drink}}
   food: {{.Values.favorite.food}}
-```
-
+```yaml
 虽然以这种方式构建数据是可以的，但建议保持 value 树浅一些，平一些。当我们看看为子 chart 分配值时，我们将看到如何使用树结构来命名值。
 
 ## 删除默认的 Key
@@ -148,8 +142,7 @@ livenessProbe:
     path: /user/login
     port: http
   initialDelaySeconds: 120
-```
-
+```yaml
 如果尝试覆盖 liveness Probe 处理程序 `exec` 而不是 `httpGet`，使用 `--set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt]`，Helm 会将默认和重写的键合并在一起，从而产生以下 YAML：
 
 ```yaml
@@ -162,12 +155,10 @@ livenessProbe:
       - cat
       - docroot/CHANGELOG.txt
   initialDelaySeconds: 120
-```
-
+```yaml
 但是，Kubernetes 会报错，因为无法声明多个 liveness Probe 处理程序。为了克服这个问题，你可以指示 Helm 过将 livenessProbe.httpGet 通设置为空来删除它：
 
 ```bash
 helm install stable/drupal --set image=my-registry/drupal:0.1.0 --set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt] --set livenessProbe.httpGet=null
-```
-
+```yaml
 到这里，我们已经看到了几个内置对象，并用它们将信息注入到模板中。

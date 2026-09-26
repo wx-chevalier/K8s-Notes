@@ -23,8 +23,7 @@ spec :
             - -c
             - date; echo Welcome to Uncomplicating Kubernetes - LinuxTips VAIIII; sleep 30
           restartPolicy : OnFailure
-```
-
+```yaml
 我们前面的 CronJobs 例子每分钟打印当前时间和一条问候信息。让我们从清单中创建它的 CronJob。
 
 ```sh
@@ -74,8 +73,7 @@ Events:
   Normal  SuccessfulCreate  41s   cronjob-controller  Created job giropops-cron-1534977180
   Normal  SawCompletedJob   1s    cronjob-controller  Saw completed job: giropops-cron-1534977180
   Normal  SuccessfulDelete  1s    cronjob-controller  Deleted job giropops-cron-1534977000
-```
-
+```yaml
 看看多酷，如果你看集群事件，你是 cron 已经在调度和执行任务了。现在我们就来看看这个 cron 工作通过命令`kubectl get`旁边的参数 --watch 来查看任务的输出，注意，这个任务会在 CronJob 创建后的一分钟左右被创建。
 
 ```sh
@@ -89,8 +87,7 @@ $ kubectl get cronjob giropops-cron
 
 NAME           SCHEDULE      SUSPEND   ACTIVE    LAST SCHEDULE   AGE
 giropops-cron  */1 * * * *   False     1         26s             48m
-```
-
+```yaml
 我们可以看到，我们的 cronis 工作正常。要查看任务执行的命令输出将使用 kubectl 的命令日志。为此，我们将列出正在运行的 pods，然后从中获取日志。
 
 ```sh
@@ -103,8 +100,7 @@ $ kubectl logs giropops-cron-1534979940-vcwdg
 
 Wed Aug 22 23:19:06 UTC 2018
 LinuxTips VAIIII
-```
-
+```yaml
 cron 正确地执行任务，打印日期和我们在清单中创建的短语。如果 kubectl 得到 pods 我们运行一个，我们可以看到创建的 Pods 和用于执行任务的每分钟。
 
 ```sh
@@ -118,4 +114,4 @@ giropops-cron-1534980480-4bwcc   1/1      Running     0          4s
 $ kubectl delete cronjob giropops-cron
 
 cronjob.batch "giropops-cron" deleted
-```
+```yaml

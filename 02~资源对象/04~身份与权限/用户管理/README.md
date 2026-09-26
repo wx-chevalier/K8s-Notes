@@ -19,8 +19,7 @@ spec:
   usages:
   - client auth
 EOF
-```
-
+```yaml
 要查看创建的 CSR，请使用以下命令。
 
 ```sh
@@ -29,22 +28,19 @@ $ kubectl get csr
 # The CSR must have the status Pending, we will approve it
 $ kubectl certificate approve linuxtips-csr
 
-```
-
+```yaml
 现在证书已经被集群的证书颁发机构(CA)签署，我们将使用下面的命令来获取签署的证书。
 
 ```sh
 $ kubectl get csr linuxtips-csr -o jsonpath='{.status.certificate}' | base64 --decode > linuxtips.crt
 
-```
-
+```yaml
 这将是必要的配置 kubeconfig 的文件指的是集群的 CA，为了获得它，我们将提取它从 kubeconf 当前我们正在使用的。
 
 ```sh
 $ kubectl config view -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' --raw | base64 --decode - > ca.crt
 
-```
-
+```yaml
 一旦完成，我们将为新用户设置我们的 kubeconfig。
 
 ```sh
@@ -59,4 +55,4 @@ $ kubectl config use-context linuxtips --kubeconfig=linuxtips-config
 
 # test
 $ kubectl version --kubeconfig=linuxtips-config
-```
+```yaml

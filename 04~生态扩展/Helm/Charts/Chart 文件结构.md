@@ -13,8 +13,7 @@ wordpress/
   templates/          # A directory of templates that, when combined with values,
                       # will generate valid Kubernetes manifest files.
   templates/NOTES.txt # OPTIONAL: A plain text file containing short usage notes
-```
-
+```yaml
 Helm 保留使用 charts / 和 templates / 目录以及上面列出的文件名称。其他文件将被忽略。
 
 ## Chart.yaml 文件
@@ -41,8 +40,7 @@ icon: A URL to an SVG or PNG image to be used as an icon (optional).
 appVersion: The version of the app that this contains (optional). This needn't be SemVer.
 deprecated: Whether this chart is deprecated (optional, boolean)
 tillerVersion: The version of Tiller that this chart requires. This should be expressed as a SemVer range: ">2.0.0" (optional)
-```
-
+```yaml
 如果熟悉 Chart.yaml Helm Classic 的文件格式，注意到指定依赖性的字段已被删除。这是因为新的 chart 使用 charts / 目录表示依赖关系。其他字段将被忽略。
 
 ## Charts 和版本控制
@@ -51,8 +49,7 @@ tillerVersion: The version of Tiller that this chart requires. This should be ex
 
 ```s
 nginx-1.2.3.tgz
-```
-
+```yaml
 更复杂的 SemVer 2 命名也是支持的，例如 version: 1.2.3-alpha.1+ef365。但非 SemVer 命名是明确禁止的。虽然 Helm Classic 和 Deployment Manager 在 chart 方面都非常适合 GitHub，但 Kubernetes Helm 并不依赖或需要 GitHub 甚至 Git。因此，它不使用 Git SHA 进行版本控制。
 
 许多 Helm 工具都使用 Chart.yaml 的 version 字段，其中包括 CLI 和 Tiller 服务。在生成包时，helm package 命令将使用它在 Chart.yaml 中的版本名作为包名。系统假定 chart 包名称中的版本号与 Chart.yaml 中的版本号相匹配。不符合这个情况会导致错误。

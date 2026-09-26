@@ -17,8 +17,7 @@ complete -F __start_kubectl k
 # ZSH
 source <(kubectl completion zsh)  # setup autocomplete in zsh into the current shell
 echo "if [ $commands[kubectl] ]; then source <(kubectl completion zsh); fi" >> ~/.zshrc # add autocomplete permanently to your zsh shell
-```
-
+```yaml
 ## 插件
 
 K8s 生态圈为我们提供了非常丰富的插件，这里我们可以使用 krew 作为 K8s 的插件安装工具：
@@ -34,8 +33,7 @@ K8s 生态圈为我们提供了非常丰富的插件，这里我们可以使用 
 )
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-```
-
+```yaml
 然后可以通过 krew 来安装插件：
 
 ```s
@@ -44,8 +42,7 @@ kubectl krew install view-secret    # install a plugin named "view-secret"
 kubectl view-secret                 # use the plugin
 kubectl krew upgrade                # upgrade installed plugins
 kubectl krew uninstall view-secret  # uninstall a plugin
-```
-
+```yaml
 # 快速开始
 
 ## 查看基本信息
@@ -104,8 +101,7 @@ kube-system   kube-scheduler-docker-01            1/1     Running   0          8
 kube-system   weave-net-7dhpf                     2/2     Running   0          8d    172.16.83.12   docker-03   <none>           <none>
 kube-system   weave-net-fvttp                     2/2     Running   0          8d    172.16.83.13   docker-02   <none>           <none>
 kube-system   weave-net-xl7km                     2/2     Running   0          8d    172.16.83.14   docker-01   <none>           <none>
-```
-
+```yaml
 下图为 kubectl 的主要命令结构。
 
 ![kubectl 常用命令](https://s3.ax1x.com/2021/02/14/yymII0.png)
@@ -144,8 +140,7 @@ Containers:
     Host Port:      <none>
     State:          Running
       Started:      Tue, 12 May 2020 02:29:42 -0300
-```
-
+```yaml
 你可以用命令 kubectl get events 检查集群的最新事件。事件如：从 Docker Hub（或其他配置的注册表）下载镜像，创建/删除 pods 等都会被显示出来。
 
 ```sh
@@ -155,8 +150,7 @@ LAST SEEN   TYPE     REASON      OBJECT      MESSAGE
 5m31s       Normal   Pulled      pod/nginx   Successfully pulled image "nginx"
 5m30s       Normal   Created     pod/nginx   Created container nginx
 5m30s       Normal   Started     pod/nginx   Started container nginx
-```
-
+```yaml
 在上一条命令的结果中，可以观察到 nginx 的执行发生在默认的命名空间，而本地仓库中不存在 nginx 镜像，因此，必须下载镜像。
 
 ## 资源的 YAML 描述
@@ -165,8 +159,7 @@ LAST SEEN   TYPE     REASON      OBJECT      MESSAGE
 
 ```sh
 $ kubectl get pod nginx -o yaml > meu-primeiro.yaml
-```
-
+```yaml
 通过重定向命令输出 `kubectl get pod nginx -o yaml`，将创建一个名为 `meu-primeiro.yaml` 的新文件。
 
 ```yaml
@@ -317,8 +310,7 @@ status :
   - ip : 10.44.0.1
   qosClass : BestEffort
   startTime : " 2020-05-12T05: 29: 38Z "
-```
-
+```yaml
 观察之前的文件，我们注意到它反映了 pod 的状态。我们想把这样的文件只作为一个模板，因此，我们可以从该 pod 中删除存储状态数据的条目，如状态和所有其他特定于它的设置。最终的文件将有类似于这样的内容。
 
 ```yaml
@@ -337,8 +329,7 @@ apiVersion : v1
     dnsPolicy : ClusterFirst
     restartPolicy : Always
   status : {}
-```
-
+```yaml
 现在，我们将用以下命令移除我们的 Pod。
 
 ```sh
@@ -350,16 +341,14 @@ $ kubectl get pods
 
 NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          109s
-```
-
+```yaml
 另一种创建文件模板的方式是通过选择 --dry-runof kubectl，根据要创建的资源类型，操作略有不同。举例说明：--dry-runof kubectl
 
 ```sh
 $ kubectl run meu-nginx --image nginx --dry-run=client -o yaml > pod-template.yaml
 
 $ kubectl create deployment meu-nginx --image=nginx --dry-run=client -o yaml > deployment-template.yaml
-```
-
+```yaml
 ## 暴露 Pod
 
 集群之外的设备，默认情况下，无法访问创建的 pod，这与其他容器系统一样。要暴露一个 pod ，运行以下命令。
@@ -368,14 +357,12 @@ $ kubectl create deployment meu-nginx --image=nginx --dry-run=client -o yaml > d
 $ kubectl expose pod nginx
 error: couldn't find port via --port flag or introspection
 See 'kubectl expose -h' for help and examples
-```
-
+```yaml
 发生错误的原因是 K8s 不知道哪个是应该暴露的容器的目的端口（在这种情况下，80 / TCP）。要配置它，让我们首先删除我们的旧 pod 。
 
 ```sh
 $ kubectl delete -f meu-primeiro.yaml
-```
-
+```yaml
 然后重设如下配置：
 
 ```yaml
@@ -389,8 +376,7 @@ $ kubectl delete -f meu-primeiro.yaml
          name : nginx
          resources : {}
 ...
-```
-
+```yaml
 修改文件后，保存文件并使用以下命令再次创建 pod。
 
 ```sh
@@ -409,8 +395,7 @@ $ kubectl get services
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   8d
 nginx        ClusterIP   10.105.41.192   <none>        80/TCP    2m30s
-```
-
+```yaml
 正如你所看到的，在我们的集群中，有两个服务：第一个是给 K8s 本身使用的，而第二个是我们刚刚创建的。通过在 CLUSTER-IP 栏中显示的 IP 地址，Nginx 的主界面应该呈现在我们面前。
 
 ```sh
@@ -441,8 +426,7 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-```
-
+```yaml
 # Links
 
 - https://blog.csdn.net/xingwangc2014/article/details/51204224

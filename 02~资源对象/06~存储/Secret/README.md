@@ -13,8 +13,7 @@ $ echo -n "giropops strigus girus" > secret.txt
 $ kubectl create secret generic my-secret --from-file=secret.txt
 
 secret/my-secret created
-```
-
+```yaml
 我们来看看那个物体的细节，看看到底发生了什么。
 
 ```sh
@@ -30,8 +29,7 @@ Type:  Opaque
 Data
 ====
 secret.txt:  18 bytes
-```
-
+```yaml
 需要注意的是，不能使用 describe 查看文件的内容，这是为了保护密钥不被意外暴露。要检查一个 Secret 的内容，我们需要对生成的文件进行解码，要做到这一点，我们必须检查同一文件的清单。
 
 ```sh
@@ -54,22 +52,19 @@ metadata:
   selfLink: /api/v1/namespaces/default/secrets/my-secret
   uid: e61d124a-a952-11e8-8723-42010a8a0002
 type: Opaque
-```
-
+```yaml
 现在我们有了加密后的密钥，只需使用 Base64 解密即可。
 
 ```sh
 $ echo 'Z2lyb3BvcHMgc3RyaWd1cyBnaXJ1cw==' | base64 --decode
 
 giropops strigus girus
-```
-
+```yaml
 好了，有了我们的 Secret，现在我们将在 Pod 里面使用它，为此我们需要在 Pod 里面使用卷来引用 Secret，我们将创建我们的清单。
 
 ```sh
 vim pod-secret.yaml
-```
-
+```yaml
 ```yaml
 apiVersion : v1
 kind : Pod
@@ -90,8 +85,7 @@ spec :
     - name : my-volume-secret
         secret :
         secretName : my-secret
-```
-
+```yaml
 在此清单中，我们将使用卷 my-volume-secret 将 Secret 挂载在容器 my-secret 目录/tmp/giropos 内。
 
 ```sh
@@ -106,8 +100,7 @@ secret.txt
 $ kubectl exec -ti test-secret -- cat /tmp/giropops/secret.txt
 
 giropops strigus girus
-```
-
+```yaml
 成功了！这就是我们在 Pods 中放置信息或密码的方法之一。
 
 ## 使用环境变量
@@ -132,14 +125,12 @@ Data
 ====
 password:  6 bytes
 user:      9 bytes
-```
-
+```yaml
 我们刚刚创建了一个有两个密钥的对象 Secret，一个是用户，另一个是密码，现在我们将使用环境变量在 Pod 中引用这个密钥，为此我们将创建新的清单。
 
 ```sh
 vim pod-secret-env.yaml
-```
-
+```yaml
 ```yaml
 apiVersion : v1
 kind : Pod
@@ -164,8 +155,7 @@ spec :
             secretKeyRef :
                 name : my-literal-secret
                 key : password
-```
-
+```yaml
 ```sh
 $ kubectl create -f pod-secret-env.yaml
 
@@ -187,8 +177,7 @@ KUBERNETES_SERVICE_PORT_HTTPS=443
 KUBERNETES_PORT=tcp://10.96.0.1:443
 KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
 HOME=/root
-```
-
+```yaml
 看到了吗？现在我们可以把这个 key 在容器里面作为一个环境变量，如果容器里面的任何一个应用需要连接到数据库，比如说使用用户名和密码，只要用这个信息创建一个 secret，并在 Pod 中引用，然后在 Pod 里面作为一个环境变量或者一个文本文件创建卷来消耗就可以了。
 
 # Links

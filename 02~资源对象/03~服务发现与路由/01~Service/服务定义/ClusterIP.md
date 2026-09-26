@@ -17,8 +17,7 @@ $ kubectl get svc
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP   25m
 nginx        ClusterIP   10.104.209.243   <none>        80/TCP    7m15s
-```
-
+```yaml
 运行以下命令查看 Nginx 服务的详细信息。
 
 ```sh
@@ -36,8 +35,7 @@ TargetPort:        80/TCP
 Endpoints:         10.46.0.0:80
 Session Affinity:  None
 Events:            <none>
-```
-
+```yaml
 访问 Ningx。根据自己的环境，用下面的命令更改集群 IP。
 
 ```sh
@@ -54,8 +52,7 @@ $ kubectl logs -f nginx
 $ kubectl delete svc nginx
 
 service "nginx" deleted
-```
-
+```yaml
 然后使用 `vim primeiro-service-clusterip.yaml`：
 
 ```yml
@@ -74,8 +71,7 @@ spec :
   selector :
      run : nginx
   type : ClusterIP
-```
-
+```yaml
 创建服务：
 
 ```sh
@@ -107,8 +103,7 @@ Events:            <none>
 $ kubectl delete -f primeiro-service-clusterip.yaml
 
 service "nginx-clusterip" deleted
-```
-
+```yaml
 然后我们修改下 sessionAffinity 属性：
 
 ```yml
@@ -128,8 +123,7 @@ spec :
      run : nginx
   sessionAffinity : ClientIP
   type : ClusterIP
-```
-
+```yaml
 再次创建服务：
 
 ```sh
@@ -157,24 +151,21 @@ TargetPort:        80/TCP
 Endpoints:         10.46.0.1:80
 Session Affinity:  ClientIP
 Events:            <none>
-```
-
+```yaml
 有了这些，现在我们就可以维护会话了，也就是说，它将与同一个 pod 保持连接，尊重客户端的原 IP。如果有必要，可以将超时值改为 sessionAffinity(默认值为 10800 秒，即 3 小时)，只需添加以下配置即可。
 
 ```yaml
 sessionAffinityConfig:
   clientIP:
     timeoutSeconds: 10
-```
-
+```yaml
 现在我们可以删除服务。
 
 ```sh
 $ kubectl delete -f primeiro-service-clusterip.yaml
 
 service "nginx-clusterip" deleted
-```
-
+```yaml
 # EndPoint
 
 每当我们创建一个服务，就会自动创建一个端点。端点无非就是服务要使用的 IP pod，比如我们创建服务类型 ClusterIP 的时候就有你的 IP，对吧？现在，当我们打到这个 IP 的时候，它就会通过这个 IP，即 EndPoint 重定向连接到 Pod。要列出已创建的 EndPoints，请运行命令。
@@ -200,8 +191,7 @@ Subsets:
     https  6443  TCP
 
 Events:  <none>
-```
-
+```yaml
 让我们做一个例子，对于这个，我们将执行一个部署的创建，将副本的数量增加到 3 个，然后是一个服务，这样我们就可以更详细地看到将创建的端点。
 
 ```sh
@@ -213,8 +203,7 @@ $ kubectl get deployments.apps
 
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 nginx   1/1     1            1           5s
-```
-
+```yaml
 将 nginx 部署扩展到 3 个副本。
 
 ```sh
@@ -236,8 +225,7 @@ $ kubectl get svc
 NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP   40m
 nginx        ClusterIP   10.98.153.22   <none>        80/TCP    6s
-```
-
+```yaml
 访问 nginx：
 
 ```sh
@@ -246,8 +234,7 @@ curl 10.98.153.22
 ...
 <h1>Welcome to nginx!</h1>
 ...
-```
-
+```yaml
 查看端点：
 
 ```sh
@@ -256,8 +243,7 @@ kubectl get endpoints
 NAME         ENDPOINTS                                AGE
 kubernetes   172.31.17.67:6443                        44m
 nginx        10.32.0.2:80,10.32.0.3:80,10.46.0.2:80   3m31s
-```
-
+```yaml
 查看 nginx 端点的详细信息：
 
 ```sh
@@ -276,8 +262,7 @@ Subsets:
     <unset>  80    TCP
 
 Events:  <none>
-```
-
+```yaml
 以 YAML 格式查看端点。
 
 ```yaml
@@ -318,8 +303,7 @@ kind: List
 metadata:
   resourceVersion: ""
   selfLink: ""
-```
-
+```yaml
 移除相关的资源：
 
 ```sh
@@ -330,4 +314,4 @@ deployment.apps "nginx" deleted
 $ kubectl delete service nginx
 
 service "nginx" deleted
-```
+```yaml

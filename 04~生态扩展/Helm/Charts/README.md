@@ -22,8 +22,7 @@ stable/jenkins      0.1.0       A Jenkins Helm Charts for Kubernetes.
 stable/mariadb      0.5.1       Chart for MariaDB
 stable/mysql        0.1.0       Chart for MySQL
 ...
-```
-
+```yaml
 如果没有使用过滤条件，helm search 显示所有可用的 Chartss。可以通过使用过滤条件进行搜索来缩小搜索的结果范围：
 
 ```s
@@ -31,8 +30,7 @@ $ helm search mysql
 NAME                   VERSION    DESCRIPTION
 stable/mysql      0.1.0      Chart for MySQL
 stable/mariadb    0.5.1      Chart for MariaDB
-```
-
+```yaml
 现在只会看到与过滤条件匹配的结果。为什么 mariadb 在列表中？因为它的包描述与 MySQL 相关。我们可以使用 helm inspect Charts 到这个：
 
 ```s
@@ -47,8 +45,7 @@ keywords:
 - database
 - sql
 ...
-```
-
+```yaml
 ## 'helm install'：安装一个软件包
 
 要安装新的软件包，请使用该 helm install 命令。最简单的方法，它只需要一个参数：Charts 的名称。
@@ -74,7 +71,6 @@ happy-panda-mariadb   Opaque    2         1s
 NAME                     CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
 happy-panda-mariadb   10.0.0.70    <none>        3306/TCP   1s
 
-
 Notes:
 MariaDB can be accessed via port 3306 on the following DNS name from within your cluster:
 happy-panda-mariadb.default.svc.cluster.local
@@ -82,8 +78,7 @@ happy-panda-mariadb.default.svc.cluster.local
 To connect to your database run the following command:
 
    kubectl run happy-panda-mariadb-client --rm --tty -i --image bitnami/mariadb --command -- mysql -h happy-panda-mariadb
-```
-
+```yaml
 现在 mariadb Charts 已安装，请注意，安装 Charts 会创建一个新 release 对象。上面的 release 被命名 为 happy-panda。（如果你想使用你自己的 release 名称，只需使用 --name 参数 配合 helm install。）在安装过程中，helm 客户端将打印有关创建哪些资源的有用信息，release 的状态以及是否可以或应该采取其他的配置步骤。
 
 Helm 不会一直等到所有资源都运行才退出。许多 Chartss 需要大小超过 600M 的 Docker 镜像，因此可能需要很长时间才能安装到群集中。
@@ -111,7 +106,6 @@ happy-panda-mariadb   1         1         1            1           4m
 NAME                     TYPE      DATA      AGE
 happy-panda-mariadb   Opaque    2         4m
 
-
 Notes:
 MariaDB can be accessed via port 3306 on the following DNS name from within your cluster:
 happy-panda-mariadb.default.svc.cluster.local
@@ -119,4 +113,4 @@ happy-panda-mariadb.default.svc.cluster.local
 To connect to your database run the following command:
 
    kubectl run happy-panda-mariadb-client --rm --tty -i --image bitnami/mariadb --command -- mysql -h happy-panda-mariadb
-```
+```yaml

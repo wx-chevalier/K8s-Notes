@@ -50,8 +50,7 @@ Kubernetes 使用命名空间的概念帮助解决集群中在管理对象时的
     }
   }
 }
-```
-
+```yaml
 ```sh
 # 查看命名空间
 $ kubectl get namespaces
@@ -69,8 +68,7 @@ $ kubectl get pods --namespace=<insert-namespace-name-here>
 $ kubectl config set-context --current --namespace=<insert-namespace-name-here>
 # Validate it
 $ kubectl config view --minify | grep namespace:
-```
-
+```yaml
 # 命名空间使用模式
 
 命名空间是一种非常灵活的特性，它不强制使用特定的结构或组织模式。不过尽管如此，还是有许多在团队内常使用的模式。

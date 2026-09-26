@@ -54,42 +54,37 @@ spec:
       - name: post-install-job
         image: "alpine:3.3"
         command: ["/bin/sleep","{{default"10".Values.sleepyTime}}"]
-```
-
+```yaml
 注释使这个模板成为 hook：
 
-```
+```yaml
   annotations:
     "helm.sh/hook": post-install
-```
-
+```yaml
 一个资源可以部署多个 hook：
 
-```
+```yaml
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-```
-
+```yaml
 同样，实现一个给定的 hook 的不同种类资源数量没有限制。例如，我们可以将 secret 和 config map 声明为预安装 hook。
 
 子 chart 声明 hook 时，也会评估这些 hook。顶级 chart 无法禁用子 chart 所声明的 hook。
 
 可以为一个 hook 定义一个权重，这将有助于建立一个确定性的执行顺序。权重使用以下注释来定义：
 
-```
+```yaml
   annotations:
     "helm.sh/hook-weight": "5"
-```
-
+```yaml
 hook 权重可以是正数或负数，但必须表示为字符串。当 Tiller 开始执行一个特定类型的 hook (例：`pre-install` hooks `post-install` hooks, 等等) 执行周期时，它会按升序对这些 hook 进行排序。
 
 还可以定义确定何时删除相应的 hook 资源的策略。hook 删除策略使用以下注释来定义：
 
-```
+```yaml
   annotations:
     "helm.sh/hook-delete-policy": hook-succeeded
-```
-
+```yaml
 可以选择一个或多个定义的注释值：
 
 - "hook-succeeded" 指定 Tiller 应该在 hook 成功执行后删除 hook。

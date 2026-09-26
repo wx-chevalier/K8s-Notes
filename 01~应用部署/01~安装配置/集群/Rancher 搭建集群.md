@@ -17,8 +17,7 @@
 
 ```bash
 $ docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
-```
-
+```yaml
 ![](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230510134956.png)
 
 ## Master
@@ -54,8 +53,7 @@ $ sudo snap install helm --classic
 
 # 通过键入如下命令，在 Kubernetes 群集上安装 Tiller
 $ helm init --upgrade
-```
-
+```yaml
 在缺省配置下，Helm 会利用 "gcr.io/kubernetes-helm/tiller" 镜像在 Kubernetes 集群上安装配置 Tiller；并且利用 "https://kubernetes-charts.storage.googleapis.com" 作为缺省的 stable repository 的地址。由于在国内可能无法访问 "gcr.io", "storage.googleapis.com" 等域名，阿里云容器服务为此提供了镜像站点。请执行如下命令利用阿里云的镜像来配置 Helm：
 
 ```sh
@@ -74,8 +72,7 @@ $ helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 
 # 查看 Helm 源添加情况
 $ helm repo list
-```
-
+```yaml
 Helm 的常见命令如下：
 
 ```sh
@@ -101,8 +98,7 @@ $ helm del --purge wordpress-test
 $ kubectl create serviceaccount --namespace kube-system tiller
 $ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 $ kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-```
-
+```yaml
 # Links
 
 - https://blog.51cto.com/13941177/2165668
