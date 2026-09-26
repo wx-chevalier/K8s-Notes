@@ -443,20 +443,6 @@ Viewing revision 1:
 ```yaml
 kubectl rollout history ds daemon-set-first --revision = 1
 
-daemonsets "daemon-set-first" with revision # 1
-Pod Template:
-Labels: system = DaemonOne
-Containers:
-nginx:
-Image: nginx: 1.7.9
-Port: 80 / TCP
-Host Port: 0 / TCP
-Environment: <none>
-Mounts: <none>
-Volumes: <none>
-```
-Viewing revision 2:
-
 ```yaml
 kubectl rollout history ds daemon-set-first --revision = 2
 

@@ -106,10 +106,6 @@ happy-panda-mariadb   1         1         1            1           4m
 NAME                     TYPE      DATA      AGE
 happy-panda-mariadb   Opaque    2         4m
 
-Notes:
-MariaDB can be accessed via port 3306 on the following DNS name from within your cluster:
-happy-panda-mariadb.default.svc.cluster.local
-
 To connect to your database run the following command:
 
    kubectl run happy-panda-mariadb-client --rm --tty -i --image bitnami/mariadb --command -- mysql -h happy-panda-mariadb

@@ -114,12 +114,6 @@ $ export KUBECONFIG=/etc/kubernetes/admin.conf
 
 images=$(cat img.txt)
 
-eval $(echo ${images}|
-        sed 's/k8s\.gcr\.io/anjia0532\/google-containers/g;s/gcr\.io/anjia0532/g;s/\//\./g;s/ /\n/g;s/anjia0532\./anjia0532\//g' |
-        uniq |
-        awk '{print "docker pull "$1";"}'
-       )
-
 for img in $(docker images --format "{{.Repository}}:{{.Tag}}"| grep "anjia0532"); do
   n=$(echo ${img}| awk -F'[/.:]' '{printf "gcr.io/%s",$2}')
   image=$(echo ${img}| awk -F'[/.:]' '{printf "/%s",$3}')
